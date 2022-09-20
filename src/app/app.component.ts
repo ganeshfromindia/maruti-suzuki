@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {  NavigationEnd, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  public isMenuCollapsed = true;
+  public pageRouteDetails: any;
+    constructor( private router: Router) {
+    this.router.events.subscribe((e) => {
+      if (e instanceof NavigationEnd) {
+        this.pageRouteDetails = e.urlAfterRedirects;
+      }
+    });
+  }
 }

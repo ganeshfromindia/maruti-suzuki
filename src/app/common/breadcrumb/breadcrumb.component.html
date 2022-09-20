@@ -1,0 +1,3 @@
+<span *ngFor="let route of routeData, let i = index;">
+    <span *ngIf="i == 0">Admin<a routerLink="/{{route}}">/{{route}}</a></span><a *ngIf="i > 0" routerLink="{{routeData[i-1]}}/{{route}}">/{{route}}</a>
+</span>
