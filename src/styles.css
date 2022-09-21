@@ -9,3 +9,8 @@
     padding: 8px;
     /*border: 1px solid #da2127;*/
 }
+.bc-cont {
+    padding: 3px 7px;
+    background-color: #bdc8d1;
+    display: inline-block;
+}

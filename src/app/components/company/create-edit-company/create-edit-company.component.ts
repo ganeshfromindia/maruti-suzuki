@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { BackendService } from 'src/app/services/backend.service';
 
 @Component({
   selector: 'app-create-edit-company',
@@ -11,21 +12,21 @@ export class CreateEditCompanyComponent implements OnInit {
   public value: string = ''
   public companyCreateEditForm: FormGroup
 
-  constructor(private route: ActivatedRoute, private _fb: FormBuilder) { 
+  constructor(private route: ActivatedRoute, private _fb: FormBuilder, private _beService: BackendService) { 
     this.companyCreateEditForm = this._fb.group({
-      name: ['', Validators.required],
-      gstNo: ['', Validators.required],
+      companyName: ['', Validators.required],
+      gstNumber: ['', Validators.required],
       address: ['', Validators.required],
-      city: ['', Validators.required],
-      cPBilling: ['', Validators.required],
-      cPBillingMob: ['', Validators.required],
-      cPSales: ['', Validators.required],
-      cPSalesMob: ['', Validators.required],
-      adminEI: ['', Validators.required],
-      adminEIMob: ['', Validators.required],
-      addField1: ['', Validators.required],
-      addField2: ['', Validators.required],
-      addField3: ['', Validators.required],
+      cityName: ['', Validators.required],
+      billingContactPersonName: ['', Validators.required],
+      billingContactPersonNumber: ['', Validators.required],
+      saleContactPersonName: ['', Validators.required],
+      saleContactPersonNumber: ['', Validators.required],
+      adminEmailId: ['', Validators.required],
+      adminPhoneNumber: ['', Validators.required],
+      additionalField1: ['', Validators.required],
+      additionalField2: ['', Validators.required],
+      additionalField3: ['', Validators.required],
       userPlan: ['', Validators.required],
       planExpOn: ['', Validators.required]
     })
@@ -33,22 +34,41 @@ export class CreateEditCompanyComponent implements OnInit {
 
   ngOnInit(): void {
     this.value = this.route.snapshot.params['id'];
-    let time = new Date().getTime()
     if(this.value) {
+    //  this.urlHttpParams = {
+    //    companyName: '',
+    //    adminEmailId: '',
+    //    id: this.value
+    //  };  
+    //  this._beService
+    //       .getMethod(
+    //         'get/company-list?',
+    //         page,
+    //         pageSize,
+    //         urlHttpParams
+    //       )
+    //       .subscribe({
+    //   next: data => {
+    //     console.log(data);
+    //   },
+    //   error: e => {
+    //     console.log(e);
+    //   }
+    // })
       let x = {
-        name: 'Maruti Suzuki Private Limited',
-        gstNo: 'BX421526POM',
+        companyName: 'Maruti Suzuki Private Limited',
+        gstNumber: 'BX421526POM',
         address: 'One Internation Center, \nLowerParel, \nMumbai ',
-        city: 'Mumbai',
-        cPBilling: 'Vikram',
-        cPBillingMob: '9898989898',
-        cPSales: 'Chandra',
-        cPSalesMob: '8989898989',
-        adminEI: 'veena@gmail.com',
-        adminEIMob: '1234567890',
-        addField1: 'Test1',
-        addField2: 'Test2',
-        addField3: 'Test3',
+        cityName: 'Mumbai',
+        billingContactPersonName: 'Vikram',
+        billingContactPersonNumber: '9898989898',
+        saleContactPersonName: 'Chandra',
+        saleContactPersonNumber: '8989898989',
+        adminEmailId: 'veena@gmail.com',
+        adminPhoneNumber: '1234567890',
+        additionalField1: 'Test1',
+        additionalField2: 'Test2',
+        additionalField3: 'Test3',
         userPlan: '6 Months Best Value',
         planExpOn: new Date().toISOString().split('T')[0],
         
@@ -57,8 +77,19 @@ export class CreateEditCompanyComponent implements OnInit {
     }
   }
 
-  onSubmitcompanyCreateEdit() {
-
+  onSubmitCompanyCreateEdit() {
+    const formData = this.companyCreateEditForm.getRawValue();
+    formData.planExpOn = new Date(formData.planExpOn).getTime();
+    formData.id = this.value ? this.value : '';
+    console.log(formData);
+    // this._beService.postMethod('company/register', formData).subscribe({
+    //   next: data => {
+    //     console.log(data);
+    //   },
+    //   error: e => {
+    //     console.log(e);
+    //   }
+    // })
   }
 
 }

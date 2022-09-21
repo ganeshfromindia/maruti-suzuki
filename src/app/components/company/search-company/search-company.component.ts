@@ -11,6 +11,7 @@ import { SearchCompanyService } from 'src/app/services/search-company.service';
   providers: [SearchCompanyService, DecimalPipe],
 })
 export class SearchCompanyComponent implements OnInit {
+  urlHttpParams: any = {};
   srchTrmName: string = '';
   srchTrmEmail: string = '';
   companyAllData$: Observable<any[]> = new Observable<any[]>();
@@ -28,42 +29,22 @@ export class SearchCompanyComponent implements OnInit {
     //this.service.getTableData(0,0)
   }
 
-  async setSearchTerm() {
-    let term = await this.setData();
-    this.service.getTableData(0, 10);
+  setSearchTerm() {
+    this.urlHttpParams = {
+      companyName: this.srchTrmName,
+      adminEmailId: this.srchTrmEmail,
+      id: ''
+    };
+    this.service.getTableData(0, 10, this.urlHttpParams);
   }
 
-  setData() {
-    return new Promise((resolve, reject) => {
-      try {
-       
-        let srchTermName = this.srchTrmName;
-        let srchTermEmail = this.srchTrmEmail;
-        if (!srchTermName && !this.srchTrmEmail) {
-          return resolve(false);
-        }
-        if (srchTermName && !srchTermEmail) {
-          return resolve(srchTermName);
-        }
-        if (!srchTermName && srchTermEmail) {
-          return resolve(srchTermEmail);
-        }
-        if (srchTermName && srchTermEmail) {
-          return resolve(true);
-        }
-      } catch (e) {
-        return reject(false);
-      }
-    });
-    
-  }
 
   // setting current page data
   async setPage(page: any) {
     let pageP = page - 1;
     let pageSizeP = this.service.pageSize;
     let returnedStatusP: any = {};
-    this.service.getTableData(pageP, pageSizeP);
+    this.service.getTableData(pageP, pageSizeP, this.urlHttpParams);
     // returnedStatusP = this.service.getTableData(pageP, pageSizeP);
 
     // if (returnedStatusP.status) {
@@ -81,7 +62,7 @@ export class SearchCompanyComponent implements OnInit {
     let pageSizeP = pageSize.target.value;
     this.service.pageSize = pageSize.target.value;
     let returnedStatusP: any = {};
-    returnedStatusP = this.service.getTableData(pageP, pageSizeP);
+    returnedStatusP = this.service.getTableData(pageP, pageSizeP, this.urlHttpParams);
 
     if (returnedStatusP.status) {
       this.showTE = true;

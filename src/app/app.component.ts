@@ -8,7 +8,7 @@ import {  NavigationEnd, Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public isMenuCollapsed = true;
+  public isMenuCollapsed = false;
   public pageRouteDetails: any;
     constructor( private router: Router) {
     this.router.events.subscribe((e) => {

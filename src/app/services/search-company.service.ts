@@ -238,6 +238,7 @@ export class SearchCompanyService {
         tap(() => this._loading$.next(false))
       )
       .subscribe((result) => {
+        console.log(result.allscdata)
         this._searchcompanydata$.next(result.allscdata);
         this._total$.next(this.totalP);
       });
@@ -283,6 +284,7 @@ export class SearchCompanyService {
     const {  pageSize, page, searchTerm } =
       this._state;
 
+
     let allscdata = this.all_sc_data;
 
     // 2. filter
@@ -291,9 +293,11 @@ export class SearchCompanyService {
     );
 
     const total = allscdata.length;
+
     // 3. paginate
     // allscdata = allscdata.slice(0, 0 + pageSize); // this line not needed in actual case
-    allscdata = allscdata.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+    allscdata = allscdata.slice((page - 1) * parseInt(pageSize.toString()), (page - 1) * parseInt(pageSize.toString()) + parseInt(pageSize.toString()));
+    
     return of({ allscdata, total });
   }
 
@@ -301,6 +305,7 @@ export class SearchCompanyService {
   getTableData(
     page: number,
     pageSize: number,
+    urlHttpParams: any
     
   ) {
     this.handleUpdateResponse('abc')
@@ -308,9 +313,10 @@ export class SearchCompanyService {
     //   try {
     //     this._beService
     //       .getMethod(
-    //         'get/advanceExpense/request/list?',
+    //         'get/company-list?',
     //         page,
-    //         pageSize
+    //         pageSize,
+    //         urlHttpParams
     //       )
     //       .subscribe({
     //         next: (resolvedData) => {
