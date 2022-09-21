@@ -1,1 +1,159 @@
-<p>create-edit-company works!</p>
+<form
+  [formGroup]="companyCreateEditForm"
+  (ngSubmit)="onSubmitcompanyCreateEdit()"
+>
+  <div class="row mt-5">
+    <div class="col-md-2">
+      <div class="red-tags">Name of Company</div>
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" formControlName="name" />
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">GST Number</div>
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" formControlName="gstNo" />
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Address</div>
+    </div>
+    <div class="col-md-3">
+      <textarea
+        type="text"
+        class="form-control"
+        formControlName="address"
+      ></textarea>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">City</div>
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" formControlName="city" />
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Contact Person Billing</div>
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" formControlName="cPBilling" />
+    </div>
+    <div class="col-md-2">
+      <div class="red-tags text-end">Mobile</div>
+    </div>
+    <div class="col-md-3">
+      <input
+        type="text"
+        class="form-control"
+        formControlName="cPBillingMob"
+        minlength="10"
+        maxlength="10"
+        pattern="[0-9]{10}"
+      />
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Contact Person Sales</div>
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" formControlName="cPSales" />
+    </div>
+    <div class="col-md-2">
+      <div class="red-tags text-end">Mobile</div>
+    </div>
+    <div class="col-md-3">
+      <input
+        type="text"
+        class="form-control"
+        formControlName="cPSalesMob"
+        minlength="10"
+        maxlength="10"
+        pattern="[0-9]{10}"
+      />
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Admin Email Id</div>
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" formControlName="adminEI" />
+    </div>
+    <div class="col-md-2">
+      <div class="red-tags text-end">Mobile</div>
+    </div>
+    <div class="col-md-3">
+      <input
+        type="text"
+        class="form-control"
+        formControlName="adminEIMob"
+        minlength="10"
+        maxlength="10"
+        pattern="[0-9]{10}"
+      />
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Additional Field</div>
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" formControlName="addField1" />
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Additional Field</div>
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" formControlName="addField2" />
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Additional Field</div>
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" formControlName="addField3" />
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">User Plan</div>
+    </div>
+    <div class="col-md-3">
+      <input type="text" class="form-control" formControlName="userPlan" />
+    </div>
+    <div class="col-md-2">
+      <div class="red-tags text-end">Plan Expires On</div>
+    </div>
+    <div class="col-md-3">
+      <input type="date" class="form-control" formControlName="planExpOn" />
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="offset-md-2 col-md-4">
+      <button
+        type="submit"
+        class="me-5 col-md-5 btn bg-danger red-tags rounded-0 text-white"
+        [disabled]="companyCreateEditForm.invalid"
+      >
+        Save
+      </button>
+      <button
+        class="col-md-5 btn bg-danger red-tags rounded-0 text-white"
+        type="button"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</form>
