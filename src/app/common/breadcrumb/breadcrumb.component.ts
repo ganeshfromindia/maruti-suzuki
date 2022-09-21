@@ -6,13 +6,24 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./breadcrumb.component.css']
 })
 export class BreadcrumbComponent implements OnInit {
+  routeDataArr: any[] = [];
+  routeData1: any[] = [];
   routeData: any[] = [];
+  link: string = ''
   @Input() public set fetchPageRouteDetails(data: any) {
-    console.log(data)
     if(data) {
-      this.routeData = data.split('/');
+      this.routeData = [];
+      this.routeDataArr = data.split('/');
+      this.routeDataArr.forEach((data, index) => {
+        if(index == 0 ) {
+          this.link = data
+          this.routeData.push({link: this.link, cLink : data})
+        } else {
+          this.link = this.link + '/' + data;
+          this.routeData.push({link: this.link, cLink : data})
+        }
+      })
       this.routeData.shift();
-      console.log(this.routeData)
     }
   }
   constructor() { }

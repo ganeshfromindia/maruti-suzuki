@@ -1,0 +1,19 @@
+.pages {
+    font-size: 14px;
+}
+
+.dropdown-toggle::after {
+    right: 12px;
+    position: absolute;
+    top: 18px;
+}
+
+.navbar-expand-md .navbar-nav .dropdown-menu {
+    position: relative;
+    border-radius: 0px;
+}
+
+.dropdown-toggle.nav-link.active {
+    background-color: #0d6efd;
+    color: #fff;
+}

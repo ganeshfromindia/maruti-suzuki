@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+.pages .form-control {
+    border: 1px solid #4554a5;
+    border-radius: 0px;
+}
+
+.red-tags {
+    line-height: 19px;
+    padding: 8px;
+    /*border: 1px solid #da2127;*/
+}

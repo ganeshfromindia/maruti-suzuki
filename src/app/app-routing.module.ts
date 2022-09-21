@@ -12,12 +12,16 @@ const routes: Routes = [
     children: [
       {
         path: 'search-company',
-        component: SearchCompanyComponent,
+        component: SearchCompanyComponent
       },
       {
         path:  'create-edit-company',
         component: CreateEditCompanyComponent
       },
+      {
+        path:  'create-edit-company/:id',
+        component: CreateEditCompanyComponent
+      }
     ]
   },
   {
@@ -42,5 +46,6 @@ export const RoutingComponents = [
   BreadcrumbComponent,
   CompanyComponent,
   CreateEditCompanyComponent,
-  SearchCompanyComponent
+  SearchCompanyComponent,
+  UserComponent
 ]

@@ -1,1 +1,105 @@
-<p>search-company works!</p>
+<div class="row mt-5">
+  <div class="col-md-2">
+    <div class="red-tags">Name of Company</div>
+  </div>
+  <div class="col-md-3">
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      [(ngModel)]="srchTrmName"
+      pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+    />
+  </div>
+</div>
+<div class="row mt-3">
+  <div class="col-md-2">
+    <div class="red-tags">Admin Email Id</div>
+  </div>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="email" [(ngModel)]="srchTrmEmail" />
+  </div>
+</div>
+<div class="row mt-3">
+  <div class="col-md-2">
+    <button
+      (click)="setSearchTerm()"
+      class="btn bg-danger red-tags w-100 rounded-0 text-white"
+      [disabled]="!srchTrmName && !srchTrmEmail"
+    >
+      Search
+    </button>
+  </div>
+</div>
+<div class="row mt-3">
+  <div class="col-12">
+    <div *ngIf="(companyAllData$ | async)?.length">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th>Company Name</th>
+            <th>City</th>
+            <th>Person</th>
+            <th>Contact Details</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let compdata of (companyAllData$ | async)!">
+            <td scope="row">{{ compdata.id }}</td>
+            <td>{{compdata.companyName}}</td>
+            <td>{{ compdata.city }}</td>
+            <td>{{ compdata.contactDetails }}</td>
+            <td>{{ compdata.contactPerson }}</td>
+            <td>
+              <button
+                (click)="postEditId(compdata)"
+                class="btn btn-sm btn-success"
+              >
+                EDIT
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div *ngIf="showTE" class="text-center">
+      <P
+        >Data Not found. Please submit different criteria and try again later</P
+      >
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div
+      class="col-12 d-flex align-items-start justify-content-between"
+      *ngIf="total$"
+    >
+      <ngb-pagination
+        [collectionSize]="(total$ | async)!"
+        [(page)]="service.page"
+        [pageSize]="service.pageSize"
+        (pageChange)="setPage($event)"
+      >
+      </ngb-pagination>
+
+      <select
+        class="form-select"
+        style="width: auto"
+        name="pageSize"
+        [(ngModel)]="service.pageSize"
+        (change)="setPageSize($event)"
+      >
+        <option [value]="5">5 items per page</option>
+        <option [value]="10">10 items per page</option>
+        <!-- <option [ngValue]="10">10 items per page</option> -->
+      </select>
+    </div>
+  </div>
+</div>

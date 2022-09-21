@@ -1,8 +1,8 @@
-<div class="container">
+<div class="container mt-1">
   <div class="row">
     <div class="col-md-2">
       <nav
-        class="navbar navbar-expand-md samrx-color bg-primary site-begin"
+        class="p-0 navbar navbar-expand-md samrx-color bg-primary site-begin"
         aria-label="Parent Navigation"
       >
         <div
@@ -12,7 +12,7 @@
         >
           <ul class="navbar-nav mb-0 d-block w-100">
             <!-- MASTER -->
-            <li ngbDropdown class="nav-item dropdown pe-2">
+            <li ngbDropdown class="nav-item dropdown">
               <a
                 ngbDropdownToggle
                 class="nav-link dropdown-toggle"
@@ -30,11 +30,10 @@
                 class="dropdown-menu w-100"
                 aria-labelledby="navDropdownAdmin"
               >
-                <li ngbDropdown class="nav-item dropdown pe-2">
+                <li ngbDropdown class="nav-item dropdown">
                   <a
                     ngbDropdownToggle
-                    routerLink="company"
-                    class="nav-link dropdown-toggle"
+                    class="nav-link dropdown-toggle ps-3"
                     aria-current="page"
                     id="navDropdownCompany"
                     data-bs-toggle="dropdown"
@@ -53,7 +52,7 @@
                       <a
                         ngbDropdownItem
                         routerLink="company/search-company"
-                        class="dropdown-item"
+                        class="dropdown-item ps-4"
                         aria-current="page"
                         routerLinkActive="active"
                         #child1_1RLA="routerLinkActive"
@@ -64,7 +63,7 @@
                       <a
                         ngbDropdownItem
                         routerLink="company/create-edit-company"
-                        class="dropdown-item"
+                        class="dropdown-item ps-4"
                         aria-current="page"
                         routerLinkActive="active"
                         #child1_2RLA="routerLinkActive"
@@ -90,7 +89,7 @@
         </div>
       </nav>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-10 pages">
       <app-breadcrumb
         [fetchPageRouteDetails]="pageRouteDetails"
       ></app-breadcrumb>
