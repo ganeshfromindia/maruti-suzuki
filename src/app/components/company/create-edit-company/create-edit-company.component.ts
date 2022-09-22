@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BackendService } from 'src/app/services/backend.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-create-edit-company',
@@ -12,7 +13,7 @@ export class CreateEditCompanyComponent implements OnInit {
   public value: string = ''
   public companyCreateEditForm: FormGroup
 
-  constructor(private route: ActivatedRoute, private _fb: FormBuilder, private _beService: BackendService) { 
+  constructor(private route: ActivatedRoute, private _fb: FormBuilder, private _beService: BackendService, private userService : UserService) { 
     this.companyCreateEditForm = this._fb.group({
       companyName: ['', Validators.required],
       gstNumber: ['', Validators.required],
@@ -90,6 +91,12 @@ export class CreateEditCompanyComponent implements OnInit {
     //     console.log(e);
     //   }
     // })
+  }
+
+
+  numberOnly(event: any) {
+    var numberStatus = this.userService.numberOnly(event);
+    return numberStatus;
   }
 
 }

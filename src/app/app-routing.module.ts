@@ -5,6 +5,9 @@ import { CompanyComponent } from './components/company/company.component';
 import { CreateEditCompanyComponent } from './components/company/create-edit-company/create-edit-company.component';
 import { SearchCompanyComponent } from './components/company/search-company/search-company.component';
 import { UserComponent } from './components/user/user.component';
+import { CreateEditUserComponent } from './components/user/create-edit-user/create-edit-user.component';
+import { SearchUserComponent } from './components/user/search-user/search-user.component';
+
 
 const routes: Routes = [
   { path: 'company',
@@ -26,7 +29,21 @@ const routes: Routes = [
   },
   {
     path: 'user',
-    component: UserComponent
+    component: UserComponent,
+    children: [
+      {
+        path: 'search-user',
+        component: SearchUserComponent
+      },
+      {
+        path:  'create-edit-user',
+        component: CreateEditUserComponent
+      },
+      {
+        path:  'create-edit-user/:id',
+        component: CreateEditUserComponent
+      }
+    ]
   },
   {
     path: "",
@@ -47,5 +64,7 @@ export const RoutingComponents = [
   CompanyComponent,
   CreateEditCompanyComponent,
   SearchCompanyComponent,
-  UserComponent
+  UserComponent,
+  SearchUserComponent,
+  CreateEditUserComponent
 ]

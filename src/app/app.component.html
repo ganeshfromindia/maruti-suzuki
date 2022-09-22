@@ -72,16 +72,47 @@
                     </li>
                   </ul>
                 </li>
-                <li>
+                <li class="nav-item dropdown">
                   <a
                     
-                    routerLink="user"
-                    class="dropdown-item"
-                    aria-current="page"
-                    routerLinkActive="active"
-                    #child1_1RLA="routerLinkActive"
+                  class="nav-link ps-3"
+                  aria-current="page"
+                  id="navDropdownUser"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  [ngClass]="{
+                    active: child2_1RLA.isActive || child2_2RLA.isActive
+                  }"
                     >User</a
                   >
+                  <ul
+                    
+                    class="dropdown-menu d-block p-0 pt-1 m-0 border-0"
+                    aria-labelledby="navDropdownUser"
+                  >
+                    <li>
+                      <a
+                        
+                        routerLink="user/search-user"
+                        class="dropdown-item ps-4"
+                        aria-current="page"
+                        routerLinkActive="active"
+                        #child2_1RLA="routerLinkActive"
+                        >Search</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        
+                        routerLink="user/create-edit-user"
+                        class="dropdown-item ps-4"
+                        aria-current="page"
+                        routerLinkActive="active"
+                        #child2_2RLA="routerLinkActive"
+                        >Create / Edit</a
+                      >
+                    </li>
+                  </ul>
                 </li>
               </ul>
             </li>

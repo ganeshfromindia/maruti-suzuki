@@ -55,7 +55,7 @@
         formControlName="billingContactPersonNumber"
         minlength="10"
         maxlength="10"
-        pattern="[0-9]{10}"
+        (keypress)="numberOnly($event)"
       />
     </div>
   </div>
@@ -76,7 +76,7 @@
         formControlName="saleContactPersonNumber"
         minlength="10"
         maxlength="10"
-        pattern="[0-9]{10}"
+        (keypress)="numberOnly($event)"
       />
     </div>
   </div>
@@ -97,7 +97,7 @@
         formControlName="adminPhoneNumber"
         minlength="10"
         maxlength="10"
-        pattern="[0-9]{10}"
+        (keypress)="numberOnly($event)"
       />
     </div>
   </div>
