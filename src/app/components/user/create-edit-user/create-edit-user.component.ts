@@ -59,11 +59,11 @@ export class CreateEditUserComponent implements OnInit {
       {id:5 , designation: 'Lumpos'}
     ]
     this.levels = [
-      {id:1 , level: 'Azetec'},
-      {id:2 , level: 'Boron'},
-      {id:3 , level: 'Myosis'},
-      {id:4 , level: 'Ploti'},
-      {id:5 , level: 'Lumpos'}
+      {id:1 , level: 1},
+      {id:2 , level: 2},
+      {id:3 , level: 3},
+      {id:4 , level: 4},
+      {id:5 , level: 5}
     ]
     this.types = [
       {id:1 , type: 'Azetec'},

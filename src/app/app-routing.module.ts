@@ -7,6 +7,15 @@ import { SearchCompanyComponent } from './components/company/search-company/sear
 import { UserComponent } from './components/user/user.component';
 import { CreateEditUserComponent } from './components/user/create-edit-user/create-edit-user.component';
 import { SearchUserComponent } from './components/user/search-user/search-user.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { DesignationComponent } from './components/settings/designation/designation.component';
+import { DepartmentComponent } from './components/settings/department/department.component';
+import { ListDepartmentComponent } from './components/settings/department/list-department/list-department.component';
+import { CreateEditDepartmentComponent } from './components/settings/department/create-edit-department/create-edit-department.component';
+import { ListDesignationComponent } from './components/settings/designation/list-designation/list-designation.component';
+import { CreateEditDesignationComponent } from './components/settings/designation/create-edit-designation/create-edit-designation.component';
+
+
 
 
 const routes: Routes = [
@@ -46,6 +55,48 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'settings',
+    component: SettingsComponent,
+    children: [
+      {
+        path: 'designation',
+        component: DesignationComponent,
+        children: [
+          {
+            path: 'list-designation',
+            component: ListDesignationComponent
+          },
+          {
+            path:  'create-edit-designation',
+            component: CreateEditDesignationComponent
+          },
+          {
+            path:  'create-edit-designation/:id',
+            component: CreateEditDesignationComponent
+          }
+        ]
+      },
+      {
+        path:  'department',
+        component: DepartmentComponent,
+        children: [
+          {
+            path: 'list-department',
+            component: ListDepartmentComponent
+          },
+          {
+            path:  'create-edit-department',
+            component: CreateEditDepartmentComponent
+          },
+          {
+            path:  'create-edit-department/:id',
+            component: CreateEditDepartmentComponent
+          }
+        ]
+      }
+    ]
+  },
+  {
     path: "",
     redirectTo: "/company",
     pathMatch: "full",
@@ -66,5 +117,13 @@ export const RoutingComponents = [
   SearchCompanyComponent,
   UserComponent,
   SearchUserComponent,
-  CreateEditUserComponent
+  CreateEditUserComponent,
+  SettingsComponent,
+  DesignationComponent,
+  DepartmentComponent,
+  ListDepartmentComponent,
+  CreateEditDepartmentComponent,
+  ListDesignationComponent,
+  CreateEditDesignationComponent
+
 ]

@@ -3,9 +3,13 @@
         <span *ngIf="i == 0">Admin<a routerLink="/{{route}}"> > {{route}}</a></span><a *ngIf="i > 0" routerLink="{{routeData[i-1]}}/{{route}}"> > {{route}}</a>
     </span>
 </span> -->
-<span class="bc-cont">
-    Admin 
-    <span *ngFor="let route of routeData, let i = index;">
-        <span><a routerLink="/{{route.link}}"> > {{route.cLink}}</a></span>
+<div class="row">
+  <span class="bc-cont col-auto">
+    Admin
+    <span *ngFor="let route of routeData; let i = index">
+      <span
+        ><a routerLink="/{{ route.link }}"> > {{ route.cLink }}</a></span
+      >
     </span>
-</span>
+  </span>
+</div>

@@ -1,0 +1,39 @@
+<div class="row mt-5">
+  <div class="col-md-12">
+    <div class="row">
+      <span class="bc-cont col-md-3">Create Department</span>
+    </div>
+    <form
+      [formGroup]="departmentCreateEditForm"
+      (ngSubmit)="onSubmitDepartmentCreateEdit()"
+    >
+      <div class="row mt-5">
+        <div class="col-md-2">
+            <div class="red-tags ps-0">Name of Department</div>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" formControlName="department" />
+          </div>
+      </div>
+      <div class="row mt-2">
+        <div class="offset-md-2 col-md-2">
+          <button
+            type="submit"
+            class="btn bg-danger red-tags rounded-0 text-white w-100"
+            [disabled]="departmentCreateEditForm.invalid"
+          >
+            Save
+          </button>
+        </div>
+        <div class="col-md-2">
+          <button
+            class="btn bg-danger red-tags rounded-0 text-white w-100"
+            type="button"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

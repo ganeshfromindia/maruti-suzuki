@@ -10,7 +10,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./create-edit-company.component.css']
 })
 export class CreateEditCompanyComponent implements OnInit {
-  public value: string = ''
+  public companyId: string = ''
   public companyCreateEditForm: FormGroup
 
   constructor(private route: ActivatedRoute, private _fb: FormBuilder, private _beService: BackendService, private userService : UserService) { 
@@ -34,8 +34,8 @@ export class CreateEditCompanyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.value = this.route.snapshot.params['id'];
-    if(this.value) {
+    this.companyId = this.route.snapshot.params['id'];
+    if(this.companyId) {
     //  this.urlHttpParams = {
     //    companyName: '',
     //    adminEmailId: '',
@@ -81,7 +81,7 @@ export class CreateEditCompanyComponent implements OnInit {
   onSubmitCompanyCreateEdit() {
     const formData = this.companyCreateEditForm.getRawValue();
     formData.planExpOn = new Date(formData.planExpOn).getTime();
-    formData.id = this.value ? this.value : '';
+    formData.id = this.companyId ? this.companyId : '';
     console.log(formData);
     // this._beService.postMethod('company/register', formData).subscribe({
     //   next: data => {
