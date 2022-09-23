@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { BackendService } from 'src/app/services/backend.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -10,7 +11,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./create-edit-user.component.css']
 })
 export class CreateEditUserComponent implements OnInit {
-
+  public companyId: string = ''
   userCreateEditForm: FormGroup;
   role: string = '';
   companies: any[] = [];
@@ -19,7 +20,7 @@ export class CreateEditUserComponent implements OnInit {
   levels: any[] = [];
   types: any[] = [];
 
-  constructor(private _fb: FormBuilder, private _beService: BackendService, private userService: UserService) { 
+  constructor(private route: ActivatedRoute,private _fb: FormBuilder, private _beService: BackendService, private userService: UserService) { 
     this.userCreateEditForm = this._fb.group({
       companyName:[null, Validators.required],
       userName:['', Validators.required],
@@ -72,6 +73,44 @@ export class CreateEditUserComponent implements OnInit {
       {id:4 , type: 'Ploti'},
       {id:5 , type: 'Lumpos'}
     ]
+
+    this.companyId = this.route.snapshot.params['id'];
+    if(this.companyId) {
+    //  this.urlHttpParams = {
+    //    companyName: '',
+    //    adminEmailId: '',
+    //    id: this.value
+    //  };  
+    //  this._beService
+    //       .getMethod(
+    //         'get/company-list?',
+    //         page,
+    //         pageSize,
+    //         urlHttpParams
+    //       )
+    //       .subscribe({
+    //   next: data => {
+    //     console.log(data);
+    //   },
+    //   error: e => {
+    //     console.log(e);
+    //   }
+    // })
+      let x = {
+        companyName: 1,
+        userName:'Venu',
+        department:2,
+        designation:5,
+        emailId:'venu@gmail.com',
+        phoneNumber:'8425031410',
+        level:3,
+        userType:4,
+        searchRights:'all',
+        additionalField: 'TBD',
+        
+      }
+      this.userCreateEditForm.patchValue(x)
+    }
   }
   onSubmitUserCreateEdit() {
     const formData = this.userCreateEditForm.getRawValue();

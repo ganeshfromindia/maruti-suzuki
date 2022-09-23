@@ -17,7 +17,7 @@ import { HttpClient } from '@angular/common/http';
 import { BackendService } from 'src/app/services/backend.service';
 
 interface SearchResult {
-  scdata: any[];
+  sudata: any[];
   total: number;
 }
 
@@ -29,186 +29,104 @@ interface State {
 
 
 
-
-const ALL_SC_DATA: any[] = [
+const ALL_SU_DATA: any[] = [
   {
     id: 1,
     companyName: 'Manoj',
-    city: 5245,
-    contactDetails: 10079,
-    contactPerson: '25000',
-   
   },
   {
     id: 2,
     companyName: 'Shinoj',
-    city: 7415,
-    contactDetails: 40026,
-    contactPerson: '12530',
-    
   },
   {
     id: 3,
     companyName: 'Rakesh',
-    city: 6742,
-    contactDetails: 6941,
-    contactPerson: '41526',
-   
   },
   {
     id: 4,
     companyName: 'Ahmed',
-    city: 4253,
-    contactDetails: 90122,
-    contactPerson: '14526',
-    
   },
   {
     id: 5,
     companyName: 'Prakash',
-    city: 7491,
-    contactDetails: 10811,
-    contactPerson: '14200',
-   
   },
   {
     id: 6,
     companyName: 'Mahesh',
-    city: 4863,
-    contactDetails: 120107,
-    contactPerson: '32500',
-    
   },
   {
     id: 7,
     companyName: 'Ajit',
-    city: 7859,
-    contactDetails: 140067,
-    contactPerson: '46230',
-    
   },
   {
     id: 8,
     companyName: 'Sanjay',
-    city: 6523,
-    contactDetails: 159994,
-    contactPerson: '24150',
-    
   },
   {
     id: 9,
     companyName: 'Pramod',
-    city: 6248,
-    contactDetails: 189984,
-    contactPerson: '32784',
-   
   },
   {
     id: 10,
     companyName: 'Nayan',
-    city: 8642,
-    contactDetails: 201797,
-    contactPerson: '18596',
-   
   },
   {
     id: 11,
     companyName: 'Lajpat',
-    city: 7452,
-    contactDetails: 10125,
-    contactPerson: '14520',
-    
   },
   {
     id: 12,
     companyName: 'Prathmesh',
-    city: 9452,
-    contactDetails: 44152,
-    contactPerson: '48526',
-   
   },
   {
     id: 13,
     companyName: 'Kedar',
-    city: 6415,
-    contactDetails: 67463,
-    contactPerson: '41526',
-    
   },
   {
     id: 14,
     companyName: 'Jitendra',
-    city: 4163,
-    contactDetails: 98415,
-    contactPerson: '14526',
-   
   },
   {
     id: 15,
     companyName: 'Vinod',
-    city: 6342,
-    contactDetails: 107416,
-    contactPerson: '14526',
-    
   },
   {
     id: 16,
     companyName: 'Ketan',
-    city: 8415,
-    contactDetails: 128421,
-    contactPerson: '74500',
-   
   },
   {
     id: 17,
     companyName: 'Pruthvi',
-    city: 1203,
-    contactDetails: 149526,
-    contactPerson: '48950',
-    
   },
   {
     id: 18,
     companyName: 'Muthoot',
-    city: 9125,
-    contactDetails: 157406,
-    contactPerson: '74150',
-   
   },
   {
     id: 19,
     companyName: 'Bhupendra',
-    city: 6341,
-    contactDetails: 188014,
-    contactPerson: '52630',
-    
   },
   {
     id: 20,
     companyName: 'Chiranjeevi',
-    city: 6521,
-    contactDetails: 206251,
-    contactPerson: '65210',
-   
   }
 ]
-
 // function to search the term
-function matches(scdata: any, term: string, pipe: PipeTransform) {
+function matches(sudata: any, term: string, pipe: PipeTransform) {
   return (
-    scdata.companyName.toLowerCase().includes(term.toLowerCase()) 
+    sudata.companyName.toLowerCase().includes(term.toLowerCase()) 
   );
 }
 
 @Injectable({ providedIn: 'root' })
-export class SearchCompanyService {
+export class SearchUserService {
   private _loading$ = new BehaviorSubject<boolean>(false);
   private _search$ = new Subject<void>();
   private _searchSD$ = new Subject<void>();
-  private _searchcompanydata$ = new BehaviorSubject<any[]>([]);
+  private _searchuserdata$ = new BehaviorSubject<any[]>([]);
   private _total$ = new BehaviorSubject<number>(0);
-  public all_sc_data: any[] = [];
-  public _all_sc_data: any[] = [];
+  public all_su_data: any[] = [];
+  public _all_su_data: any[] = [];
   public totalP: number = 0;
 
   private _state: State = {
@@ -238,14 +156,14 @@ export class SearchCompanyService {
         tap(() => this._loading$.next(false))
       )
       .subscribe((result) => {
-        this._searchcompanydata$.next(result.allscdata);
+        this._searchuserdata$.next(result.allsudata);
         this._total$.next(this.totalP);
       });
     this._searchSD$.next();
   }
 
-  get companyAllData$() {
-    return this._searchcompanydata$.asObservable();
+  get userAllData$() {
+    return this._searchuserdata$.asObservable();
   }
   get total$() {
     return this._total$.asObservable();
@@ -284,20 +202,20 @@ export class SearchCompanyService {
       this._state;
 
 
-    let allscdata = this.all_sc_data;
+    let allsudata = this.all_su_data;
 
     // 2. filter
-    allscdata = allscdata.filter((scdata) =>
-      matches(scdata, searchTerm, this.pipe)
+    allsudata = allsudata.filter((sudata) =>
+      matches(sudata, searchTerm, this.pipe)
     );
 
-    const total = allscdata.length;
+    const total = allsudata.length;
 
     // 3. paginate
-    // allscdata = allscdata.slice(0, 0 + pageSize); // this line not needed in actual case
-    allscdata = allscdata.slice((page - 1) * parseInt(pageSize.toString()), (page - 1) * parseInt(pageSize.toString()) + parseInt(pageSize.toString()));
+    // allsudata = allsudata.slice(0, 0 + pageSize); // this line not needed in actual case
+    allsudata = allsudata.slice((page - 1) * parseInt(pageSize.toString()), (page - 1) * parseInt(pageSize.toString()) + parseInt(pageSize.toString()));
     
-    return of({ allscdata, total });
+    return of({ allsudata, total });
   }
 
   // set table data
@@ -338,15 +256,15 @@ export class SearchCompanyService {
 
   // handle success response
   handleUpdateResponse(data: any) {
-    this.all_sc_data = this._all_sc_data = ALL_SC_DATA;
-    this.setData(ALL_SC_DATA.length)
-    // this.all_sc_data = this._all_sc_data = data.payLoad;
+    this.all_su_data = this._all_su_data = ALL_SU_DATA;
+    this.setData(ALL_SU_DATA.length)
+    // this.all_su_data = this._all_su_data = data.payLoad;
     // this.setData(data.totalRow);
   }
 
   // handle error response
   handleErrorPost(data: any) {
-    this.all_sc_data.length = this._all_sc_data.length = 0;
+    this.all_su_data.length = this._all_su_data.length = 0;
     this.setData(0);
     this._loading$.next(false);
   }
