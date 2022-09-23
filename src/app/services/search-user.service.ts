@@ -33,82 +33,102 @@ const ALL_SU_DATA: any[] = [
   {
     id: 1,
     companyName: 'Manoj',
+    emailId: 'manoj@gmail.com'
   },
   {
     id: 2,
     companyName: 'Shinoj',
+    emailId: 'shinoj@gmail.com'
   },
   {
     id: 3,
     companyName: 'Rakesh',
+    emailId: 'rakesh@gmail.com'
   },
   {
     id: 4,
     companyName: 'Ahmed',
+    emailId: 'ahmed@gmail.com'
   },
   {
     id: 5,
     companyName: 'Prakash',
+    emailId: 'prakash@gmail.com'
   },
   {
     id: 6,
     companyName: 'Mahesh',
+    emailId: 'mahesh@gmail.com'
   },
   {
     id: 7,
     companyName: 'Ajit',
+    emailId: 'ajit@gmail.com'
   },
   {
     id: 8,
     companyName: 'Sanjay',
+    emailId: 'sanjay@gmail.com'
   },
   {
     id: 9,
     companyName: 'Pramod',
+    emailId: 'pramod]@gmail.com'
   },
   {
     id: 10,
     companyName: 'Nayan',
+    emailId: 'nayan@gmail.com'
   },
   {
     id: 11,
     companyName: 'Lajpat',
+    emailId: 'lajpat@gmail.com'
   },
   {
     id: 12,
     companyName: 'Prathmesh',
+    emailId: 'prathamesh@gmail.com'
   },
   {
     id: 13,
     companyName: 'Kedar',
+    emailId: 'kedar@gmail.com'
   },
   {
     id: 14,
     companyName: 'Jitendra',
+    emailId: 'jitendra@gmail.com'
   },
   {
     id: 15,
     companyName: 'Vinod',
+    emailId: 'vinod@gmail.com'
   },
   {
     id: 16,
     companyName: 'Ketan',
+    emailId: 'ketan@gmail.com'
   },
   {
     id: 17,
     companyName: 'Pruthvi',
+    emailId: 'pruthvi@gmail.com'
   },
   {
     id: 18,
     companyName: 'Muthoot',
+    emailId: 'muthoot@gmail.com'
   },
   {
     id: 19,
     companyName: 'Bhupendra',
+    emailId: 'bhupendra@gmail.com'
   },
   {
     id: 20,
     companyName: 'Chiranjeevi',
+    emailId: 'chiranjeevi@gmail.com'
   }
 ]
 // function to search the term

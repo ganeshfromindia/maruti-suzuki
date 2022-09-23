@@ -76,6 +76,7 @@ export class CreateEditUserComponent implements OnInit {
 
     this.companyId = this.route.snapshot.params['id'];
     if(this.companyId) {
+      this.userCreateEditForm && this.userCreateEditForm.get('companyName') && this.userCreateEditForm.get('companyName')?.disable()
     //  this.urlHttpParams = {
     //    companyName: '',
     //    adminEmailId: '',
@@ -97,7 +98,7 @@ export class CreateEditUserComponent implements OnInit {
     //   }
     // })
       let x = {
-        companyName: 1,
+        companyName: 3,
         userName:'Venu',
         department:2,
         designation:5,

@@ -28,7 +28,7 @@
 </div>
 <div class="row mt-3">
   <div class="col-md-2">
-    <div class="red-tags">Admin Email Id</div>
+    <div class="red-tags">User Email Id</div>
   </div>
   <div class="col-md-3">
     <input
@@ -57,17 +57,19 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th>Description</th>
+            <th>Name of User</th>
+            <th>Email Id</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let compdata of (userAllData$ | async)!">
-            <td scope="row">{{ compdata.id }}</td>
-            <td>{{ compdata.companyName }}</td>
+          <tr *ngFor="let userdata of (userAllData$ | async)!">
+            <td scope="row">{{ userdata.id }}</td>
+            <td>{{ userdata.companyName }}</td>
+            <td>{{ userdata.emailId }}</td>
             <td>
               <button
-                (click)="postEditId(compdata)"
+                (click)="postEditId(userdata)"
                 class="btn btn-sm btn-success"
               >
                 EDIT
