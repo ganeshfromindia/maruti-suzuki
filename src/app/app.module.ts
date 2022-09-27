@@ -7,11 +7,13 @@ import { RoutingComponents } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { UserGrantAccessComponent } from './components/user-grant-access/user-grant-access.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RoutingComponents
+    RoutingComponents,
+    UserGrantAccessComponent
   ],
   imports: [
     BrowserModule,
