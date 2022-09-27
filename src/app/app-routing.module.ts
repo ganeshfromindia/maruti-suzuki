@@ -14,6 +14,9 @@ import { ListDepartmentComponent } from './components/settings/department/list-d
 import { CreateEditDepartmentComponent } from './components/settings/department/create-edit-department/create-edit-department.component';
 import { ListDesignationComponent } from './components/settings/designation/list-designation/list-designation.component';
 import { CreateEditDesignationComponent } from './components/settings/designation/create-edit-designation/create-edit-designation.component';
+import { UserGrantAccessComponent } from './components/user-grant-access/user-grant-access.component';
+import { GaCreateEditUserComponent } from './components/user-grant-access/ga-create-edit-user/ga-create-edit-user.component';
+import { GaSearchUserComponent } from './components/user-grant-access/ga-search-user/ga-search-user.component';
 
 
 
@@ -51,6 +54,24 @@ const routes: Routes = [
       {
         path:  'create-edit-user/:id',
         component: CreateEditUserComponent
+      }
+    ]
+  },
+  {
+    path: 'ga-user',
+    component: UserGrantAccessComponent,
+    children: [
+      {
+        path: 'ga-search-user',
+        component: GaSearchUserComponent
+      },
+      {
+        path:  'ga-create-edit-user',
+        component: GaCreateEditUserComponent
+      },
+      {
+        path:  'ga-create-edit-user/:id',
+        component: GaCreateEditUserComponent
       }
     ]
   },
@@ -124,6 +145,9 @@ export const RoutingComponents = [
   ListDepartmentComponent,
   CreateEditDepartmentComponent,
   ListDesignationComponent,
-  CreateEditDesignationComponent
+  CreateEditDesignationComponent,
+  UserGrantAccessComponent,
+  GaCreateEditUserComponent,
+  GaSearchUserComponent
 
 ]
