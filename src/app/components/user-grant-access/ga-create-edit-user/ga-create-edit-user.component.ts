@@ -14,7 +14,7 @@ export class GaCreateEditUserComponent implements OnInit {
   public companyId: string = ''
   userCreateEditForm: FormGroup;
   role: string = '';
-  companies: any[] = [];
+  users: any[] = [];
   departments: any[] = [];
   designations: any[] = [];
   levels: any[] = [];
@@ -22,7 +22,6 @@ export class GaCreateEditUserComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,private _fb: FormBuilder, private _beService: BackendService, private userService: UserService) { 
     this.userCreateEditForm = this._fb.group({
-      companyName:[null, Validators.required],
       userName:['', Validators.required],
       department:[null, Validators.required],
       designation:[null, Validators.required],
@@ -38,12 +37,12 @@ export class GaCreateEditUserComponent implements OnInit {
   ngOnInit(): void {
     this.role = sessionStorage.getItem("role") || '';
     //this.role = 'superadmin';
-    this.companies = [
-      {id:1 , companyName: 'Azetec'},
-      {id:2 , companyName: 'Boron'},
-      {id:3 , companyName: 'Myosis'},
-      {id:4 , companyName: 'Ploti'},
-      {id:5 , companyName: 'Lumpos'}
+    this.users = [
+      {id:1 , userName: 'Azetec'},
+      {id:2 , userName: 'Boron'},
+      {id:3 , userName: 'Myosis'},
+      {id:4 , userName: 'Ploti'},
+      {id:5 , userName: 'Lumpos'}
     ]
     this.departments = [
       {id:1 , departmentName: 'Azetec'},
@@ -76,9 +75,9 @@ export class GaCreateEditUserComponent implements OnInit {
 
     this.companyId = this.route.snapshot.params['id'];
     if(this.companyId) {
-      this.userCreateEditForm && this.userCreateEditForm.get('companyName') && this.userCreateEditForm.get('companyName')?.disable()
+      this.userCreateEditForm && this.userCreateEditForm.get('userName') && this.userCreateEditForm.get('userName')?.disable()
     //  this.urlHttpParams = {
-    //    companyName: '',
+    //    userName: '',
     //    adminEmailId: '',
     //    id: this.value
     //  };  
@@ -98,8 +97,7 @@ export class GaCreateEditUserComponent implements OnInit {
     //   }
     // })
       let x = {
-        companyName: 3,
-        userName:'Venu',
+        userName: 3,
         department:2,
         designation:5,
         emailId:'venu@gmail.com',
@@ -111,6 +109,10 @@ export class GaCreateEditUserComponent implements OnInit {
         
       }
       this.userCreateEditForm.patchValue(x)
+    } else {
+      this.userCreateEditForm.patchValue({
+        userName: null
+      })
     }
   }
   onSubmitUserCreateEdit() {
