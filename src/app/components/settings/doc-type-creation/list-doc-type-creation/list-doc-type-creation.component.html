@@ -1,24 +1,24 @@
 <div class="row mt-5">
     <div class="col-md-12">
       <div class="row">
-        <span class="bc-cont col-md-3">Edit Tags</span>
+        <span class="bc-cont col-md-3">Edit Document Type</span>
       </div>
       <div class="row mt-5">
         <table class="table table-striped">
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th>Tagging Head</th>
+              <th>Document Type</th>
               <th>Function</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let tag of tags; let i = index">
-              <td scope="row">{{ tag.id }}</td>
-              <td>{{ tag.taggingName }}</td>
+            <tr *ngFor="let docType of docTypes; let i = index">
+              <td scope="row">{{ docType.id }}</td>
+              <td>{{ docType.docType }}</td>
               <td>
                 <button
-                  (click)="postEditId(tag)"
+                  (click)="postEditId(docType)"
                   class="btn btn-sm btn-success"
                 >
                   EDIT

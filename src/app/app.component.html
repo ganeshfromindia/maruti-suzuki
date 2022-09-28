@@ -117,7 +117,7 @@
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                     [ngClass]="{
-                      active: child3_1_1_1RLA.isActive || child3_1_1_2RLA.isActive
+                      active: child3_1RLA.isActive || child3_2RLA.isActive
                     }"
                     >Grant Access</a
                   >
@@ -133,7 +133,7 @@
                         class="dropdown-item ps-4"
                         aria-current="page"
                         routerLinkActive="active"
-                        #child3_1_1_1RLA="routerLinkActive"
+                        #child3_1RLA="routerLinkActive"
                         >Search</a
                       >
                     </li>
@@ -144,7 +144,7 @@
                         class="dropdown-item ps-4"
                         aria-current="page"
                         routerLinkActive="active"
-                        #child3_1_1_2RLA="routerLinkActive"
+                        #child3_2RLA="routerLinkActive"
                         >Create / Edit</a
                       >
                     </li>
@@ -160,12 +160,14 @@
                     aria-expanded="false"
                     [ngClass]="{
                       active:
-                        child3_1_1RLA.isActive ||
-                        child3_1_2RLA.isActive ||
-                        child3_2_1RLA.isActive ||
-                        child3_2_2RLA.isActive ||
-                        child3_3_1RLA.isActive ||
-                        child3_3_2RLA.isActive
+                        child4_1_1RLA.isActive ||
+                        child4_1_2RLA.isActive ||
+                        child4_2_1RLA.isActive ||
+                        child4_2_2RLA.isActive ||
+                        child4_3_1RLA.isActive ||
+                        child4_3_2RLA.isActive || 
+                        child4_4_1RLA.isActive || 
+                        child4_4_2RLA.isActive
                     }"
                     >Settings</a
                   >
@@ -184,7 +186,7 @@
                         aria-expanded="false"
                         [ngClass]="{
                           active:
-                            child3_1_1RLA.isActive || child3_1_2RLA.isActive
+                            child4_1_1RLA.isActive || child4_1_2RLA.isActive
                         }"
                         >Designation</a
                       >
@@ -200,7 +202,7 @@
                             class="dropdown-item ps-5"
                             aria-current="page"
                             routerLinkActive="active"
-                            #child3_1_1RLA="routerLinkActive"
+                            #child4_1_1RLA="routerLinkActive"
                             >List</a
                           >
                         </li>
@@ -211,7 +213,7 @@
                             class="dropdown-item ps-5"
                             aria-current="page"
                             routerLinkActive="active"
-                            #child3_1_2RLA="routerLinkActive"
+                            #child4_1_2RLA="routerLinkActive"
                             >Create / Edit</a
                           >
                         </li>
@@ -227,7 +229,7 @@
                         aria-expanded="false"
                         [ngClass]="{
                           active:
-                            child3_2_1RLA.isActive || child3_2_2RLA.isActive
+                            child4_2_1RLA.isActive || child4_2_2RLA.isActive
                         }"
                         >Department</a
                       >
@@ -243,7 +245,7 @@
                             class="dropdown-item ps-5"
                             aria-current="page"
                             routerLinkActive="active"
-                            #child3_2_1RLA="routerLinkActive"
+                            #child4_2_1RLA="routerLinkActive"
                             >List</a
                           >
                         </li>
@@ -254,7 +256,7 @@
                             class="dropdown-item ps-5"
                             aria-current="page"
                             routerLinkActive="active"
-                            #child3_2_2RLA="routerLinkActive"
+                            #child4_2_2RLA="routerLinkActive"
                             >Create / Edit</a
                           >
                         </li>
@@ -270,7 +272,7 @@
                         aria-expanded="false"
                         [ngClass]="{
                           active:
-                            child3_3_1RLA.isActive || child3_3_2RLA.isActive
+                            child4_3_1RLA.isActive || child4_3_2RLA.isActive
                         }"
                         >Tagging</a
                       >
@@ -286,7 +288,7 @@
                             class="dropdown-item ps-5"
                             aria-current="page"
                             routerLinkActive="active"
-                            #child3_3_1RLA="routerLinkActive"
+                            #child4_3_1RLA="routerLinkActive"
                             >List</a
                           >
                         </li>
@@ -297,7 +299,50 @@
                             class="dropdown-item ps-5"
                             aria-current="page"
                             routerLinkActive="active"
-                            #child3_3_2RLA="routerLinkActive"
+                            #child4_3_2RLA="routerLinkActive"
+                            >Create / Edit</a
+                          >
+                        </li>
+                      </ul>
+                    </li>
+                    <li ngbDropdown class="nav-item dropdown">
+                      <a
+                        ngbDropdownToggle
+                        class="nav-link dropdown-toggle ps-4"
+                        aria-current="page"
+                        id="navDropdownTDTC"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        [ngClass]="{
+                          active:
+                            child4_4_1RLA.isActive || child4_4_2RLA.isActive
+                        }"
+                        >Doc Type</a
+                      >
+                      <ul
+                        ngbDropdownMenu
+                        class="dropdown-menu p-0 pt-1 m-0 border-0"
+                        aria-labelledby="navDropdownDTC"
+                      >
+                        <li>
+                          <a
+                            ngbDropdownItem
+                            routerLink="settings/doc-type-creation/list-doc-type-creation"
+                            class="dropdown-item ps-5"
+                            aria-current="page"
+                            routerLinkActive="active"
+                            #child4_4_1RLA="routerLinkActive"
+                            >List</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            ngbDropdownItem
+                            routerLink="settings/doc-type-creation/create-edit-doc-type-creation"
+                            class="dropdown-item ps-5"
+                            aria-current="page"
+                            routerLinkActive="active"
+                            #child4_4_2RLA="routerLinkActive"
                             >Create / Edit</a
                           >
                         </li>

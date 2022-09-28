@@ -74,7 +74,6 @@ export class GaSearchUserComponent implements OnInit {
 
   //post edit id to edit component
   postEditId(data: any) {
-    console.log(data)
     let url = `ga-user/ga-create-edit-user/${data.id}`;
     this.router.navigateByUrl(url);
   }

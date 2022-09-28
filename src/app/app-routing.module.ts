@@ -20,7 +20,9 @@ import { GaSearchUserComponent } from './components/user-grant-access/ga-search-
 import { TaggingComponent } from './components/settings/tagging/tagging.component';
 import { ListTaggingComponent } from './components/settings/tagging/list-tagging/list-tagging.component';
 import { CreateEditTaggingComponent } from './components/settings/tagging/create-edit-tagging/create-edit-tagging.component';
-
+import { DocTypeCreationComponent } from './components/settings/doc-type-creation/doc-type-creation.component';
+import { ListDocTypeCreationComponent } from './components/settings/doc-type-creation/list-doc-type-creation/list-doc-type-creation.component';
+import { CreateEditDocTypeCreationComponent } from './components/settings/doc-type-creation/create-edit-doc-type-creation/create-edit-doc-type-creation.component';
 
 
 
@@ -136,6 +138,24 @@ const routes: Routes = [
             component: CreateEditTaggingComponent
           }
         ]
+      },
+      {
+        path:  'doc-type-creation',
+        component: DocTypeCreationComponent,
+        children: [
+          {
+            path: 'list-doc-type-creation',
+            component: ListDocTypeCreationComponent
+          },
+          {
+            path:  'create-edit-doc-type-creation',
+            component: CreateEditDocTypeCreationComponent
+          },
+          {
+            path:  'create-edit-doc-type-creation/:id',
+            component: CreateEditDocTypeCreationComponent
+          }
+        ]
       }
     ]
   },
@@ -173,6 +193,9 @@ export const RoutingComponents = [
   GaSearchUserComponent,
   TaggingComponent,
   ListTaggingComponent,
-  CreateEditTaggingComponent
+  CreateEditTaggingComponent,
+  DocTypeCreationComponent,
+  ListDocTypeCreationComponent,
+  CreateEditDocTypeCreationComponent
 
 ]

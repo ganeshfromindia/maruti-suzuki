@@ -2,25 +2,26 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
-@Component({
-  selector: 'app-create-edit-tagging',
-  templateUrl: './create-edit-tagging.component.html',
-  styleUrls: ['./create-edit-tagging.component.css']
-})
-export class CreateEditTaggingComponent implements OnInit {
 
-  public taggingId: string = '';
-  public taggingCreateEditForm: FormGroup;
+@Component({
+  selector: 'app-create-edit-doc-type-creation',
+  templateUrl: './create-edit-doc-type-creation.component.html',
+  styleUrls: ['./create-edit-doc-type-creation.component.css']
+})
+export class CreateEditDocTypeCreationComponent implements OnInit {
+
+  public docTypeId: string = '';
+  public docTypeCreateEditForm: FormGroup;
 
   constructor(private route: ActivatedRoute, private _fb: FormBuilder) { 
-    this.taggingCreateEditForm = this._fb.group({
-      tagName:['', Validators.required]
+    this.docTypeCreateEditForm = this._fb.group({
+      docType:['', Validators.required]
     })
   }
 
   ngOnInit(): void {
-    this.taggingId = this.route.snapshot.params['id'];
-    if(this.taggingId) {
+    this.docTypeId = this.route.snapshot.params['id'];
+    if(this.docTypeId) {
     //  this.urlHttpParams = {
     //    companyName: '',
     //    adminEmailId: '',
@@ -42,15 +43,15 @@ export class CreateEditTaggingComponent implements OnInit {
     //   }
     // })
       let x = {
-        tagName: 'MOM',
+        docType: 'Project Schedule',
       }
-      this.taggingCreateEditForm.patchValue(x)
+      this.docTypeCreateEditForm.patchValue(x)
     }
 
   }
 
-  onSubmitTaggingCreateEdit() {
-    const formData = this.taggingCreateEditForm.getRawValue();
+  onSubmitDocTypeCreateEdit() {
+    const formData = this.docTypeCreateEditForm.getRawValue();
     console.log(formData)
 
   }

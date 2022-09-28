@@ -1,18 +1,18 @@
 <div class="row mt-5">
     <div class="col-md-12">
       <div class="row">
-        <span class="bc-cont col-md-3">Create Tags</span>
+        <span class="bc-cont col-md-3">Create Document Type</span>
       </div>
       <form
-        [formGroup]="taggingCreateEditForm"
-        (ngSubmit)="onSubmitTaggingCreateEdit()"
+        [formGroup]="docTypeCreateEditForm"
+        (ngSubmit)="onSubmitDocTypeCreateEdit()"
       >
         <div class="row mt-5">
           <div class="col-md-2">
-              <div class="red-tags ps-0">Tagging Head</div>
+              <div class="red-tags ps-0">Document Type</div>
             </div>
             <div class="col-md-4">
-              <input type="text" class="form-control" formControlName="tagName" />
+              <input type="text" class="form-control" formControlName="docType" />
             </div>
         </div>
         <div class="row mt-2">
@@ -20,7 +20,7 @@
             <button
               type="submit"
               class="btn bg-danger red-tags rounded-0 text-white w-100"
-              [disabled]="taggingCreateEditForm.invalid"
+              [disabled]="docTypeCreateEditForm.invalid"
             >
               Save
             </button>
