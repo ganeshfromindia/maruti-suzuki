@@ -17,6 +17,10 @@ import { CreateEditDesignationComponent } from './components/settings/designatio
 import { UserGrantAccessComponent } from './components/user-grant-access/user-grant-access.component';
 import { GaCreateEditUserComponent } from './components/user-grant-access/ga-create-edit-user/ga-create-edit-user.component';
 import { GaSearchUserComponent } from './components/user-grant-access/ga-search-user/ga-search-user.component';
+import { TaggingComponent } from './components/settings/tagging/tagging.component';
+import { ListTaggingComponent } from './components/settings/tagging/list-tagging/list-tagging.component';
+import { CreateEditTaggingComponent } from './components/settings/tagging/create-edit-tagging/create-edit-tagging.component';
+
 
 
 
@@ -114,6 +118,24 @@ const routes: Routes = [
             component: CreateEditDepartmentComponent
           }
         ]
+      },
+      {
+        path:  'tagging',
+        component: TaggingComponent,
+        children: [
+          {
+            path: 'list-tagging',
+            component: ListTaggingComponent
+          },
+          {
+            path:  'create-edit-tagging',
+            component: CreateEditTaggingComponent
+          },
+          {
+            path:  'create-edit-tagging/:id',
+            component: CreateEditTaggingComponent
+          }
+        ]
       }
     ]
   },
@@ -148,6 +170,9 @@ export const RoutingComponents = [
   CreateEditDesignationComponent,
   UserGrantAccessComponent,
   GaCreateEditUserComponent,
-  GaSearchUserComponent
+  GaSearchUserComponent,
+  TaggingComponent,
+  ListTaggingComponent,
+  CreateEditTaggingComponent
 
 ]

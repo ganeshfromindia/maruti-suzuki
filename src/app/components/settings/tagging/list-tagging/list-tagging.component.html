@@ -1,0 +1,32 @@
+<div class="row mt-5">
+    <div class="col-md-12">
+      <div class="row">
+        <span class="bc-cont col-md-3">Edit Designation</span>
+      </div>
+      <div class="row mt-5">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th>Description</th>
+              <th>Function</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tag of tags; let i = index">
+              <td scope="row">{{ tag.id }}</td>
+              <td>{{ tag.taggingName }}</td>
+              <td>
+                <button
+                  (click)="postEditId(tag)"
+                  class="btn btn-sm btn-success"
+                >
+                  EDIT
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
