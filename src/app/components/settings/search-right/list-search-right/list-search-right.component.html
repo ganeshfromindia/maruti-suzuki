@@ -1,0 +1,34 @@
+<div class="row mt-5">
+    <div class="col-md-12">
+      <div class="row">
+        <span class="bc-cont col-md-3">Edit Rights</span>
+      </div>
+      <div class="row mt-5">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th>Description</th>
+              <th>Name</th>
+              <th>Function</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let rightType of RightsTypes; let i = index">
+              <td scope="row">{{ rightType.id }}</td>
+              <td>{{ rightType.rightDesc }}</td>
+              <td>{{ rightType.name }}</td>
+              <td>
+                <button
+                  (click)="postEditId(rightType)"
+                  class="btn btn-sm btn-success"
+                >
+                  EDIT
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

@@ -23,6 +23,9 @@ import { CreateEditTaggingComponent } from './components/settings/tagging/create
 import { DocTypeCreationComponent } from './components/settings/doc-type-creation/doc-type-creation.component';
 import { ListDocTypeCreationComponent } from './components/settings/doc-type-creation/list-doc-type-creation/list-doc-type-creation.component';
 import { CreateEditDocTypeCreationComponent } from './components/settings/doc-type-creation/create-edit-doc-type-creation/create-edit-doc-type-creation.component';
+import { SearchRightComponent } from './components/settings/search-right/search-right.component';
+import { ListSearchRightComponent } from './components/settings/search-right/list-search-right/list-search-right.component';
+import { CreateEditSearchRightComponent } from './components/settings/search-right/create-edit-search-right/create-edit-search-right.component';
 
 
 
@@ -156,6 +159,24 @@ const routes: Routes = [
             component: CreateEditDocTypeCreationComponent
           }
         ]
+      },
+      {
+        path:  'search-right',
+        component: SearchRightComponent,
+        children: [
+          {
+            path: 'list-search-right',
+            component: ListSearchRightComponent
+          },
+          {
+            path:  'create-edit-search-right',
+            component: CreateEditSearchRightComponent
+          },
+          {
+            path:  'create-edit-search-right/:id',
+            component: CreateEditSearchRightComponent
+          }
+        ]
       }
     ]
   },
@@ -196,6 +217,9 @@ export const RoutingComponents = [
   CreateEditTaggingComponent,
   DocTypeCreationComponent,
   ListDocTypeCreationComponent,
-  CreateEditDocTypeCreationComponent
+  CreateEditDocTypeCreationComponent,
+  SearchRightComponent,
+  ListSearchRightComponent,
+  CreateEditSearchRightComponent
 
 ]

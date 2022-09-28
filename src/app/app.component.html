@@ -310,7 +310,7 @@
                         ngbDropdownToggle
                         class="nav-link dropdown-toggle ps-4"
                         aria-current="page"
-                        id="navDropdownTDTC"
+                        id="navDropdownDTC"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                         [ngClass]="{
@@ -339,6 +339,49 @@
                           <a
                             ngbDropdownItem
                             routerLink="settings/doc-type-creation/create-edit-doc-type-creation"
+                            class="dropdown-item ps-5"
+                            aria-current="page"
+                            routerLinkActive="active"
+                            #child4_4_2RLA="routerLinkActive"
+                            >Create / Edit</a
+                          >
+                        </li>
+                      </ul>
+                    </li>
+                    <li ngbDropdown class="nav-item dropdown">
+                      <a
+                        ngbDropdownToggle
+                        class="nav-link dropdown-toggle ps-4"
+                        aria-current="page"
+                        id="navDropdownSR"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        [ngClass]="{
+                          active:
+                            child4_4_1RLA.isActive || child4_4_2RLA.isActive
+                        }"
+                        >Search Rights</a
+                      >
+                      <ul
+                        ngbDropdownMenu
+                        class="dropdown-menu p-0 pt-1 m-0 border-0"
+                        aria-labelledby="navDropdownSR"
+                      >
+                        <li>
+                          <a
+                            ngbDropdownItem
+                            routerLink="settings/search-right/list-search-right"
+                            class="dropdown-item ps-5"
+                            aria-current="page"
+                            routerLinkActive="active"
+                            #child4_4_1RLA="routerLinkActive"
+                            >List</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            ngbDropdownItem
+                            routerLink="settings/search-right/create-edit-search-right"
                             class="dropdown-item ps-5"
                             aria-current="page"
                             routerLinkActive="active"
