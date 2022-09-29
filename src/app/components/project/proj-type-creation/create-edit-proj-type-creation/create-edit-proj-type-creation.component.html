@@ -1,1 +1,72 @@
-<p>create-edit-proj-type-creation works!</p>
+<div class="row mt-5">
+    <div class="col-md-12">
+      <div class="row">
+        <span class="bc-cont col-md-3">Create Project Type</span>
+      </div>
+      <form
+        [formGroup]="projTypeCreateEditForm"
+        (ngSubmit)="onSubmitProjTypeCreateEdit()"
+      >
+      <div class="row mt-5">
+          <div class="col-md-2">
+              <div class="red-tags ps-0">Project Type Name</div>
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" formControlName="projTypeName" />
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-2">
+                <div class="red-tags ps-0">Capex</div>
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" formControlName="capex" />
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-2">
+                <div class="red-tags ps-0">Project Hierarchy</div>
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" formControlName="projHierarchy" />
+            </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-2">
+              <div class="red-tags ps-0">Additional Field</div>
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="additionalField1" />
+            </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-2">
+              <div class="red-tags ps-0">Additional Field</div>
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="additionalField2" />
+            </div>
+        </div>
+        <div class="row mt-2">
+          <div class="offset-md-2 col-md-2">
+            <button
+              type="submit"
+              class="btn bg-danger red-tags rounded-0 text-white w-100"
+              [disabled]="projTypeCreateEditForm.invalid"
+            >
+              Save
+            </button>
+          </div>
+          <div class="col-md-2">
+            <button
+              class="btn bg-danger red-tags rounded-0 text-white w-100"
+              type="button"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  
