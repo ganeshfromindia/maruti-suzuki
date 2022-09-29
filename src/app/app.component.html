@@ -165,9 +165,11 @@
                         child4_2_1RLA.isActive ||
                         child4_2_2RLA.isActive ||
                         child4_3_1RLA.isActive ||
-                        child4_3_2RLA.isActive || 
-                        child4_4_1RLA.isActive || 
-                        child4_4_2RLA.isActive
+                        child4_3_2RLA.isActive ||
+                        child4_4_1RLA.isActive ||
+                        child4_4_2RLA.isActive ||
+                        child5_4_1RLA.isActive ||
+                        child5_4_2RLA.isActive
                     }"
                     >Settings</a
                   >
@@ -358,7 +360,7 @@
                         aria-expanded="false"
                         [ngClass]="{
                           active:
-                            child4_4_1RLA.isActive || child4_4_2RLA.isActive
+                            child5_4_1RLA.isActive || child5_4_2RLA.isActive
                         }"
                         >Search Rights</a
                       >
@@ -374,7 +376,7 @@
                             class="dropdown-item ps-5"
                             aria-current="page"
                             routerLinkActive="active"
-                            #child4_4_1RLA="routerLinkActive"
+                            #child5_4_1RLA="routerLinkActive"
                             >List</a
                           >
                         </li>
@@ -385,7 +387,72 @@
                             class="dropdown-item ps-5"
                             aria-current="page"
                             routerLinkActive="active"
-                            #child4_4_2RLA="routerLinkActive"
+                            #child5_4_2RLA="routerLinkActive"
+                            >Create / Edit</a
+                          >
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li ngbDropdown lass="nav-item dropdown">
+                  <a
+                    ngbDropdownToggle
+                    class="nav-link dropdown-toggle ps-3"
+                    aria-current="page"
+                    id="navDropdownProject"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    [ngClass]="{
+                      active:
+                        child5_1_1RLA.isActive ||
+                        child5_1_2RLA.isActive 
+                    }"
+                    >Project</a
+                  >
+                  <ul
+                    ngbDropdownMenu
+                    class="dropdown-menup-0 pt-1 m-0 border-0"
+                    aria-labelledby="navDropdownProject"
+                  >
+                    <li ngbDropdown class="nav-item dropdown">
+                      <a
+                        ngbDropdownToggle
+                        class="nav-link dropdown-toggle ps-4"
+                        aria-current="page"
+                        id="navDropdownProjTypeCreation"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        [ngClass]="{
+                          active:
+                            child5_1_1RLA.isActive || child5_1_2RLA.isActive
+                        }"
+                        >Project Type</a
+                      >
+                      <ul
+                        ngbDropdownMenu
+                        class="dropdown-menu p-0 pt-1 m-0 border-0"
+                        aria-labelledby="navDropdownProjTypeCreation"
+                      >
+                        <li>
+                          <a
+                            ngbDropdownItem
+                            routerLink="project/proj-type-creation/list-proj-type-creation"
+                            class="dropdown-item ps-5"
+                            aria-current="page"
+                            routerLinkActive="active"
+                            #child5_1_1RLA="routerLinkActive"
+                            >List</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            ngbDropdownItem
+                            routerLink="project/proj-type-creation/create-edit-proj-type-creation"
+                            class="dropdown-item ps-5"
+                            aria-current="page"
+                            routerLinkActive="active"
+                            #child5_1_2RLA="routerLinkActive"
                             >Create / Edit</a
                           >
                         </li>

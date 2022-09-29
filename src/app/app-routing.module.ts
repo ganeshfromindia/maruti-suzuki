@@ -26,6 +26,10 @@ import { CreateEditDocTypeCreationComponent } from './components/settings/doc-ty
 import { SearchRightComponent } from './components/settings/search-right/search-right.component';
 import { ListSearchRightComponent } from './components/settings/search-right/list-search-right/list-search-right.component';
 import { CreateEditSearchRightComponent } from './components/settings/search-right/create-edit-search-right/create-edit-search-right.component';
+import { ProjectComponent } from './components/project/project.component';
+import { ProjTypeCreationComponent } from './components/project/proj-type-creation/proj-type-creation.component';
+import { ListProjTypeCreationComponent } from './components/project/proj-type-creation/list-proj-type-creation/list-proj-type-creation.component';
+import { CreateEditProjTypeCreationComponent } from './components/project/proj-type-creation/create-edit-proj-type-creation/create-edit-proj-type-creation.component';
 
 
 
@@ -181,6 +185,30 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'project',
+    component: ProjectComponent,
+    children: [
+      {
+        path: 'proj-type-creation',
+        component: ProjTypeCreationComponent,
+        children: [
+          {
+            path: 'list-proj-type-creation',
+            component: ListProjTypeCreationComponent
+          },
+          {
+            path: 'create-edit-proj-type-creation',
+            component: CreateEditProjTypeCreationComponent,
+          },
+          {
+            path: 'create-edit-proj-type-creation/:id',
+            component: CreateEditProjTypeCreationComponent, 
+          }
+        ]
+      }
+    ]
+  },
+  {
     path: "",
     redirectTo: "/company",
     pathMatch: "full",
@@ -220,6 +248,9 @@ export const RoutingComponents = [
   CreateEditDocTypeCreationComponent,
   SearchRightComponent,
   ListSearchRightComponent,
-  CreateEditSearchRightComponent
-
+  CreateEditSearchRightComponent,
+  ProjectComponent,
+  ProjTypeCreationComponent,
+  ListProjTypeCreationComponent,
+  CreateEditProjTypeCreationComponent
 ]
