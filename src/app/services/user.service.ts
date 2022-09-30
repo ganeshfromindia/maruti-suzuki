@@ -240,6 +240,14 @@ export class UserService {
   
   }
 
+  // handle alert data to be shown in success or error case
+  handleAlerts(data: any, flag: boolean) {
+    let alertsObj: any = {};
+    alertsObj.data = data;
+    alertsObj.flag = flag;
+    return alertsObj;
+  }
+
   
 }
 

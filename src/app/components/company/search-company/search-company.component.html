@@ -23,7 +23,7 @@
 <div class="row mt-2">
   <div class="col-md-2">
     <button
-      (click)="setSearchTerm()"
+      (click)="setSearchData(1, 10)"
       class="btn bg-danger red-tags w-100 rounded-0 text-white"
       [disabled]="!srchTrmName && !srchTrmEmail"
     >
@@ -33,7 +33,7 @@
 </div>
 <div class="row mt-2">
   <div class="col-12">
-    <div *ngIf="(companyAllData$ | async)?.length">
+    <div *ngIf="companyAllData?.length">
       <table class="table table-striped">
         <thead>
           <tr>
@@ -46,12 +46,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let compdata of (companyAllData$ | async)!">
-            <td scope="row">{{ compdata.id }}</td>
+          <tr *ngFor="let compdata of companyAllData; let i = index">
+            <td>{{ i + 1 }}</td>
             <td>{{compdata.companyName}}</td>
-            <td>{{ compdata.city }}</td>
-            <td>{{ compdata.contactDetails }}</td>
-            <td>{{ compdata.contactPerson }}</td>
+            <td>{{ compdata.cityName }}</td>
+            <td>{{ compdata.billingContactPersonNumber }}</td>
+            <td>{{ compdata.billingContactPersonName }}</td>
             <td>
               <button
                 (click)="postEditId(compdata)"
@@ -68,9 +68,9 @@
 </div>
 <div class="row">
   <div class="col-12">
-    <div *ngIf="showTE" class="text-center">
+    <div *ngIf="showError" class="text-center">
       <P
-        >Data Not found. Please submit different criteria and try again later</P
+        >{{showError}}</P
       >
     </div>
   </div>
@@ -79,12 +79,12 @@
   <div class="col-12">
     <div
       class="col-12 d-flex align-items-start justify-content-between"
-      *ngIf="total$"
+      *ngIf="total"
     >
       <ngb-pagination
-        [collectionSize]="(total$ | async)!"
-        [(page)]="service.page"
-        [pageSize]="service.pageSize"
+        [collectionSize]="total"
+        [(page)]="page"
+        [pageSize]="pageSize"
         (pageChange)="setPage($event)"
       >
       </ngb-pagination>
@@ -93,7 +93,7 @@
         class="form-select"
         style="width: auto"
         name="pageSize"
-        [(ngModel)]="service.pageSize"
+        [(ngModel)]="pageSize"
         (change)="setPageSize($event)"
       >
         <option [value]="5">5 items per page</option>
