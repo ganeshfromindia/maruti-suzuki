@@ -1,0 +1,14 @@
+<div class="row mt-5">
+    <div class="col-md-4">
+      <button class="btn" (click)="setData()">Set Data</button>
+    </div>
+    <div class="col-md-8" *ngIf="data.data">
+        <tree-view #treeView [data]="data" [template]="treeTemplate"> 
+
+        </tree-view>
+        <ng-template #treeTemplate let-node>
+          <span class="icon-cont"><img src="/assets/images/square.png" alt="image"></span>
+          <span class="desgn-cont">{{node.data.id}}</span>
+        </ng-template>
+    </div>
+</div>

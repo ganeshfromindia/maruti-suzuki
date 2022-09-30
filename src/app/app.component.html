@@ -168,8 +168,8 @@
                         child4_3_2RLA.isActive ||
                         child4_4_1RLA.isActive ||
                         child4_4_2RLA.isActive ||
-                        child5_4_1RLA.isActive ||
-                        child5_4_2RLA.isActive
+                        child4_5_1RLA.isActive ||
+                        child4_5_2RLA.isActive
                     }"
                     >Settings</a
                   >
@@ -360,7 +360,7 @@
                         aria-expanded="false"
                         [ngClass]="{
                           active:
-                            child5_4_1RLA.isActive || child5_4_2RLA.isActive
+                            child4_5_1RLA.isActive || child4_5_2RLA.isActive
                         }"
                         >Search Rights</a
                       >
@@ -376,7 +376,7 @@
                             class="dropdown-item ps-5"
                             aria-current="page"
                             routerLinkActive="active"
-                            #child5_4_1RLA="routerLinkActive"
+                            #child4_5_1RLA="routerLinkActive"
                             >List</a
                           >
                         </li>
@@ -387,7 +387,7 @@
                             class="dropdown-item ps-5"
                             aria-current="page"
                             routerLinkActive="active"
-                            #child5_4_2RLA="routerLinkActive"
+                            #child4_5_2RLA="routerLinkActive"
                             >Create / Edit</a
                           >
                         </li>
@@ -406,7 +406,8 @@
                     [ngClass]="{
                       active:
                         child5_1_1RLA.isActive ||
-                        child5_1_2RLA.isActive 
+                        child5_1_2RLA.isActive ||
+                        child5_2_1RLA.isActive
                     }"
                     >Project</a
                   >
@@ -457,6 +458,17 @@
                           >
                         </li>
                       </ul>
+                    </li>
+                    <li>
+                      <a
+                        ngbDropdownItem
+                        routerLink="project/proj-hierarchy-creation-sa"
+                        class="dropdown-item ps-4"
+                        aria-current="page"
+                        routerLinkActive="active"
+                        #child5_2_1RLA="routerLinkActive"
+                        >Proj Hierarchy</a
+                      >
                     </li>
                   </ul>
                 </li>

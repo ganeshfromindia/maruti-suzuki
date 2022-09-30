@@ -30,6 +30,8 @@ import { ProjectComponent } from './components/project/project.component';
 import { ProjTypeCreationComponent } from './components/project/proj-type-creation/proj-type-creation.component';
 import { ListProjTypeCreationComponent } from './components/project/proj-type-creation/list-proj-type-creation/list-proj-type-creation.component';
 import { CreateEditProjTypeCreationComponent } from './components/project/proj-type-creation/create-edit-proj-type-creation/create-edit-proj-type-creation.component';
+import { ProjHierarchyCreationSaComponent } from './components/project/proj-hierarchy-creation-sa/proj-hierarchy-creation-sa.component';
+import { TreeViewComponent } from './components/project/proj-hierarchy-creation-sa/tree-view.component';
 
 
 
@@ -205,6 +207,10 @@ const routes: Routes = [
             component: CreateEditProjTypeCreationComponent, 
           }
         ]
+      },
+      {
+        path: 'proj-hierarchy-creation-sa',
+        component: ProjHierarchyCreationSaComponent
       }
     ]
   },
@@ -252,5 +258,7 @@ export const RoutingComponents = [
   ProjectComponent,
   ProjTypeCreationComponent,
   ListProjTypeCreationComponent,
-  CreateEditProjTypeCreationComponent
+  CreateEditProjTypeCreationComponent,
+  ProjHierarchyCreationSaComponent,
+  TreeViewComponent
 ]
