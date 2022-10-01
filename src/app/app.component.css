@@ -14,7 +14,7 @@
 }
 
 .nav-link.active {
-    background-color: #0d6efd;
+    background-color: #4554a5;
     color: #fff;
 }
 
@@ -22,4 +22,8 @@
     height: 90vh;
     padding-top: 10vh;
     display: block;
+}
+
+#nav-bg .main-nav-link {
+    color: #ffffff;
 }
