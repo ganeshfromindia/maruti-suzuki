@@ -30,7 +30,7 @@ export class HttpInterceptorService implements HttpInterceptor {
 
     if (this.token && !this.skipInterceptor) {
       const tokenizedReq: HttpRequest<any> = req.clone({
-        headers: req.headers.set("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBYmhpamVldCIsImNyZWF0ZWQiOjE2NjQ1MzU5MDA1MTUsImlkIjozLCJ1c2VyVHlwZSI6Ik9QRVJBVElPTiIsInVzZXJOYW1lIjoiQWJoaWplZXQiLCJleHAiOjE2NjUxNDA3MDB9.n68F_Rane7L2FzwXBylosuDpZO264VokpQO5eLjVmvQhgvNHBv-86Ch-9jpeqxQPoazJHMGhtu2csJZ0TqAjXg"),
+        headers: req.headers.set("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBYmhpamVldCIsImNyZWF0ZWQiOjE2NjQ1OTEyOTgyNTcsImlkIjozLCJ1c2VyVHlwZSI6IlNVUEVSX0FETUlOIiwidXNlck5hbWUiOiJBYmhpamVldCIsImV4cCI6MTY2NTE5NjA5OH0.eC0_vxa7nz9iBc6XTcbZshQzHL4MT7CkjnfXIuzHqk3TbLgdqVGx4N6iSYIvbWDZJpDIee_IPOEEGzuqHzUamQ"),
       });
 
       return next.handle(tokenizedReq).pipe(

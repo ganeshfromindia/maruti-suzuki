@@ -25,7 +25,7 @@
     <button
       (click)="setSearchData(1, 10)"
       class="btn bg-danger red-tags w-100 rounded-0 text-white"
-      [disabled]="!srchTrmName && !srchTrmEmail"
+
     >
       Search
     </button>
@@ -46,8 +46,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let compdata of companyAllData; let i = index">
-            <td>{{ i + 1 }}</td>
+          <tr *ngFor="let compdata of companyAllData; let i = index" class="text-capitalize">
+            <td>{{ ((this.page - 1) * this.pageSize)  + i + 1 }}</td>
             <td>{{compdata.companyName}}</td>
             <td>{{ compdata.cityName }}</td>
             <td>{{ compdata.billingContactPersonNumber }}</td>

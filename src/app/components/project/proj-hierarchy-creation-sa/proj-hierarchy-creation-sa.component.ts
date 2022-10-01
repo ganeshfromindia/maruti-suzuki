@@ -9,6 +9,10 @@ import { IECONode, Orientation } from './econode';
 export class ProjHierarchyCreationSaComponent implements OnInit {
 
   public data:IECONode = {data: null};
+  public srchTrmProjName: string = '';
+  public srchTrmProjDesgn: string = '';
+  public srchTrmLevel: string = '';
+  public srchTrmLnkdTo: string = '';
   constructor() { }
 
   ngOnInit(): void {
@@ -18,8 +22,8 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
 
   setData() {
     this.data={data:{id:"Project Head"},linkColor:"#4554a5",background:"red",color:"white",children:[
-      {data:{id:"Operations Controller"},linkColor:"#4554a5",background:"pink",color:"white",children:[
-        {data:{id:"Operations Controller"}},
+      {data:{id:"Operations Controller Operations Controller"},linkColor:"#4554a5",background:"pink",color:"white",children:[
+        {data:{id:"Operations Controller Operations Controller"}},
         {data:{id:"Operations Controller"},children:[
           {data:{id:"Operations Controller"},background:"silver"},
           {data:{id:"Operations Controller"}}

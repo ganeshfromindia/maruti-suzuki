@@ -1,6 +1,74 @@
 <div class="row mt-5">
     <div class="col-md-4">
-      <button class="btn" (click)="setData()">Set Data</button>
+      <div class="row mt-2">
+        <div class="col-md-6">
+          <div class="red-tags">Project Hierarchy
+          </div>
+        </div>
+        <div class="col-md-6">
+          <input
+            type="text"
+            class="form-control"
+            id="userName"
+            [(ngModel)]="srchTrmProjName"
+            
+          />
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-6">
+          <div class="red-tags">Project Designation
+          </div>
+        </div>
+        <div class="col-md-6">
+          <input
+            type="text"
+            class="form-control"
+            id="email"
+            [(ngModel)]="srchTrmProjDesgn"
+          />
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-6">
+          <div class="red-tags">Level
+          </div>
+        </div>
+        <div class="col-md-6">
+          <input
+            type="text"
+            class="form-control"
+            id="email"
+            [(ngModel)]="srchTrmLevel"
+          />
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-6">
+          <div class="red-tags">Linked To
+          </div>
+        </div>
+        <div class="col-md-6">
+          <input
+            type="text"
+            class="form-control"
+            id="email"
+            [(ngModel)]="srchTrmLnkdTo"
+          />
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-6">
+          <button
+            (click)="setData()"
+            class="btn bg-danger red-tags w-100 rounded-0 text-white"
+            [disabled]="!srchTrmProjName && !srchTrmProjDesgn && !srchTrmLevel && !srchTrmLnkdTo"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+      <!-- <button class="btn" (click)="setData()">Set Data</button> -->
     </div>
     <div class="col-md-8" *ngIf="data.data">
         <tree-view #treeView [data]="data" [template]="treeTemplate"> 
