@@ -21,7 +21,7 @@ export class SearchCompanyComponent implements OnInit {
   page: number = 1;
   pageSize: number = 10;
 
-  constructor(public _beService: BackendService, public router: Router, private userService: UserService) {
+  constructor(private _beService: BackendService, public router: Router, private userService: UserService) {
     
   }
 
@@ -94,7 +94,6 @@ export class SearchCompanyComponent implements OnInit {
 
   //post edit id to edit component
   postEditId(data: any) {
-    
     let url = `company/create-edit-company/${data.id}`;
     this.router.navigateByUrl(url, { state: { data: data } });
   }
