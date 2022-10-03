@@ -9,7 +9,7 @@
           type="text"
           class="form-control"
           id="userName"
-          [(ngModel)]="srchTrmProjName"
+          [(ngModel)]="srchTrmProjHierarchyName"
         />
       </div>
     </div>
@@ -58,7 +58,7 @@
           (click)="setTreeData()"
           class="btn bg-danger red-tags w-100 rounded-0 text-white"
           [disabled]="
-            !srchTrmProjName &&
+            !srchTrmProjHierarchyName &&
             !srchTrmProjDesgn &&
             !srchTrmLevel &&
             !srchTrmLnkdTo
@@ -122,7 +122,7 @@
       <span class="icon-cont"
         ><img src="/assets/images/square.png" alt="image"
       /></span>
-      <span class="desgn-cont">{{ node.data.id }}</span>
+      <span class="desgn-cont">{{ node.data.designationName }}</span>
     </ng-template>
   </div>
 </div>

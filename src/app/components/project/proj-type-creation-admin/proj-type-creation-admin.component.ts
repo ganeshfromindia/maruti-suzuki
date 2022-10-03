@@ -77,6 +77,7 @@ export class ProjTypeCreationAdminComponent implements OnInit {
         },
       ],
     };
+    console.log(this.data)
   }
 
 }
