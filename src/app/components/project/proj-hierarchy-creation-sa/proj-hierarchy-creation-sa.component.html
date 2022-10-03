@@ -1,82 +1,128 @@
 <div class="row mt-5">
-    <div class="col-md-4">
-      <div class="row mt-2">
-        <div class="col-md-6">
-          <div class="red-tags">Project Hierarchy
-          </div>
-        </div>
-        <div class="col-md-6">
-          <input
-            type="text"
-            class="form-control"
-            id="userName"
-            [(ngModel)]="srchTrmProjName"
-            
-          />
-        </div>
+  <div class="col-md-4">
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <div class="red-tags">Project Hierarchy</div>
       </div>
-      <div class="row mt-2">
-        <div class="col-md-6">
-          <div class="red-tags">Project Designation
-          </div>
-        </div>
-        <div class="col-md-6">
-          <input
-            type="text"
-            class="form-control"
-            id="email"
-            [(ngModel)]="srchTrmProjDesgn"
-          />
-        </div>
+      <div class="col-md-6">
+        <input
+          type="text"
+          class="form-control"
+          id="userName"
+          [(ngModel)]="srchTrmProjName"
+        />
       </div>
-      <div class="row mt-2">
-        <div class="col-md-6">
-          <div class="red-tags">Level
-          </div>
-        </div>
-        <div class="col-md-6">
-          <input
-            type="text"
-            class="form-control"
-            id="email"
-            [(ngModel)]="srchTrmLevel"
-          />
-        </div>
-      </div>
-      <div class="row mt-2">
-        <div class="col-md-6">
-          <div class="red-tags">Linked To
-          </div>
-        </div>
-        <div class="col-md-6">
-          <input
-            type="text"
-            class="form-control"
-            id="email"
-            [(ngModel)]="srchTrmLnkdTo"
-          />
-        </div>
-      </div>
-      <div class="row mt-2">
-        <div class="col-md-6">
-          <button
-            (click)="setData()"
-            class="btn bg-danger red-tags w-100 rounded-0 text-white"
-            [disabled]="!srchTrmProjName && !srchTrmProjDesgn && !srchTrmLevel && !srchTrmLnkdTo"
-          >
-            Search
-          </button>
-        </div>
-      </div>
-      <!-- <button class="btn" (click)="setData()">Set Data</button> -->
     </div>
-    <div class="col-md-8" *ngIf="data.data">
-        <tree-view #treeView [data]="data" [template]="treeTemplate"> 
-
-        </tree-view>
-        <ng-template #treeTemplate let-node>
-          <span class="icon-cont"><img src="/assets/images/square.png" alt="image"></span>
-          <span class="desgn-cont">{{node.data.id}}</span>
-        </ng-template>
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <div class="red-tags">Project Designation</div>
+      </div>
+      <div class="col-md-6">
+        <input
+          type="text"
+          class="form-control"
+          id="email"
+          [(ngModel)]="srchTrmProjDesgn"
+        />
+      </div>
     </div>
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <div class="red-tags">Level</div>
+      </div>
+      <div class="col-md-6">
+        <input
+          type="text"
+          class="form-control"
+          id="email"
+          [(ngModel)]="srchTrmLevel"
+        />
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <div class="red-tags">Linked To</div>
+      </div>
+      <div class="col-md-6">
+        <input
+          type="text"
+          class="form-control"
+          id="email"
+          [(ngModel)]="srchTrmLnkdTo"
+        />
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <button
+          (click)="setTreeData()"
+          class="btn bg-danger red-tags w-100 rounded-0 text-white"
+          [disabled]="
+            !srchTrmProjName &&
+            !srchTrmProjDesgn &&
+            !srchTrmLevel &&
+            !srchTrmLnkdTo
+          "
+        >
+          Search
+        </button>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-12">
+        <div *ngIf="projHierarchyData?.length">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Project Designation</th>
+                <th>Level</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let pjData of projHierarchyData; let i = index"
+                class="text-capitalize"
+              >
+                <td>{{ i + 1 }}</td>
+                <td>{{ pjData.designation }}</td>
+                <td>{{ pjData.level }}</td>
+                <td>
+                  <button
+                    (click)="postEditId(pjData)"
+                    class="btn btn-sm me-2"
+                  >
+                  <i class="fa fa-pencil"></i>
+                  </button>
+                  <button
+                    (click)="postEditId(pjData)"
+                    class="btn btn-sm"
+                  >
+                  <i class="fa fa-trash-o"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div *ngIf="showError" class="text-center">
+          <P>{{ showError }}</P>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8" *ngIf="data.data">
+    <tree-view #treeView [data]="data" [template]="treeTemplate"> </tree-view>
+    <ng-template #treeTemplate let-node>
+      <span class="icon-cont"
+        ><img src="/assets/images/square.png" alt="image"
+      /></span>
+      <span class="desgn-cont">{{ node.data.id }}</span>
+    </ng-template>
+  </div>
 </div>

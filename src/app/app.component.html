@@ -407,7 +407,8 @@
                       active:
                         child5_1_1RLA.isActive ||
                         child5_1_2RLA.isActive ||
-                        child5_2_1RLA.isActive
+                        child5_2_1RLA.isActive ||
+                        child5_3_1RLA.isActive
                     }"
                     >Project</a
                   >
@@ -468,6 +469,17 @@
                         routerLinkActive="active"
                         #child5_2_1RLA="routerLinkActive"
                         >Proj Hierarchy</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        ngbDropdownItem
+                        routerLink="project/proj-type-creation-admin"
+                        class="dropdown-item ps-4"
+                        aria-current="page"
+                        routerLinkActive="active"
+                        #child5_3_1RLA="routerLinkActive"
+                        >Proj Type</a
                       >
                     </li>
                   </ul>

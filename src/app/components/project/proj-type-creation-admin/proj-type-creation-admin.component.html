@@ -1,0 +1,64 @@
+<div class="row mt-5">
+  <div class="col-md-4">
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <div class="red-tags">Project Type Name</div>
+      </div>
+      <div class="col-md-6">
+        <input
+          type="text"
+          class="form-control"
+          id="userName"
+          [(ngModel)]="srchTrmProjName"
+        />
+      </div>
+    </div>
+    <div class="row mt-2 similar-to-cont">
+      <div class="col-md-6">
+        <div class="red-tags">Similar To</div>
+      </div>
+      <div class="col-md-6">
+        <input
+          type="text"
+          class="form-control"
+          id="email"
+          [(ngModel)]="srchTrmSimilarTo"
+        />
+      </div>
+      <button
+        (click)="setTreeData()"
+        class="btn bg-danger red-tags rounded-0 text-white view-btn"
+        [disabled]="!srchTrmSimilarTo"
+      >
+        View
+      </button>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-12">
+        <button
+          type="button"
+          class="ms-2 me-5 col-md-5 btn bg-danger red-tags rounded-0 text-white"
+          [disabled]="!srchTrmProjName && !srchTrmSimilarTo"
+        >
+          Save
+        </button>
+        <button
+          class="col-md-5 btn bg-danger red-tags rounded-0 text-white"
+          type="button"
+          [disabled]="!srchTrmProjName && !srchTrmSimilarTo"
+        >
+          Edit
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8" *ngIf="data.data">
+    <tree-view-admin #treeView [data]="data" [template]="treeTemplate"> </tree-view-admin>
+    <ng-template #treeTemplate let-node>
+      <span class="icon-cont"
+        ><img src="/assets/images/square.png" alt="image"
+      /></span>
+      <span class="desgn-cont">{{ node.data.id }}</span>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+.desgn-cont {
+    position: absolute;
+    width: 40px;
+    right: -20px;
+    color: #000000;
+    line-height: 10px;
+    font-size: 10px;
+}
+
+.icon-cont {
+    box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+    background-color: #4554a5;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    position: relative;
+}
+
+.icon-cont img {
+    position: absolute;
+    top: 13px;
+    left: 13px;
+}
+
+.similar-to-cont {
+    position: relative;
+}
+
+.similar-to-cont .view-btn {
+    position: absolute;
+    right: -20%;
+    top: 0%;
+    width: auto;
+}
