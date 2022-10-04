@@ -52,13 +52,13 @@
       </div>
     </div>
   </div>
-  <div class="col-md-8" *ngIf="data.data">
+  <div class="col-md-8" *ngIf="data.designationName">
     <tree-view-admin #treeView [data]="data" [template]="treeTemplate"> </tree-view-admin>
     <ng-template #treeTemplate let-node>
       <span class="icon-cont"
         ><img src="/assets/images/square.png" alt="image"
       /></span>
-      <span class="desgn-cont">{{ node.data.id }}</span>
+      <span class="desgn-cont">{{ node.designationName }}</span>
     </ng-template>
   </div>
 </div>

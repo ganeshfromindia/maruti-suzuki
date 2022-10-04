@@ -67,7 +67,7 @@ export class TreeViewAdminComponent  {
     node.background=node.background || parent.background
     node.linkColor=node.linkColor || parent.linkColor
     node.id=tree.nDatabaseNodes.length
-      tree.add(node.id,parent.id,node.title, node.width, node.height, node.color, node.background, node.linkColor, node.data)
+      tree.add(node.designationName, node.id,parent.id,node.title, node.width, node.height, node.color, node.background, node.linkColor, node.data)
       if (node.children)
       {
       node.children.forEach((x:any)=>{

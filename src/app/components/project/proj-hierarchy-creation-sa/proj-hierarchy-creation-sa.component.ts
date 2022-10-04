@@ -10,7 +10,7 @@ import { IECONode, Orientation } from './econode';
   styleUrls: ['./proj-hierarchy-creation-sa.component.css'],
 })
 export class ProjHierarchyCreationSaComponent implements OnInit {
-  public data: IECONode = { data: null };
+  public data: IECONode = { data: null, designationName: '' };
   public dataArray: any[] = [];
   public dataConcated: any = {};
   public srchTrmProjHierarchyName: string = '';
@@ -27,13 +27,12 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     public router: Router
   ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
   Orientation = Orientation;
 
   async setTreeData() {
-    this.setSearchData()
-    this.data = { data: null };
+    this.setSearchData();
+    this.data = { data: null, designationName: '' };
     let returnedAlerts: any = await this.setTreeAPIData();
     if (returnedAlerts.flag) {
       if (returnedAlerts.data.status == 404) {
@@ -45,15 +44,11 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
         this.showError = '';
       }, 5000);
     } else {
-      if(returnedAlerts.data.status == 200) this.dataArray = returnedAlerts.data.payLoad[0].hierarchyDetailList;
-      this.dataArray = this.dataArray.sort((a: any, b: any) => { return a['level'] - b['level'] });
-      let arraySortedC = {data:{}, children: []}
-      arraySortedC.data = this.dataArray[0];
-      arraySortedC.children = []
-      console.log(arraySortedC);
-      this.data = this.pushToChildren(arraySortedC, 1);
-      console.log(this.data)
-    }  
+      if (returnedAlerts.data.status == 200)
+        this.dataArray = returnedAlerts.data.payLoad[0].hierarchyDetailList;
+      this.data = this.printTree(this.unflattenTree(this.dataArray));
+      console.log(this.data);
+    }
     // this.data = {
     //   data: { id: 'Project Head' },
     //   linkColor: '#4554a5',
@@ -105,25 +100,33 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     //     },
     //   ],
     // };
-  
-}
+  }
 
- pushToChildren(arraySortedCT:any, y:any) {
-	for (var x = y; x <=y + 1; x++) {
-    console.log(this.dataArray[x])
-		if(this.dataArray[x]) {
-      arraySortedCT.children = [];
-      arraySortedCT.children.push({data: this.dataArray[x]})
-      this.dataConcated = arraySortedCT;
-      console.log(this.dataConcated)
-      // return this.dataConcated;
-      this.pushToChildren(arraySortedCT.children, x + 1)
-      console.log(JSON.stringify(arraySortedCT));
-      return arraySortedCT;
-    } 
-	}
+  unflattenTree(data: any) {
+    const nodes: any = {};
+    let root;
 
-}
+    for (const node of data) {
+      nodes[node.id] = { children: [], ...nodes[node.id], ...node };
+
+      if (node.linkedTo) {
+        nodes[node.linkedTo] = { children: [], ...nodes[node.linkedTo] };
+        nodes[node.linkedTo].children.push(nodes[node.id]);
+      } else {
+        root = nodes[node.id];
+      }
+    }
+
+    return root;
+  }
+
+  printTree(root: any, gap = 4, level = 0) {
+    if (root) {
+      console.log(' '.repeat(level), root.name);
+      root.children?.forEach((e: any) => this.printTree(e, gap, level + gap));
+    }
+    return root;
+  }
 
   async setSearchData() {
     this.projHierarchyData = [];
@@ -159,7 +162,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     // };
     this.urlHttpParams = {
       companyName: 'locate',
-      adminEmailId: ''
+      adminEmailId: '',
     };
     return new Promise((resolve, reject) => {
       try {
@@ -195,13 +198,18 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
 
   setTreeAPIData() {
     this.urlHttpParams = {
-      companyId : 2 || this.userService.getCompanyID(),
-      projectHierarchyId: this.srchTrmProjHierarchyName
+      companyId: 2 || this.userService.getCompanyID(),
+      projectHierarchyId: this.srchTrmProjHierarchyName,
     };
     return new Promise((resolve, reject) => {
       try {
         this._beService
-          .getMethod('get/project/hierarchy?', undefined, undefined, this.urlHttpParams)
+          .getMethod(
+            'get/project/hierarchy?',
+            undefined,
+            undefined,
+            this.urlHttpParams
+          )
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(

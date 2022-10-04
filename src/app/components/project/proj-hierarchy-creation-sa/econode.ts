@@ -6,6 +6,7 @@ Please, don't remove the comment
 export interface IECONode
 {
   data:any;
+  designationName: string;
   linkColor?:string;
   background?:string;
   color?:string;
@@ -47,6 +48,7 @@ export enum Select {
 }
 
 export class ECONode {
+  designationName;
   id;
   pid;
   dsc;
@@ -74,7 +76,8 @@ export class ECONode {
 
   isSelected = false;
 
-  constructor(id: any, pid: any, dsc: any, w: any, h: any, c: any, bc: any, lc: any, meta: any) {
+  constructor(designationName: any,id: any, pid: any, dsc: any, w: any, h: any, c: any, bc: any, lc: any, meta: any) {
+    this.designationName = designationName;
     this.id = id;
     this.pid = pid;
     this.dsc = dsc;
@@ -394,7 +397,7 @@ export class ECOTree {
     this.nDatabaseNodes = [];
     this.mapIDs = {};
 
-    this.root = new ECONode(-1, null, null, 2, 2, null, null, null, null);
+    this.root = new ECONode('',-1, null, null, 2, 2, null, null, null, null);
     this.iSelectedNode = -1;
     this.iLastSearch = 0;
   }
@@ -695,7 +698,7 @@ export class ECOTree {
     }
   }
 
-  add(id: any, pid: any, dsc: any, w: any, h: any, c: any, bc: any, lc: any, meta: any) {
+  add(designationName: any,id: any, pid: any, dsc: any, w: any, h: any, c: any, bc: any, lc: any, meta: any) {
     const nw = w || this.config.defaultNodeWidth; //Width, height, colors, target and metadata defaults...
     const nh = h || this.config.defaultNodeHeight;
     const color = c || this.config.nodeColor;
@@ -714,7 +717,7 @@ export class ECOTree {
       }
     }
 
-    const node = new ECONode(id, pid, dsc, nw, nh, color, border, lc, metadata); //New node creation...
+    const node = new ECONode(designationName, id, pid, dsc, nw, nh, color, border, lc, metadata); //New node creation...
     node.nodeParent = pnode; //Set it's parent
     pnode.canCollapse = true; //It's obvious that now the parent can collapse
     const i = this.nDatabaseNodes.length; //Save it in database
