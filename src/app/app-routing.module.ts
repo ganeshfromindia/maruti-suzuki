@@ -35,10 +35,25 @@ import { TreeViewComponent } from './components/project/proj-hierarchy-creation-
 import { ProjTypeCreationAdminComponent } from './components/project/proj-type-creation-admin/proj-type-creation-admin.component';
 import { TreeViewAdminComponent } from './components/project/proj-type-creation-admin/tree-view.component';
 import { ProjCreationAdminComponent } from './components/project/proj-creation-admin/proj-creation-admin.component';
+import { LoginComponent } from './components/login/login.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { UnavailableComponent } from './components/unavailable/unavailable.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
 
 
 
 const routes: Routes = [
+  {
+    path: "login",
+    component: LoginComponent,
+  },
+  {
+    path: "forgotpassword",
+    component: ForgotPasswordComponent,
+    data: {
+      title: "Forgot Password",
+    },
+  },
   { path: 'company',
     component: CompanyComponent,
     children: [
@@ -226,9 +241,10 @@ const routes: Routes = [
   },
   {
     path: "",
-    redirectTo: "/company",
+    redirectTo: "/login",
     pathMatch: "full",
   },
+  { path: "**", component: UnavailableComponent },
 ];
 
 @NgModule({
@@ -273,5 +289,9 @@ export const RoutingComponents = [
   TreeViewComponent,
   ProjTypeCreationAdminComponent,
   TreeViewAdminComponent,
-  ProjCreationAdminComponent
+  ProjCreationAdminComponent,
+  LoginComponent,
+  ForgotPasswordComponent,
+  UnavailableComponent,
+  NavigationComponent
 ]

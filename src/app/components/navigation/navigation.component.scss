@@ -1,0 +1,26 @@
+
+.dropdown-toggle::after {
+  right: 12px;
+  position: absolute;
+  top: 18px;
+}
+
+.navbar-expand-md .navbar-nav .dropdown-menu {
+  position: relative;
+  border-radius: 0px;
+}
+
+.nav-link.active {
+  background-color: #4554a5;
+  color: #fff;
+}
+
+.cont-height {
+  height: 80vh;
+  padding-top: 10vh;
+  display: block;
+}
+
+#nav-bg .main-nav-link {
+  color: #ffffff;
+}

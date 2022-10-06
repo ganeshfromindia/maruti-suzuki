@@ -199,7 +199,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
 
   setTreeAPIData() {
     this.urlHttpParams = {
-      companyId: 2 || this.userService.getCompanyID(),
+      companyId: this.userService.getCompanyID(),
       projectHierarchyId: this.srchTrmProjHierarchyName,
     };
     return new Promise((resolve, reject) => {

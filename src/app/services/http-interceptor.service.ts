@@ -13,7 +13,7 @@ import { map } from "rxjs/operators";
 })
 export class HttpInterceptorService implements HttpInterceptor {
   token: string = "";
-  omitCalls = ["authenticate", "googleapis", "otp"];
+  omitCalls = ["login", "googleapis", "otp"];
   skipInterceptor = false;
   constructor(private router: Router) {}
 
@@ -30,7 +30,7 @@ export class HttpInterceptorService implements HttpInterceptor {
 
     if (this.token && !this.skipInterceptor) {
       const tokenizedReq: HttpRequest<any> = req.clone({
-        headers: req.headers.set("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBYmhpamVldCIsImNyZWF0ZWQiOjE2NjQ4NTg5ODMyMzIsImlkIjozLCJ1c2VyVHlwZSI6IlNVUEVSX0FETUlOIiwidXNlck5hbWUiOiJBYmhpamVldCIsImV4cCI6MTY2NTQ2Mzc4M30.ZA8BkrhntOpm-JxWP9iA3Em0nPfE-HFj_5jWj2XAnUyw7_3SIL-2hSq69fQa0WrELMTJ-DcbdeT-rz8mgfLX-g"),
+        headers: req.headers.set("Authorization", this.token),
       });
 
       return next.handle(tokenizedReq).pipe(

@@ -47,7 +47,7 @@ export class ListDepartmentComponent implements OnInit {
 
   setData(page: number, pageSize: number) {
     this.urlHttpParams = {
-      companyId: this.userService.getCompanyID() || "2"    
+      companyId: this.userService.getCompanyID()    
     };
     return new Promise((resolve, reject) => {
         try {

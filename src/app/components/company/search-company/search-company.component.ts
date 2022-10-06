@@ -83,6 +83,7 @@ export class SearchCompanyComponent implements OnInit {
 
   // setting current page data
   async setPage(page: any) {
+    console.log("in set page")
     this.setSearchData(page, this.pageSize)
   }
 
