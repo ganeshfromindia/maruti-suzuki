@@ -27,9 +27,9 @@ import { SearchRightComponent } from './components/settings/search-right/search-
 import { ListSearchRightComponent } from './components/settings/search-right/list-search-right/list-search-right.component';
 import { CreateEditSearchRightComponent } from './components/settings/search-right/create-edit-search-right/create-edit-search-right.component';
 import { ProjectComponent } from './components/project/project.component';
-import { ProjTypeCreationComponent } from './components/project/proj-type-creation/proj-type-creation.component';
-import { ListProjTypeCreationComponent } from './components/project/proj-type-creation/list-proj-type-creation/list-proj-type-creation.component';
-import { CreateEditProjTypeCreationComponent } from './components/project/proj-type-creation/create-edit-proj-type-creation/create-edit-proj-type-creation.component';
+import { ProjTypeCreationSaComponent } from './components/project/proj-type-creation-sa/proj-type-creation-sa.component';
+import { ListProjTypeCreationComponent } from './components/project/proj-type-creation-sa/list-proj-type-creation/list-proj-type-creation.component';
+import { CreateEditProjTypeCreationComponent } from './components/project/proj-type-creation-sa/create-edit-proj-type-creation/create-edit-proj-type-creation.component';
 import { ProjHierarchyCreationSaComponent } from './components/project/proj-hierarchy-creation-sa/proj-hierarchy-creation-sa.component';
 import { TreeViewComponent } from './components/project/proj-hierarchy-creation-sa/tree-view.component';
 import { ProjTypeCreationAdminComponent } from './components/project/proj-type-creation-admin/proj-type-creation-admin.component';
@@ -193,7 +193,7 @@ const routes: Routes = [
     children: [
       {
         path: 'proj-type-creation',
-        component: ProjTypeCreationComponent,
+        component: ProjTypeCreationSaComponent,
         children: [
           {
             path: 'list-proj-type-creation',
@@ -261,7 +261,7 @@ export const RoutingComponents = [
   ListSearchRightComponent,
   CreateEditSearchRightComponent,
   ProjectComponent,
-  ProjTypeCreationComponent,
+  ProjTypeCreationSaComponent,
   ListProjTypeCreationComponent,
   CreateEditProjTypeCreationComponent,
   ProjHierarchyCreationSaComponent,
