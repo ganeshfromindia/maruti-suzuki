@@ -46,8 +46,9 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     } else {
       if (returnedAlerts.data.status == 200)
         this.dataArray = returnedAlerts.data.payLoad[0].hierarchyDetailList;
-      this.data = this.printTree(this.unflattenTree(this.dataArray));
-      console.log(this.data);
+      // this.data = this.printTree(this.unflattenTree(this.dataArray));
+      this.data = this.unflattenTree(this.dataArray);
+      //this.data = this.printTree(this.unflattenTree(this.dataArray));
     }
     // this.data = {
     //   data: { id: 'Project Head' },
@@ -120,13 +121,13 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     return root;
   }
 
-  printTree(root: any, gap = 4, level = 0) {
-    if (root) {
-      console.log(' '.repeat(level), root.name);
-      root.children?.forEach((e: any) => this.printTree(e, gap, level + gap));
-    }
-    return root;
-  }
+  // printTree(root: any, gap = 4, level = 0) {
+  //   if (root) {
+  //     console.log(' '.repeat(level), root.name);
+  //     root.children?.forEach((e: any) => this.printTree(e, gap, level + gap));
+  //   }
+  //   return root;
+  // }
 
   async setSearchData() {
     this.projHierarchyData = [];

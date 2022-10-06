@@ -36,7 +36,7 @@ export class ListProjTypeCreationComponent implements OnInit {
 
   //post edit id to edit component
   postEditId(data: any) {
-    let url = `project/proj-type-creation/create-edit-proj-type-creation/${data.id}`;
+    let url = `project/proj-type-creation-sa/create-edit-proj-type-creation/${data.id}`;
     this.router.navigateByUrl(url);
   }
 }
