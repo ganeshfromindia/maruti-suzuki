@@ -83,6 +83,14 @@ export class UserService {
     return JSON.parse(sessionStorage.getItem("userId") || "{}"); 
   }
 
+  setUserType(id: number | string) {
+    sessionStorage.setItem("userType", JSON.stringify(id))
+  }
+
+  getUserType() {
+    return JSON.parse(sessionStorage.getItem("userType") || "{}"); 
+  }
+
   clearUser() {
     sessionStorage.removeItem("userDetails");
     console.log(">> User cleared.");

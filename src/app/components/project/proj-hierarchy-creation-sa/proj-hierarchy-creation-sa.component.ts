@@ -20,6 +20,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
   public urlHttpParams: any = {};
   public projHierarchyData: any[] = [];
   public showError: string = '';
+  public singleNode: any = {};
 
   constructor(
     private _beService: BackendService,
@@ -106,19 +107,17 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
   unflattenTree(data: any) {
     const nodes: any = {};
     let root;
-
     for (const node of data) {
       nodes[node.id] = { children: [], ...nodes[node.id], ...node };
-
       if (node.linkedTo) {
         nodes[node.linkedTo] = { children: [], ...nodes[node.linkedTo] };
         nodes[node.linkedTo].children.push(nodes[node.id]);
+        this.singleNode = nodes[node.linkedTo]
       } else {
         root = nodes[node.id];
       }
     }
-
-    return root;
+    return root || this.singleNode.children[0];
   }
 
   // printTree(root: any, gap = 4, level = 0) {

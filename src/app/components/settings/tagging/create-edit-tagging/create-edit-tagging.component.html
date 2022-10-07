@@ -12,7 +12,7 @@
               <div class="red-tags ps-0">Tagging Head</div>
             </div>
             <div class="col-md-4">
-              <input type="text" class="form-control" formControlName="tagName" />
+              <input type="text" class="form-control" formControlName="taggingHeadName" />
             </div>
         </div>
         <div class="row mt-2">
@@ -37,4 +37,23 @@
       </form>
     </div>
   </div>
+  <div class="row mt-5">
+    <div class="col-12">
+      <div *ngIf="showError" class="text-center">
+        <P
+          >{{showError}}</P
+        >
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div *ngIf="showSuccess" class="text-center">
+        <P
+          >{{showSuccess}}</P
+        >
+      </div>
+    </div>
+  </div>
+  
   

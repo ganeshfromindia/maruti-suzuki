@@ -14,8 +14,8 @@
           </thead>
           <tbody>
             <tr *ngFor="let tag of tags; let i = index">
-              <td scope="row">{{ tag.id }}</td>
-              <td>{{ tag.taggingName }}</td>
+              <td>{{ i + 1 }}</td>
+              <td>{{ tag.taggingHeadName }}</td>
               <td>
                 <button
                   (click)="postEditId(tag)"
