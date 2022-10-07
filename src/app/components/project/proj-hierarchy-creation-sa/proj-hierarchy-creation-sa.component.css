@@ -21,3 +21,14 @@
     top: 13px;
     left: 13px;
 }
+.proj-hierarchy-cont {
+    position: relative;
+}
+
+.proj-hierarchy-cont .view-btn {
+    position: absolute;
+    right: -20%;
+    top: 0%;
+    width: auto;
+    z-index: 9;
+}

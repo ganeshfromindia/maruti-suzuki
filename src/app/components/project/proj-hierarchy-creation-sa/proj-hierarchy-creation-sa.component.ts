@@ -32,7 +32,6 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
   Orientation = Orientation;
 
   async setTreeData() {
-    this.setSearchData();
     this.data = { data: null, designationName: '' };
     let returnedAlerts: any = await this.setTreeAPIData();
     if (returnedAlerts.flag) {
@@ -51,57 +50,6 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
       this.data = this.unflattenTree(this.dataArray);
       //this.data = this.printTree(this.unflattenTree(this.dataArray));
     }
-    // this.data = {
-    //   data: { id: 'Project Head' },
-    //   linkColor: '#4554a5',
-    //   background: 'red',
-    //   color: 'white',
-    //   children: [
-    //     {
-    //       data: { id: 'Operations Controller Operations Controller' },
-    //       linkColor: '#4554a5',
-    //       background: 'pink',
-    //       color: 'white',
-    //       children: [
-    //         { data: { id: 'Operations Controller Operations Controller' } },
-    //         {
-    //           data: { id: 'Operations Controller' },
-    //           children: [
-    //             { data: { id: 'Operations Controller' }, background: 'silver' },
-    //             { data: { id: 'Operations Controller' } },
-    //           ],
-    //         },
-    //       ],
-    //     },
-    //     { data: { id: 'Operations Controller' } },
-    //     {
-    //       data: { id: 'Operations Controller' },
-    //       linkColor: '#4554a5',
-    //       background: 'orange',
-    //       color: 'white',
-    //       children: [
-    //         { data: { id: 'Operations Controller' } },
-    //         {
-    //           data: { id: 'Operations Controller' },
-    //           background: 'lightsteelblue',
-    //           linkColor: '#4554a5',
-    //           children: [
-    //             { data: { id: 'Operations Controller' } },
-    //             { data: { id: 'Operations Controller' } },
-    //             { data: { id: 'Operations Controller' } },
-    //             {
-    //               data: { id: 'Operations Controller' },
-    //               background: 'black',
-    //               linkColor: '#4554a5',
-    //               children: [{ data: { id: 16 } }],
-    //             },
-    //             { data: { id: 'Operations Controller' } },
-    //           ],
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // };
   }
 
   unflattenTree(data: any) {

@@ -22,13 +22,14 @@
     left: 13px;
 }
 
-.similar-to-cont {
+.proj-hierarchy-cont {
     position: relative;
 }
 
-.similar-to-cont .view-btn {
+.proj-hierarchy-cont .view-btn {
     position: absolute;
     right: -20%;
     top: 0%;
     width: auto;
+    z-index: 9;
 }

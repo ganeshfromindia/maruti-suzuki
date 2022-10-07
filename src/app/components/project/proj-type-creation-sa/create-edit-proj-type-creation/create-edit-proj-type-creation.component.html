@@ -12,7 +12,7 @@
               <div class="red-tags ps-0">Project Type Name</div>
             </div>
             <div class="col-md-4">
-                <input type="text" class="form-control" formControlName="projTypeName" />
+                <input type="text" class="form-control" formControlName="projectTypeName" />
             </div>
         </div>
         <div class="row mt-2">
@@ -28,7 +28,15 @@
                 <div class="red-tags ps-0">Project Hierarchy</div>
             </div>
             <div class="col-md-4">
-                <input type="text" class="form-control" formControlName="projHierarchy" />
+              <select class="form-control form-select" formControlName="projectHierarchyName">
+                <option value="null">Please select</option>
+                <option
+                  *ngFor="let projHierarchy of projHierarchies; let i = index"
+                  [value]="projHierarchy.id"
+                >
+                  {{ projHierarchy.projectHierarchyName }}
+                </option>
+              </select>
             </div>
         </div>
         <div class="row mt-2">

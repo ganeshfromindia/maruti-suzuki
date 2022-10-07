@@ -34,9 +34,8 @@
 <div class="row mt-2">
   <div class="col-md-2">
     <button
-      (click)="setSearchTerm()"
+      (click)="setSearchData()"
       class="btn bg-danger red-tags w-100 rounded-0 text-white"
-      [disabled]="!projType && !additionalField"
     >
       Search
     </button>
@@ -55,8 +54,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let projType of projectTypes; let i = index">
-            <td scope="row">{{ projType.id }}</td>
-            <td>{{ projType.projDesc }}</td>
+            <td>{{ i + 1 }}</td>
+            <td>{{ projType.projectTypeName }}</td>
             <td>
               <button
                 (click)="postEditId(projType)"
@@ -68,6 +67,15 @@
           </tr>
         </tbody>
       </table>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div *ngIf="showError" class="text-center">
+      <P
+        >{{showError}}</P
+      >
     </div>
   </div>
 </div>
