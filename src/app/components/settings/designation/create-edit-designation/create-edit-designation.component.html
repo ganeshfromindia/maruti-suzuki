@@ -15,7 +15,7 @@
           <input
             type="text"
             class="form-control"
-            formControlName="designation"
+            formControlName="designationName"
           />
         </div>
       </div>
@@ -24,15 +24,11 @@
           <div class="red-tags ps-0">Level</div>
         </div>
         <div class="col-md-4">
-          <select class="form-control form-select" formControlName="level">
-            <option value="null">Please select</option>
-            <option
-              *ngFor="let level of levels; let i = index"
-              [value]="level.id"
-            >
-              {{ level.level }}
-            </option>
-          </select>
+          <input
+          type="text"
+          class="form-control"
+          formControlName="level"
+        />
         </div>
       </div>
       <div class="row mt-2">
@@ -55,5 +51,23 @@
         </div>
       </div>
     </form>
+  </div>
+</div>
+<div class="row mt-5">
+  <div class="col-12">
+    <div *ngIf="showError" class="text-center">
+      <P
+        >{{showError}}</P
+      >
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div *ngIf="showSuccess" class="text-center">
+      <P
+        >{{showSuccess}}</P
+      >
+    </div>
   </div>
 </div>

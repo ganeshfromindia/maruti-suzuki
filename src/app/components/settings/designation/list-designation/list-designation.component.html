@@ -14,8 +14,8 @@
           </thead>
           <tbody>
             <tr *ngFor="let designation of designations; let i = index">
-              <td scope="row">{{ designation.id }}</td>
-              <td>{{ designation.designation }}</td>
+              <td>{{ i + 1 }}</td>
+              <td>{{ designation.designationName }}</td>
               <td>
                 <button
                   (click)="postEditId(designation)"

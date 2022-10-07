@@ -33,7 +33,7 @@ export class CreateEditDepartmentComponent implements OnInit {
   }
 
   async onSubmitDepartmentCreateEdit() {
-    const formData = this.departmentCreateEditForm.getRawValue();
+    const formData = await this.departmentCreateEditForm.getRawValue();
     formData.companyId = this.userService.getCompanyID();
     let returnedAlerts: any = await this.postData(formData);
     if(returnedAlerts.flag) {

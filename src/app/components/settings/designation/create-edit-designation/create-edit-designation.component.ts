@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs';
+import { BackendService } from 'src/app/services/backend.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-create-edit-designation',
@@ -8,58 +11,70 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./create-edit-designation.component.css']
 })
 export class CreateEditDesignationComponent implements OnInit {
-  public levels: any[] = [];
+  public levels: string = '';
   public designationId: string = '';
+  public designationDetails: any = {};
   public designationCreateEditForm: FormGroup;
-  constructor(private route: ActivatedRoute, private _fb: FormBuilder) { 
+  public showError: string = '';
+  public showSuccess: string = '';
+
+  constructor(private route: ActivatedRoute, private _fb: FormBuilder, private _beService: BackendService, private userService : UserService) { 
     this.designationCreateEditForm = this._fb.group({
-      designation:['', Validators.required],
+      id:[''],
+      designationName:['', Validators.required],
       level:['', Validators.required]
     })
   }
 
   ngOnInit(): void {
-    this.levels = [
-      {id:1 , level: 1},
-      {id:2 , level: 2},
-      {id:3 , level: 3},
-      {id:4 , level: 4},
-      {id:5 , level: 5}
-    ]
-    this.designationId = this.route.snapshot.params['id'];
-    if(this.designationId) {
-    //  this.urlHttpParams = {
-    //    companyName: '',
-    //    adminEmailId: '',
-    //    id: this.value
-    //  };  
-    //  this._beService
-    //       .getMethod(
-    //         'get/company-list?',
-    //         page,
-    //         pageSize,
-    //         urlHttpParams
-    //       )
-    //       .subscribe({
-    //   next: data => {
-    //     console.log(data);
-    //   },
-    //   error: e => {
-    //     console.log(e);
-    //   }
-    // })
-      let x = {
-        designation: 'Finance',
-        level: 2
-      }
-      this.designationCreateEditForm.patchValue(x)
-    }
-
+    
+    // this.designationId = this.route.snapshot.params['id'];
+    this.designationDetails = this.route.paramMap.pipe(map(() => window.history.state))
+    this.designationDetails.subscribe((data: any) => this.designationDetails = data.data)
+    this.designationCreateEditForm.patchValue(this.designationDetails)
   }
 
-  onSubmitDesignationCreateEdit() {
-    const formData = this.designationCreateEditForm.getRawValue();
-    console.log(formData)
+  async onSubmitDesignationCreateEdit() {
+    const formData = await this.designationCreateEditForm.getRawValue();
+    formData.companyId = this.userService.getCompanyID();
+    formData.level = parseInt(formData.level)
+    let returnedAlerts: any = await this.postData(formData);
+    if(returnedAlerts.flag) {
+      if(returnedAlerts.data.status == 404) {
+        this.showError = "Data Not Found";
+      } else {
+        this.showError = "Something went wrong";
+      }
+      setTimeout(() => {
+        this.showError = '';
+      },5000)
+    } else {
+      if(returnedAlerts.data.status == 200) this.designationCreateEditForm.reset();
+      this.showSuccess = "Data saved successfully";
+      setTimeout(() => {
+        this.showSuccess = '';
+      },5000)
+    }
+  }
 
+  postData(formData: any) {
+    return new Promise((resolve, reject) => {
+        try {
+          this._beService.postMethod('designation/save', formData)
+          .subscribe({
+            next: (resolvedData) => {
+              let alertsFetched = this.userService.handleAlerts(resolvedData, false);
+              resolve(alertsFetched);
+            },
+            error: (errorData) => {
+              let alertsFetched = this.userService.handleAlerts(errorData, true);
+              resolve(alertsFetched);
+            },
+          });
+      } catch (e) {
+        let alertsFetched = this.userService.handleAlerts(e, true);
+        reject(alertsFetched);
+      }
+    }) 
   }
 }
