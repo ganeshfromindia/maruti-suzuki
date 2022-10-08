@@ -19,18 +19,23 @@ export class CreateEditProjTypeCreationComponent implements OnInit {
   public showSuccess: string = '';
   public projHierarchies: any[] = []; 
   public urlHttpParams: any = {};
+  public projHierarchy: any = {};
+  public initPH: any = {};
 
   constructor(private route: ActivatedRoute, private _fb: FormBuilder, private userService: UserService, private _beService: BackendService) { 
     this.projTypeCreateEditForm = this._fb.group({
       id:[''],
       projectTypeName:['', Validators.required],
       capex:['', Validators.required],
-      projectHierarchyName:[null, Validators.required],
+      projectHierarchyData:[{}, Validators.required],
       additionalField1:['', Validators.required],
       additionalField2:['', Validators.required]
     })
   }
 
+  compareFn(itemOne: any, itemTwo: any): boolean {
+    return itemOne && itemTwo && itemOne.id == itemTwo.id;
+  }
   ngOnInit(): void {
     this.projTypeId = this.route.snapshot.params['id'];
     this.setProjHierarchies();
@@ -61,10 +66,13 @@ export class CreateEditProjTypeCreationComponent implements OnInit {
   setEditData() {
     this.projTypeDetails = this.route.paramMap.pipe(map(() => window.history.state))
     this.projTypeDetails.subscribe((data: any) => this.projTypeDetails = data.data)
+    this.projHierarchy = this.projTypeDetails.projectHierarchy;
     this.projTypeCreateEditForm.patchValue(this.projTypeDetails)
-    this.projTypeCreateEditForm.patchValue({
-      projectHierarchyName: this.projTypeDetails.projectHierarchy.id
-    })
+    // this.projTypeCreateEditForm.controls['projectHierarchyData'].setValue((projHierarchy: any) => 
+    // projHierarchy.projectHierarchyName = this.projTypeDetails.projectHierarchy.projectHierarchyName)
+    // this.projTypeCreateEditForm.patchValue({
+    //   projectHierarchyData: this.projTypeDetails.projectHierarchy.projectHierarchyName
+    // })
   }
 
 
@@ -101,7 +109,12 @@ export class CreateEditProjTypeCreationComponent implements OnInit {
 
   onSubmitProjTypeCreateEdit() {
     const formData = this.projTypeCreateEditForm.getRawValue();
-    console.log(formData)
-
+    formData.projectHierarchy = formData.projectHierarchyData;
+    formData.projectHierarchy.projectHierarchyName = formData.projectHierarchyData.projectHierarchyName || this.projTypeDetails.projectHierarchyName;
+    formData.projectHierarchyId = formData.projectHierarchyData.id;
+    formData.projectHierarchyName = formData.projectHierarchyData.projectHierarchyName || this.projTypeDetails.projectHierarchyName;
+    formData.companyId = this.userService.getCompanyID();
+    formData.adminId = this.userService.getUserId();
+    formData.adminType = this.userService.getUserType();
   }
 }

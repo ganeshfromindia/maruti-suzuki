@@ -28,11 +28,11 @@
                 <div class="red-tags ps-0">Project Hierarchy</div>
             </div>
             <div class="col-md-4">
-              <select class="form-control form-select" formControlName="projectHierarchyName">
-                <option value="null">Please select</option>
+              <select class="form-control form-select" formControlName="projectHierarchyData" [(ngModel)]="projHierarchy" [compareWith]="compareFn">
+                <option [ngValue]="initPH">Please select</option>
                 <option
                   *ngFor="let projHierarchy of projHierarchies; let i = index"
-                  [value]="projHierarchy.id"
+                  [ngValue]="projHierarchy"
                 >
                   {{ projHierarchy.projectHierarchyName }}
                 </option>
