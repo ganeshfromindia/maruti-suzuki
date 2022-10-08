@@ -46,8 +46,8 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     } else {
       if (returnedAlerts.data.status == 200)
         this.dataArray = returnedAlerts.data.payLoad[0].hierarchyDetailList;
-      // this.data = this.printTree(this.unflattenTree(this.dataArray));
-      this.data = this.unflattenTree(this.dataArray);
+      //this.data = this.printTree(this.unflattenTree(this.dataArray));
+        this.data = this.unflattenTree(this.dataArray);
       //this.data = this.printTree(this.unflattenTree(this.dataArray));
     }
   }

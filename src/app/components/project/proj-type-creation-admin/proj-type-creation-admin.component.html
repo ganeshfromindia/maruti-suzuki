@@ -18,12 +18,16 @@
         <div class="red-tags">Similar To</div>
       </div>
       <div class="col-md-6">
-        <input
-          type="text"
-          class="form-control"
-          id="email"
-          [(ngModel)]="srchTrmSimilarTo"
-        />
+        <select [(ngModel)]="projHierarchy" [ngModelOptions]="{standalone: true}" class="form-control form-select" (change)="setProjectHierarchy()" [compareWith]="compareFn">
+          <option [ngValue]="'select'">Please select</option>
+          <option
+            *ngFor="let projHierarchy of projHierarchies; let i = index"
+            [ngValue]="projHierarchy"
+          >
+            {{ projHierarchy.projectHierarchyName }}
+          </option>
+        </select>
+        <div *ngIf="showSelectError" class="mt-2 mb-2">Please select hierarchy</div>
       </div>
       <button
         (click)="setTreeData()"

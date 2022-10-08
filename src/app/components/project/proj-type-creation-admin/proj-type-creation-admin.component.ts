@@ -12,79 +12,110 @@ import { IECONode, Orientation } from './econode';
 export class ProjTypeCreationAdminComponent implements OnInit {
 
   public data: IECONode = { data: null, designationName: '' };
+  public dataArray: any[] = [];
   public srchTrmProjName: string = '';
-  public srchTrmSimilarTo: string = '';
+  public srchTrmSimilarTo: string | any = '';
   public urlHttpParams: any = {};
+  public showError: string = '';
+  public showSuccess: string = '';
+  public projHierarchies: any[] = []; 
+  public Orientation = Orientation;
+  public projHierarchy: any = {};
+  public showSelectError: boolean = false;
+  public singleNode: any = {};
 
   constructor(
     private _beService: BackendService,
     private userService: UserService,
     public router: Router
-  ) {}
-
+    ) {}
+    
   ngOnInit(): void {
+    this.setProjHierarchies();
+    this.projHierarchy = 'select'
   }
-  Orientation = Orientation;
-  setTreeData() {
-    this.data = {
-      data: { id: 'Project Head' },
-      designationName: 'Project Head',
-      linkColor: '#4554a5',
-      background: 'red',
-      color: 'white',
-      children: [
-        {
-          data: { id: 'Operations Controller Operations Controller' },
-          designationName: 'Operations Controller Operations Controller',
-          linkColor: '#4554a5',
-          background: 'pink',
-          color: 'white',
-          children: [
-            { data: { id: 'Operations Controller Operations Controller' },
-              designationName: 'Operations Controller Operations Controller' 
-            },
-            {
-              data: { id: 'Operations Controller' },
-              designationName: 'Operations Controller',
-              children: [
-                { data: { id: 'Operations Controller' }, background: 'silver', designationName: 'Operations Controller' },
-                { data: { id: 'Operations Controller' }, designationName: 'Operations Controller' },
-              ],
-            },
-          ],
-        },
-        { data: { id: 'Operations Controller' }, designationName: 'Operations Controller' },
-        {
-          data: { id: 'Operations Controller' }, designationName: 'Operations Controller',
-          linkColor: '#4554a5',
-          background: 'orange',
-          color: 'white',
-          children: [
-            { data: { id: 'Operations Controller' }, designationName: 'Operations Controller' },
-            {
-              data: { id: 'Operations Controller' },
-              designationName: 'Operations Controller',
-              background: 'lightsteelblue',
-              linkColor: '#4554a5',
-              children: [
-                { data: { id: 'Operations Controller' }, designationName: 'Operations Controller' },
-                { data: { id: 'Operations Controller' }, designationName: 'Operations Controller' },
-                { data: { id: 'Operations Controller' }, designationName: 'Operations Controller' },
-                {
-                  data: { id: 'Operations Controller' },
-                  designationName: 'Operations Controller',
-                  background: 'black',
-                  linkColor: '#4554a5',
-                  children: [{ data: { id: 16 }, designationName: 'Operations Controller' }],
-                },
-                { data: { id: 'Operations Controller' }, designationName: 'Operations Controller' },
-              ],
-            },
-          ],
-        },
-      ],
+
+  async setProjHierarchies() {
+    this.projHierarchies = []
+    let returnedAlerts: any = await this.setPHData();
+    if(returnedAlerts.flag) {
+      if(returnedAlerts.data.status == 404) {
+        this.showError = "Data Not Found";
+      } else {
+        this.showError = "Something went wrong"
+      }
+      setTimeout(() => {
+        this.showError = ''
+      },5000)
+    } else {
+      if(returnedAlerts.data.status == 200) this.projHierarchies = returnedAlerts.data.payLoad;
+      
+    }
+  }
+  setPHData() {
+    this.urlHttpParams = {
+      companyId: this.userService.getCompanyID(),
+      projectHierarchyId: ''  
     };
-    console.log(this.data)
+    return new Promise((resolve, reject) => {
+        try {
+        this._beService
+          .getMethod(
+            'get/project/hierarchy?',
+            undefined,
+            undefined,
+            this.urlHttpParams
+          )
+          .subscribe({
+            next: (resolvedData) => {
+              let alertsFetched = this.userService.handleAlerts(resolvedData, false);
+              resolve(alertsFetched);
+            },
+            error: (errorData) => {
+              let alertsFetched = this.userService.handleAlerts(errorData, true);
+              resolve(alertsFetched);
+            },
+          });
+      } catch (e) {
+        let alertsFetched = this.userService.handleAlerts(e, true);
+        reject(alertsFetched);
+      }
+    }) 
+  }
+
+  compareFn(itemOne: any, itemTwo: any): boolean {
+    return itemOne && itemTwo && itemOne.id == itemTwo.id;
+  }
+
+  setProjectHierarchy() {
+    this.srchTrmSimilarTo = this.projHierarchy
+  }
+  setTreeData() {
+    if(this.srchTrmSimilarTo == 'select') {
+      this.showSelectError = true;
+      return;
+    } else {
+      this.showSelectError = false
+    }
+
+    this.dataArray = this.srchTrmSimilarTo.hierarchyDetailList;
+    this.data = this.unflattenTree(this.dataArray);
+  }
+
+  unflattenTree(data: any) {
+    const nodes: any = {};
+    let root;
+    for (const node of data) {
+      nodes[node.id] = { children: [], ...nodes[node.id], ...node };
+      if (node.linkedTo) {
+        nodes[node.linkedTo] = { children: [], ...nodes[node.linkedTo] };
+        nodes[node.linkedTo].children.push(nodes[node.id]);
+        this.singleNode = nodes[node.linkedTo]
+      } else {
+        root = nodes[node.id];
+      }
+    }
+    return root || this.singleNode.children[0];
   }
 
 }

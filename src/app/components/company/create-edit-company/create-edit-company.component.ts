@@ -51,7 +51,7 @@ export class CreateEditCompanyComponent implements OnInit {
   }
 
   async onSubmitCompanyCreateEdit() {
-    const formData = this.companyCreateEditForm.getRawValue();
+    const formData = await this.companyCreateEditForm.getRawValue();
     formData.planExpOn = new Date(formData.planExpOn).getTime();
     let returnedAlerts: any = await this.postData(formData);
     if(returnedAlerts.flag) {
