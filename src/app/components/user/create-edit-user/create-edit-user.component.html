@@ -33,6 +33,30 @@
       </div>
       <div class="row mt-2">
         <div class="col-md-2">
+          <div class="red-tags ps-0">First Name</div>
+        </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control" formControlName="firstName" pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$" />
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-2">
+          <div class="red-tags ps-0">Last Name</div>
+        </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control" formControlName="lastName" pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$" />
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-2">
+          <div class="red-tags ps-0">Password</div>
+        </div>
+        <div class="col-md-4">
+          <input type="password" class="form-control" formControlName="password" />
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-2">
           <div class="red-tags ps-0">Department</div>
         </div>
         <div class="col-md-4">
@@ -91,15 +115,6 @@
         </div>
         <div class="col-md-4">
           <input type="text" class="form-control" formControlName="level"  />
-          <!-- <select class="form-control form-select" formControlName="level">
-                <option value="null">Please select</option>
-                <option
-                  *ngFor="let level of levels; let i = index"
-                  [value]="level.id"
-                >
-                  {{ level.level }}
-                </option>
-              </select> -->
         </div>
         <div class="col-md-1">
           <div class="red-tags ps-0 text-end">Type</div>
@@ -109,9 +124,9 @@
                 <option value="null">Please select</option>
                 <option
                   *ngFor="let type of types; let i = index"
-                  [value]="type.id"
+                  [value]="type"
                 >
-                  {{ type.type }}
+                  {{ type }}
                 </option>
               </select>
           

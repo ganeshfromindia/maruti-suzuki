@@ -20,7 +20,10 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
   public urlHttpParams: any = {};
   public projHierarchyData: any[] = [];
   public showError: string = '';
+  public showSelectError: boolean = false;
   public singleNode: any = {};
+  public projHierarchies: any[] = [];
+  Orientation = Orientation;
 
   constructor(
     private _beService: BackendService,
@@ -28,11 +31,41 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     public router: Router
   ) {}
 
-  ngOnInit(): void {}
-  Orientation = Orientation;
+  ngOnInit(): void {
+    this.setProjectHierarchies();
+    this.srchTrmProjHierarchyName = 'select';
+  }
+
+  async setProjectHierarchies() {
+    let url = 'get/project/hierarchy?';
+    this.urlHttpParams = {
+      companyId: this.userService.getCompanyID(),
+      projectHierarchyId: this.srchTrmProjHierarchyName,
+    };
+    let returnedAlerts: any = await this.setData(url, this.urlHttpParams);
+    if (returnedAlerts.flag) {
+      if (returnedAlerts.data.status == 404) {
+        this.showError = 'Data Not Found';
+      } else {
+        this.showError = 'Something went wrong';
+      }
+      setTimeout(() => {
+        this.showError = '';
+      }, 5000);
+    } else {
+      if (returnedAlerts.data.status == 200)
+        this.projHierarchies = returnedAlerts.data.payLoad;
+    }
+  }
+
 
   async setTreeData() {
     this.data = { data: null, designationName: '' };
+    if(this.srchTrmProjHierarchyName == 'select') {
+      this.showSelectError = true;
+    } else {
+      this.showSelectError = false;
+    }
     let returnedAlerts: any = await this.setTreeAPIData();
     if (returnedAlerts.flag) {
       if (returnedAlerts.data.status == 404) {
@@ -78,7 +111,12 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
 
   async setSearchData() {
     this.projHierarchyData = [];
-    let returnedAlerts: any = await this.setData();
+    let url = 'get/project/hierarchy?';
+    this.urlHttpParams = {
+      companyId: this.userService.getCompanyID(),
+      projectHierarchyId: this.srchTrmProjHierarchyName,
+    };
+    let returnedAlerts: any = await this.setData(url, this.urlHttpParams);
     if (returnedAlerts.flag) {
       if (returnedAlerts.data.status == 404) {
         this.showError = 'Data Not Found';
@@ -101,21 +139,21 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     }
   }
 
-  setData() {
+  setData(url: string, urlHttpParams: {}) {
     // this.urlHttpParams = {
     //   projName: this.srchTrmProjHierarchyName,
     //   projDesgn: this.srchTrmProjDesgn,
     //   level: this.srchTrmLevel,
     //   linkedTo: this.srchTrmLnkdTo,
     // };
-    this.urlHttpParams = {
-      companyName: 'locate',
-      adminEmailId: '',
-    };
+    // this.urlHttpParams = {
+    //   companyName: 'locate',
+    //   adminEmailId: '',
+    // };
     return new Promise((resolve, reject) => {
       try {
         this._beService
-          .getMethod('get/company-list?', 1, 10, this.urlHttpParams)
+          .getMethod(url, 1, 10, urlHttpParams)
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(
@@ -180,4 +218,10 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
       }
     });
   }
+
+  setProjectHierarchy() {
+    console.log(this.srchTrmProjHierarchyName);
+  }
+
+  
 }

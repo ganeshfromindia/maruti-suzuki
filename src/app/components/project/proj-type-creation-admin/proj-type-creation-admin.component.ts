@@ -18,7 +18,7 @@ export class ProjTypeCreationAdminComponent implements OnInit {
   public urlHttpParams: any = {};
   public showError: string = '';
   public showSuccess: string = '';
-  public projHierarchies: any[] = []; 
+  public projTypes: any[] = []; 
   public Orientation = Orientation;
   public projHierarchy: any = {};
   public showSelectError: boolean = false;
@@ -36,7 +36,7 @@ export class ProjTypeCreationAdminComponent implements OnInit {
   }
 
   async setProjHierarchies() {
-    this.projHierarchies = []
+    this.projTypes = []
     let returnedAlerts: any = await this.setPHData();
     if(returnedAlerts.flag) {
       if(returnedAlerts.data.status == 404) {
@@ -48,20 +48,20 @@ export class ProjTypeCreationAdminComponent implements OnInit {
         this.showError = ''
       },5000)
     } else {
-      if(returnedAlerts.data.status == 200) this.projHierarchies = returnedAlerts.data.payLoad;
+      if(returnedAlerts.data.status == 200) this.projTypes = returnedAlerts.data.payLoad;
       
     }
   }
   setPHData() {
     this.urlHttpParams = {
       companyId: this.userService.getCompanyID(),
-      projectHierarchyId: ''  
+      capex: ''  
     };
     return new Promise((resolve, reject) => {
         try {
         this._beService
           .getMethod(
-            'get/project/hierarchy?',
+            'get/project/type?',
             undefined,
             undefined,
             this.urlHttpParams
@@ -88,7 +88,7 @@ export class ProjTypeCreationAdminComponent implements OnInit {
   }
 
   setProjectHierarchy() {
-    this.srchTrmSimilarTo = this.projHierarchy
+    this.srchTrmSimilarTo = this.projHierarchy.projectHierarchy
   }
   setTreeData() {
     if(this.srchTrmSimilarTo == 'select') {

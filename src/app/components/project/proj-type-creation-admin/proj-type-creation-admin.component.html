@@ -21,10 +21,10 @@
         <select [(ngModel)]="projHierarchy" [ngModelOptions]="{standalone: true}" class="form-control form-select" (change)="setProjectHierarchy()" [compareWith]="compareFn">
           <option [ngValue]="'select'">Please select</option>
           <option
-            *ngFor="let projHierarchy of projHierarchies; let i = index"
+            *ngFor="let projHierarchy of projTypes; let i = index"
             [ngValue]="projHierarchy"
           >
-            {{ projHierarchy.projectHierarchyName }}
+            {{ projHierarchy.projectTypeName }}
           </option>
         </select>
         <div *ngIf="showSelectError" class="mt-2 mb-2">Please select hierarchy</div>

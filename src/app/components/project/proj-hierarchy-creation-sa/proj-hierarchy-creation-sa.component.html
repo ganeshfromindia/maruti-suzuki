@@ -5,12 +5,16 @@
         <div class="red-tags">Project Hierarchy</div>
       </div>
       <div class="col-md-6">
-        <input
-          type="text"
-          class="form-control"
-          id="userName"
-          [(ngModel)]="srchTrmProjHierarchyName"
-        />
+        <select [(ngModel)]="srchTrmProjHierarchyName" [ngModelOptions]="{standalone: true}" class="form-control form-select" (change)="setProjectHierarchy()">
+          <option [ngValue]="'select'">Please select</option>
+          <option
+            *ngFor="let projHierarchy of projHierarchies; let i = index"
+            [ngValue]="projHierarchy"
+          >
+            {{ projHierarchy.projectHierarchyName }}
+          </option>
+        </select>
+        <div *ngIf="showSelectError" class="mt-2 mb-2">Please select hierarchy</div>
       </div>
       <button
         (click)="setTreeData()"
