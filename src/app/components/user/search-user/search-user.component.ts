@@ -2,7 +2,9 @@ import { DecimalPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, from } from 'rxjs';
+import { BackendService } from 'src/app/services/backend.service';
 import { SearchUserService } from 'src/app/services/search-user.service';
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({
@@ -12,20 +14,19 @@ import { SearchUserService } from 'src/app/services/search-user.service';
   providers: [SearchUserService, DecimalPipe],
 })
 export class SearchUserComponent implements OnInit {
-  role: string = '';
-  urlHttpParams: any = {};
-  srchTrmCoName: string = '';
-  srchTrmUserName: string = '';
-  srchTrmEmail: string = '';
-  userAllData$: Observable<any[]> = new Observable<any[]>();
-  total$: Observable<number> = new Observable<number>((observer) => {
-    observer.next(0);
-  });
-  showTE: boolean = false;
+  public role: string = '';
+  public urlHttpParams: any = {};
+  public srchTrmCoName: string = '';
+  public srchTrmUserName: string = '';
+  public srchTrmEmail: string = '';
+  public showTE: boolean = false;
+  public userAllData: any[] = [];
+  public total: number = 0
+  public showError: string = '';
+  public page: number = 1;
+  public pageSize: number = 10;
 
-  constructor(public service: SearchUserService, public router: Router) {
-    this.userAllData$ = service.userAllData$;
-    this.total$ = service.total$;
+  constructor(private _beService: BackendService, public router: Router, private userService: UserService) {
   }
 
   ngOnInit(): void {
@@ -33,53 +34,78 @@ export class SearchUserComponent implements OnInit {
     this.role = 'superadmin';
   }
 
-  setSearchTerm() {
+  async setSearchData(page: number, pageSize: number) {
+    this.userAllData = []
+    let returnedAlerts: any = await this.setData(page, pageSize);
+    if(returnedAlerts.flag) {
+      if(returnedAlerts.data.status == 404) {
+        this.showError = "Data Not Found";
+      } else {
+        this.showError = "Something went wrong"
+      }
+      setTimeout(() => {
+        this.showError = ''
+      },5000)
+    } else {
+      if(returnedAlerts.data.status == 200) this.userAllData = returnedAlerts.data.payLoad;
+      this.page = page;
+      this.pageSize = pageSize;
+      this.total = returnedAlerts.data.totalRow;
+    }
+  }
+  setData(page: number, pageSize: number) {
     this.urlHttpParams = {
       companyName: this.srchTrmCoName,
       userName: this.srchTrmUserName,
       adminEmailId: this.srchTrmEmail,
       id: ''
     };
-    this.service.getTableData(0, 10, this.urlHttpParams);
+    return new Promise((resolve, reject) => {
+        try {
+        this._beService
+          .getMethod(
+            'auth/get/user-list?',
+            page,
+            pageSize,
+            this.urlHttpParams
+          )
+          .subscribe({
+            next: (resolvedData) => {
+              let alertsFetched = this.userService.handleAlerts(resolvedData, false);
+              resolve(alertsFetched);
+            },
+            error: (errorData) => {
+              let alertsFetched = this.userService.handleAlerts(errorData, true);
+              resolve(alertsFetched);
+            },
+          });
+      } catch (e) {
+        let alertsFetched = this.userService.handleAlerts(e, true);
+        reject(alertsFetched);
+      }
+    }) 
   }
+
 
   // setting current page data
   async setPage(page: any) {
-    let pageP = page - 1;
-    let pageSizeP = this.service.pageSize;
-    let returnedStatusP: any = {};
-    this.service.getTableData(pageP, pageSizeP, this.urlHttpParams);
-    // returnedStatusP = this.service.getTableData(pageP, pageSizeP);
-
-    // if (returnedStatusP.status) {
-    //   this.showTE = true;
-    //   setTimeout(() => {
-    //     this.showTE = false;
-    //   }, 5000);
-    // }
+    console.log("in set page")
+    this.setSearchData(page, this.pageSize)
   }
 
   // set pageSize data on page change
-  async setPageSize(pageSize: any) {
-    this.service.page = 1;
-    let pageP = this.service.page - 1;
-    let pageSizeP = pageSize.target.value;
-    this.service.pageSize = pageSize.target.value;
-    let returnedStatusP: any = {};
-    returnedStatusP = this.service.getTableData(pageP, pageSizeP, this.urlHttpParams);
-
-    if (returnedStatusP.status) {
-      this.showTE = true;
-      setTimeout(() => {
-        this.showTE = false;
-      }, 5000);
-    }
+  async setPageSize(data: any) {
+    let pageSize = data.target.value;
+    this.setSearchData(1, pageSize)
   }
+
+  
+
 
   //post edit id to edit component
   postEditId(data: any) {
     let url = `user/create-edit-user/${data.id}`;
-    this.router.navigateByUrl(url);
+    this.router.navigateByUrl(url, { state: { data: data } });
   }
 
 

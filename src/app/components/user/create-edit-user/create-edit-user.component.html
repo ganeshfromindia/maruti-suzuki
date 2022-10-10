@@ -12,10 +12,10 @@
           <div class="red-tags ps-0">Name of Company</div>
         </div>
         <div class="col-md-4">
-          <select class="form-control form-select" formControlName="companyName">
+          <select class="form-control form-select" formControlName="companyId">
             <option value="null">Please select</option>
             <option
-              *ngFor="let company of companies; let i = index"
+              *ngFor="let company of companyAllData; let i = index"
               [value]="company.id"
             >
               {{ company.companyName }}
@@ -36,7 +36,7 @@
           <div class="red-tags ps-0">Department</div>
         </div>
         <div class="col-md-4">
-            <select class="form-control form-select" formControlName="department">
+            <select class="form-control form-select" formControlName="departmentId">
                 <option value="null">Please select</option>
                 <option
                   *ngFor="let department of departments; let i = index"
@@ -52,13 +52,13 @@
           <div class="red-tags ps-0">Designation</div>
         </div>
         <div class="col-md-4">
-            <select class="form-control form-select" formControlName="designation">
+            <select class="form-control form-select" formControlName="designationId" (change)="setLevel($event)">
                 <option value="null">Please select</option>
                 <option
                   *ngFor="let designation of designations; let i = index"
                   [value]="designation.id"
                 >
-                  {{ designation.designation }}
+                  {{ designation.designationName }}
                 </option>
               </select>
           
@@ -90,7 +90,8 @@
           <div class="red-tags ps-0">Level</div>
         </div>
         <div class="col-md-4">
-          <select class="form-control form-select" formControlName="level">
+          <input type="text" class="form-control" formControlName="level"  />
+          <!-- <select class="form-control form-select" formControlName="level">
                 <option value="null">Please select</option>
                 <option
                   *ngFor="let level of levels; let i = index"
@@ -98,7 +99,7 @@
                 >
                   {{ level.level }}
                 </option>
-              </select>
+              </select> -->
         </div>
         <div class="col-md-1">
           <div class="red-tags ps-0 text-end">Type</div>
@@ -160,5 +161,23 @@
         </div>
       </div>
     </form>
+  </div>
+</div>
+<div class="row mt-5">
+  <div class="col-12">
+    <div *ngIf="showError" class="text-center">
+      <P
+        >{{showError}}</P
+      >
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div *ngIf="showSuccess" class="text-center">
+      <P
+        >{{showSuccess}}</P
+      >
+    </div>
   </div>
 </div>

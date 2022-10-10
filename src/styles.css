@@ -18,3 +18,6 @@
 .dropdown-item.active, .dropdown-item:active, #nav-bg .bg-primary {
     background-color: #4554a5 !important;
 }
+.ptree {
+    padding-left: 5rem !important;
+}

@@ -42,9 +42,9 @@
 <div class="row mt-2">
   <div class="col-md-2">
     <button
-      (click)="setSearchTerm()"
+      (click)="setSearchData(1, 10)"
       class="btn bg-danger red-tags w-100 rounded-0 text-white"
-      [disabled]="!srchTrmCoName && !srchTrmUserName && !srchTrmEmail"
+      
     >
       Search
     </button>
@@ -52,7 +52,7 @@
 </div>
 <div class="row mt-2">
   <div class="col-12">
-    <div *ngIf="(userAllData$ | async)?.length">
+    <div *ngIf="userAllData.length">
       <table class="table table-striped">
         <thead>
           <tr>
@@ -63,7 +63,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let userdata of (userAllData$ | async)!">
+          <tr *ngFor="let userdata of userAllData">
             <td scope="row">{{ userdata.id }}</td>
             <td>{{ userdata.companyName }}</td>
             <td>{{ userdata.emailId }}</td>
@@ -94,12 +94,12 @@
   <div class="col-12">
     <div
       class="col-12 d-flex align-items-start justify-content-between"
-      *ngIf="total$"
+      *ngIf="total"
     >
       <ngb-pagination
-        [collectionSize]="(total$ | async)!"
-        [(page)]="service.page"
-        [pageSize]="service.pageSize"
+        [collectionSize]="total"
+        [(page)]="page"
+        [pageSize]="pageSize"
         (pageChange)="setPage($event)"
       >
       </ngb-pagination>
@@ -108,7 +108,7 @@
         class="form-select"
         style="width: auto"
         name="pageSize"
-        [(ngModel)]="service.pageSize"
+        [(ngModel)]="pageSize"
         (change)="setPageSize($event)"
       >
         <option [value]="5">5 items per page</option>
