@@ -1,11 +1,15 @@
 <div class="row mt-5">
   <div class="col-md-4">
+    <form
+    [formGroup]="projHierarchyCreateForm"
+    (ngSubmit)="onSubmitProjHierarchyCreate()"
+  >
     <div class="row mt-2  proj-hierarchy-cont">
       <div class="col-md-6">
         <div class="red-tags">Project Hierarchy</div>
       </div>
       <div class="col-md-6">
-        <select [(ngModel)]="srchTrmProjHierarchyName" [ngModelOptions]="{standalone: true}" class="form-control form-select" (change)="setProjectHierarchy()">
+        <select formControlName="projectHierarchyData" class="form-control form-select" >
           <option [ngValue]="'select'">Please select</option>
           <option
             *ngFor="let projHierarchy of projHierarchies; let i = index"
@@ -17,9 +21,9 @@
         <div *ngIf="showSelectError" class="mt-2 mb-2">Please select hierarchy</div>
       </div>
       <button
+        type="button"
         (click)="setTreeData()"
         class="btn bg-danger red-tags rounded-0 text-white view-btn"
-        [disabled]="!srchTrmProjHierarchyName"
       >
         Search
       </button>
@@ -29,12 +33,15 @@
         <div class="red-tags">Project Designation</div>
       </div>
       <div class="col-md-6">
-        <input
-          type="text"
-          class="form-control"
-          id="email"
-          [(ngModel)]="srchTrmProjDesgn"
-        />
+        <select formControlName="projDesgn" class="form-control form-select" (change)="setLevel($event)">
+          <option [value]="null">Please select</option>
+          <option
+            *ngFor="let designation of designations; let i = index"
+            [value]="designation.id"
+          >
+            {{ designation.designationName }}
+          </option>
+        </select>
       </div>
     </div>
     <div class="row mt-2">
@@ -46,7 +53,7 @@
           type="text"
           class="form-control"
           id="email"
-          [(ngModel)]="srchTrmLevel"
+          formControlName="level"
         />
       </div>
     </div>
@@ -55,25 +62,23 @@
         <div class="red-tags">Linked To</div>
       </div>
       <div class="col-md-6">
-        <input
-          type="text"
-          class="form-control"
-          id="email"
-          [(ngModel)]="srchTrmLnkdTo"
-        />
+        <select formControlName="linkedTo" class="form-control form-select">
+          <option [value]="null">Please select</option>
+          <option
+            *ngFor="let linkedto of linkedToData; let i = index"
+            [value]="linkedto.id"
+          >
+            {{ linkedto.designationName }}
+          </option>
+        </select>
       </div>
     </div>
     <div class="row mt-2">
       <div class="col-md-6">
         <button
-          (click)="setSearchData()"
+        type="submit"
           class="btn bg-danger red-tags w-100 rounded-0 text-white"
-          [disabled]="
-            !srchTrmProjHierarchyName &&
-            !srchTrmProjDesgn &&
-            !srchTrmLevel &&
-            !srchTrmLnkdTo
-          "
+          [disabled]="projHierarchyCreateForm.invalid"
         >
           Submit
         </button>
@@ -126,6 +131,7 @@
         </div>
       </div>
     </div>
+    </form>
   </div>
   <div class="col-md-8 ptree" *ngIf="data && data.designationName">
     <tree-view #treeView [data]="data" [template]="treeTemplate"> </tree-view>

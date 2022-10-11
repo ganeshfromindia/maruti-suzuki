@@ -23,6 +23,7 @@ export class ProjTypeCreationAdminComponent implements OnInit {
   public projHierarchy: any = {};
   public showSelectError: boolean = false;
   public singleNode: any = {};
+  public pData: any ={};
 
   constructor(
     private _beService: BackendService,
@@ -88,7 +89,7 @@ export class ProjTypeCreationAdminComponent implements OnInit {
   }
 
   setProjectHierarchy() {
-    this.srchTrmSimilarTo = this.projHierarchy.projectHierarchy
+    this.srchTrmSimilarTo = this.projHierarchy.id
   }
   setTreeData() {
     if(this.srchTrmSimilarTo == 'select') {
@@ -116,6 +117,54 @@ export class ProjTypeCreationAdminComponent implements OnInit {
       }
     }
     return root || this.singleNode.children[0];
+  }
+
+  
+
+  async postProjTypeData() {
+    let returnedAlerts: any = await this.postData();
+    if(returnedAlerts.flag) {
+      if(returnedAlerts.data.status == 404) {
+        this.showError = "Data Not Found";
+      } else {
+        this.showError = "Something went wrong";
+      }
+      setTimeout(() => {
+        this.showError = '';
+      },5000)
+    } else {
+      this.showSuccess = "Data saved successfully";
+      setTimeout(() => {
+        this.showSuccess = '';
+      },5000)
+    }
+   
+  }
+
+  postData() {
+    this.pData.companyId  = this.userService.getCompanyID();
+    this.pData.projectTypeId = this.srchTrmSimilarTo;
+    this.pData.adminId = this.userService.getUserId();
+    this.pData.adminType = "SUPER_ADMIN";
+    this.pData.projectTypeName = this.srchTrmProjName;
+    return new Promise((resolve, reject) => {
+        try {
+          this._beService.postMethod('copy/project/type', this.pData)
+          .subscribe({
+            next: (resolvedData) => {
+              let alertsFetched = this.userService.handleAlerts(resolvedData, false);
+              resolve(alertsFetched);
+            },
+            error: (errorData) => {
+              let alertsFetched = this.userService.handleAlerts(errorData, true);
+              resolve(alertsFetched);
+            },
+          });
+      } catch (e) {
+        let alertsFetched = this.userService.handleAlerts(e, true);
+        reject(alertsFetched);
+      }
+    }) 
   }
 
 }

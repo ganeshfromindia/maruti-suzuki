@@ -43,6 +43,7 @@
           type="button"
           class="ms-2 me-5 col-md-5 btn bg-danger red-tags rounded-0 text-white"
           [disabled]="!srchTrmProjName && !srchTrmSimilarTo"
+          (click)="postProjTypeData()"
         >
           Save
         </button>
@@ -64,5 +65,23 @@
       /></span>
       <span class="desgn-cont">{{ node.designationName }}</span>
     </ng-template>
+  </div>
+</div>
+<div class="row mt-5">
+  <div class="col-12">
+    <div *ngIf="showError" class="text-center">
+      <P
+        >{{showError}}</P
+      >
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div *ngIf="showSuccess" class="text-center">
+      <P
+        >{{showSuccess}}</P
+      >
+    </div>
   </div>
 </div>
