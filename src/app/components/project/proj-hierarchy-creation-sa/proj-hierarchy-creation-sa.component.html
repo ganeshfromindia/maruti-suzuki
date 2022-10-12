@@ -9,23 +9,22 @@
         <div class="red-tags">Project Hierarchy</div>
       </div>
       <div class="col-md-6">
-        <select formControlName="projectHierarchyData" class="form-control form-select" >
-          <option [ngValue]="'select'">Please select</option>
-          <option
-            *ngFor="let projHierarchy of projHierarchies; let i = index"
-            [ngValue]="projHierarchy"
-          >
-            {{ projHierarchy.projectHierarchyName }}
-          </option>
-        </select>
+        <input type="text" name="projectHierarchyData" class="form-control" formControlName="projectHierarchyData" />
         <div *ngIf="showSelectError" class="mt-2 mb-2">Please select hierarchy</div>
       </div>
+      <button
+        type="button"
+        (click)="triggerModal(hierarchiesData)"
+        class="btn bg-danger red-tags rounded-0 text-white search-btn"
+      >
+        Search
+      </button>
       <button
         type="button"
         (click)="setTreeData()"
         class="btn bg-danger red-tags rounded-0 text-white view-btn"
       >
-        Search
+        View
       </button>
     </div>
     <div class="row mt-2">
@@ -86,7 +85,7 @@
     </div>
     <div class="row mt-2">
       <div class="col-12">
-        <div *ngIf="projHierarchyData?.length">
+        <div *ngIf="projectHierarchy?.length">
           <table class="table table-striped">
             <thead>
               <tr>
@@ -98,11 +97,11 @@
             </thead>
             <tbody>
               <tr
-                *ngFor="let pjData of projHierarchyData; let i = index"
+                *ngFor="let pjData of projectHierarchy; let i = index"
                 class="text-capitalize"
               >
                 <td>{{ i + 1 }}</td>
-                <td>{{ pjData.designation }}</td>
+                <td>{{ pjData.designationName }}</td>
                 <td>{{ pjData.level }}</td>
                 <td>
                   <button
@@ -133,7 +132,7 @@
     </div>
     </form>
   </div>
-  <div class="col-md-8 ptree" *ngIf="data && data.designationName">
+  <div class="col-md-8 ptree mt-5" *ngIf="data && data.designationName">
     <tree-view #treeView [data]="data" [template]="treeTemplate"> </tree-view>
     <ng-template #treeTemplate let-node>
       <span class="icon-cont"
@@ -143,3 +142,25 @@
     </ng-template>
   </div>
 </div>
+<ng-template #hierarchiesData let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Please select hierarchy</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <select [(ngModel)]="selprojHierarchy" class="form-control form-select"  >
+      <option [ngValue]="null" selected>Please select</option>
+      <option
+        *ngFor="let projHierarchy of projHierarchies; let i = index"
+        [ngValue]="projHierarchy"
+      >
+        {{ projHierarchy.projectHierarchyName }}
+      </option>
+    </select>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close(selprojHierarchy)">Close</button>
+  </div>
+</ng-template>

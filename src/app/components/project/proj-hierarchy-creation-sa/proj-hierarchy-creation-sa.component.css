@@ -27,6 +27,14 @@
 
 .proj-hierarchy-cont .view-btn {
     position: absolute;
+    right: -40%;
+    top: 0%;
+    width: 70px;
+    z-index: 9;
+}
+
+.proj-hierarchy-cont .search-btn {
+    position: absolute;
     right: -20%;
     top: 0%;
     width: auto;

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BackendService } from 'src/app/services/backend.service';
 import { UserService } from 'src/app/services/user.service';
 import { IECONode, Orientation } from './econode';
@@ -19,19 +20,25 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
   public showSelectError: boolean = false;
   public singleNode: any = {};
   public projHierarchies: any[] = [];
+  public projectHierarchy: any[] = [];
   public projHierarchyCreateForm: FormGroup;
   public designations: any[] = []; 
-  public linkedToData: any[] = []; 
+  public linkedToData: any[] = [];
+  public closeModal: string = '';
+  public selprojHierarchy: any = null;
+  public projecTHierarchyIdFromModal: number = 0;
+
   Orientation = Orientation;
 
   constructor(
     private _beService: BackendService,
     private userService: UserService,
     public router: Router,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private modalService: NgbModal
   ) {
     this.projHierarchyCreateForm = this._fb.group({
-      projectHierarchyData:['select', Validators.required],
+      projectHierarchyData:['', Validators.required],
       projDesgn:[null, Validators.required],
       level:['', Validators.required],
       linkedTo:[null, Validators.required]
@@ -89,7 +96,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
   async setTreeData() {
     this.data = { data: null, designationName: '' };
     const formData = this.projHierarchyCreateForm.getRawValue();
-    if(formData.projectHierarchyData == 'select') {
+    if(formData.projectHierarchyData == '') {
       this.showSelectError = true;
       return;
     } else {
@@ -98,7 +105,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     let url = 'get/project/hierarchy?';
     this.urlHttpParams = {
       companyId: this.userService.getCompanyID(),
-      projectHierarchyId: formData.projectHierarchyData.id
+      projectHierarchyId: this.projecTHierarchyIdFromModal
     };
     let returnedAlerts: any = await this.setData(url, this.urlHttpParams);
     if (returnedAlerts.flag) {
@@ -148,7 +155,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     const formData = this.projHierarchyCreateForm.getRawValue();
     this.urlHttpParams = {
       companyId: this.userService.getCompanyID(),
-      projectHierarchyId: formData.projectHierarchyData,
+      projectHierarchyId: this.projecTHierarchyIdFromModal,
     };
     let returnedAlerts: any = await this.setData(url, this.urlHttpParams);
     if (returnedAlerts.flag) {
@@ -202,8 +209,11 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
   }
   //post edit id to edit component
   postEditId(data: any) {
-    let url = `company/create-edit-company/${data.id}`;
-    this.router.navigateByUrl(url, { state: { data: data } });
+    this.projHierarchyCreateForm.patchValue({
+      projDesgn: data.designationId,
+      level: data.level
+    })
+    this.setLinkedToData();
   }
 
   setLevel(dataP: any) {
@@ -220,7 +230,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     this.urlHttpParams = {
       companyId: this.userService.getCompanyID(),
       level: formData.level,
-      projectHierarchyId: formData.projectHierarchyData.id
+      projectHierarchyId: this.projecTHierarchyIdFromModal
 
     };
     let returnedAlerts: any = await this.setData(url, this.urlHttpParams);
@@ -238,6 +248,35 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     }
   }
 
+  triggerModal(content: any) {
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    modalRef.result.then((res) => {
+      this.projecTHierarchyIdFromModal = res.id;
+      this.projHierarchyCreateForm.patchValue({projectHierarchyData: res.projectHierarchyName})
+      this.projectHierarchy = this.projHierarchies.filter((data: any) => data.id == res.id)
+      this.projectHierarchy = this.projectHierarchy[0].hierarchyDetailList;
+      this.projectHierarchy = this.projectHierarchy.sort((a: any,b: any) => 
+      {
+        if(a.level < b.level) { return -1; }
+        if(a.level > b.level) { return 1; }
+        return 0;
+      })
+      this.closeModal = `Closed with: ${res}`;
+    }, (res) => {
+      this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
+    });
+    if(modalRef && modalRef.componentInstance) modalRef.componentInstance.projHierarchies = this.projHierarchies;
+  }
+  
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
 
   
   
