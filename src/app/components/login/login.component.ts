@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
         this.userService.setcompanyID(data.payLoad.data.companyId);
         this.userService.setUserID(data.payLoad.data.id);
         this.userService.setUserType(data.payLoad.data.userType);
+        this.userService.setCompanyName(data.payLoad.data.companyName);
         this.router.navigate(["/company"]);
       },
       error: (error: any): void => {

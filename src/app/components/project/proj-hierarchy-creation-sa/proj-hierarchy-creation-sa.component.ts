@@ -26,7 +26,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
   public linkedToData: any[] = [];
   public closeModal: string = '';
   public selprojHierarchy: any = null;
-  public projecTHierarchyIdFromModal: number = 0;
+  public projecTHierarchyId: number = 0;
 
   Orientation = Orientation;
 
@@ -38,23 +38,23 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     private modalService: NgbModal
   ) {
     this.projHierarchyCreateForm = this._fb.group({
-      projectHierarchyData:['', Validators.required],
+      projectHierarchyName:['', Validators.required],
       projDesgn:[null, Validators.required],
       level:['', Validators.required],
-      linkedTo:[null, Validators.required]
+      linkedTo:[0, Validators.required]
     })
   }
 
   ngOnInit(): void {
-    this.setProjectHierarchies();
+    this.setProjectHierarchies('');
     this.setDesignationData()
   }
 
-  async setProjectHierarchies() {
+  async setProjectHierarchies(pHId: any) {
     let url = 'get/project/hierarchy?';
     this.urlHttpParams = {
       companyId: this.userService.getCompanyID(),
-      projectHierarchyId: ''
+      projectHierarchyId: pHId
     };
     let returnedAlerts: any = await this.setData(url, this.urlHttpParams);
     if (returnedAlerts.flag) {
@@ -96,7 +96,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
   async setTreeData() {
     this.data = { data: null, designationName: '' };
     const formData = this.projHierarchyCreateForm.getRawValue();
-    if(formData.projectHierarchyData == '') {
+    if(formData.projectHierarchyName == '') {
       this.showSelectError = true;
       return;
     } else {
@@ -105,7 +105,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     let url = 'get/project/hierarchy?';
     this.urlHttpParams = {
       companyId: this.userService.getCompanyID(),
-      projectHierarchyId: this.projecTHierarchyIdFromModal
+      projectHierarchyId: this.projecTHierarchyId
     };
     let returnedAlerts: any = await this.setData(url, this.urlHttpParams);
     if (returnedAlerts.flag) {
@@ -120,7 +120,9 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     } else {
       if (returnedAlerts.data.status == 200)
         this.dataArray = returnedAlerts.data.payLoad[0].hierarchyDetailList;
+        console.log(this.dataArray);
         this.data = this.unflattenTree(this.dataArray);
+        console.log(this.data)
       //this.data = this.printTree(this.unflattenTree(this.dataArray));
     }
   }
@@ -153,11 +155,23 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     this.projHierarchyData = [];
     let url = 'get/project/hierarchy?';
     const formData = this.projHierarchyCreateForm.getRawValue();
-    this.urlHttpParams = {
+    let fetchedProjDesgnName = this.designations.filter((data) => data.id == formData.projDesgn);
+    fetchedProjDesgnName = fetchedProjDesgnName[0].designationName;
+    let postData = {
+      id: this.projecTHierarchyId || '',
+      companyName: this.userService.getCompanyName(),
       companyId: this.userService.getCompanyID(),
-      projectHierarchyId: this.projecTHierarchyIdFromModal,
+      projectHierarchyName: formData.projectHierarchyName,
+      hierarchyDetailList: [
+        {
+          designationId: formData.projDesgn,
+          designationName: fetchedProjDesgnName,
+          level: formData.level,
+          linkedTo: formData.linkedTo
+        }
+      ]
     };
-    let returnedAlerts: any = await this.setData(url, this.urlHttpParams);
+    let returnedAlerts: any = await this.postData(postData);
     if (returnedAlerts.flag) {
       if (returnedAlerts.data.status == 404) {
         this.showError = 'Data Not Found';
@@ -170,13 +184,106 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     } else {
       // if(returnedAlerts.data.status == 200) this.projHierarchyData = returnedAlerts.data.payLoad;
       if (returnedAlerts.data.status == 200) {
-        this.projHierarchyData = [
-          { id: 1, designation: 'Project Head', level: 1 },
-          { id: 2, designation: 'Operations Manager', level: 2 },
-          { id: 3, designation: 'Accounts Head', level: 3 },
-          { id: 4, designation: 'Finance Manager', level: 4 },
-        ];
+        let returnedStatus = await this.setProjectHierarchies(this.projecTHierarchyId);
+        this.projectHierarchy = this.projHierarchies[0].hierarchyDetailList
       }
+    }
+  }
+
+  postData(postData: any) {
+    const formData = this.projHierarchyCreateForm.getRawValue();
+    return new Promise((resolve, reject) => {
+        try {
+          this._beService.postMethod('project/hierarchy/save', postData)
+          .subscribe({
+            next: (resolvedData) => {
+              let alertsFetched = this.userService.handleAlerts(resolvedData, false);
+              resolve(alertsFetched);
+            },
+            error: (errorData) => {
+              let alertsFetched = this.userService.handleAlerts(errorData, true);
+              resolve(alertsFetched);
+            },
+          });
+      } catch (e) {
+        let alertsFetched = this.userService.handleAlerts(e, true);
+        reject(alertsFetched);
+      }
+    }) 
+  }
+
+
+  
+  //post edit id to edit component
+  postEditId(data: any) {
+    this.projHierarchyCreateForm.patchValue({
+      projDesgn: data.designationId,
+      level: data.level
+    })
+    this.setLinkedToData();
+  }
+
+  setLevel(dataP: any) {
+    let levelFromChange = this.designations.filter((data: any) => data.id == dataP.target.value);
+    levelFromChange = levelFromChange[0].level;
+    this.projHierarchyCreateForm.patchValue({level: levelFromChange})
+    if(this.projecTHierarchyId) this.setLinkedToData()
+  }
+
+  async setLinkedToData() {
+    this.linkedToData = [];
+    const formData = this.projHierarchyCreateForm.getRawValue();
+    let url = 'get/project/hierarchy/level?';
+    this.urlHttpParams = {
+      companyId: this.userService.getCompanyID(),
+      level: formData.level,
+      projectHierarchyId: this.projecTHierarchyId
+
+    };
+    let returnedAlerts: any = await this.setData(url, this.urlHttpParams);
+    if(returnedAlerts.flag) {
+      if(returnedAlerts.data.status == 404) {
+        this.showError = "Data Not Found";
+      } else {
+        this.showError = "Something went wrong"
+      }
+      setTimeout(() => {
+        this.showError = ''
+      },5000)
+    } else {
+      if(returnedAlerts.data.status == 200) this.linkedToData = returnedAlerts.data.payLoad;
+    }
+  }
+
+  async triggerModal(content: any) {
+    let returnedStatus = this.setProjectHierarchies('');
+    this.selprojHierarchy = null;
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    modalRef.result.then((res) => {
+      this.projecTHierarchyId = res.id;
+      this.projHierarchyCreateForm.patchValue({projectHierarchyName: res.projectHierarchyName})
+      this.projectHierarchy = this.projHierarchies.filter((data: any) => data.id == res.id)
+      this.projectHierarchy = this.projectHierarchy[0].hierarchyDetailList;
+      this.projectHierarchy = this.projectHierarchy.sort((a: any,b: any) => 
+      {
+        if(a.level < b.level) { return -1; }
+        if(a.level > b.level) { return 1; }
+        return 0;
+      })
+      this.closeModal = `Closed with: ${res}`;
+    }, (res) => {
+      this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
+    });
+    if(modalRef && modalRef.componentInstance) modalRef.componentInstance.projHierarchies = this.projHierarchies;
+  }
+  
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
     }
   }
 
@@ -207,76 +314,13 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
       }
     });
   }
-  //post edit id to edit component
-  postEditId(data: any) {
-    this.projHierarchyCreateForm.patchValue({
-      projDesgn: data.designationId,
-      level: data.level
-    })
-    this.setLinkedToData();
+
+  resetForm() {
+    this.projHierarchyCreateForm.reset();
+    this.projecTHierarchyId = 0;
+    this.projHierarchyCreateForm.patchValue({linkedTo: 0})
   }
 
-  setLevel(dataP: any) {
-    let levelFromChange = this.designations.filter((data: any) => data.id == dataP.target.value);
-    levelFromChange = levelFromChange[0].level;
-    this.projHierarchyCreateForm.patchValue({level: levelFromChange})
-    this.setLinkedToData()
-  }
-
-  async setLinkedToData() {
-    this.linkedToData = [];
-    const formData = this.projHierarchyCreateForm.getRawValue();
-    let url = 'get/project/hierarchy/level?';
-    this.urlHttpParams = {
-      companyId: this.userService.getCompanyID(),
-      level: formData.level,
-      projectHierarchyId: this.projecTHierarchyIdFromModal
-
-    };
-    let returnedAlerts: any = await this.setData(url, this.urlHttpParams);
-    if(returnedAlerts.flag) {
-      if(returnedAlerts.data.status == 404) {
-        this.showError = "Data Not Found";
-      } else {
-        this.showError = "Something went wrong"
-      }
-      setTimeout(() => {
-        this.showError = ''
-      },5000)
-    } else {
-      if(returnedAlerts.data.status == 200) this.linkedToData = returnedAlerts.data.payLoad;
-    }
-  }
-
-  triggerModal(content: any) {
-    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
-    modalRef.result.then((res) => {
-      this.projecTHierarchyIdFromModal = res.id;
-      this.projHierarchyCreateForm.patchValue({projectHierarchyData: res.projectHierarchyName})
-      this.projectHierarchy = this.projHierarchies.filter((data: any) => data.id == res.id)
-      this.projectHierarchy = this.projectHierarchy[0].hierarchyDetailList;
-      this.projectHierarchy = this.projectHierarchy.sort((a: any,b: any) => 
-      {
-        if(a.level < b.level) { return -1; }
-        if(a.level > b.level) { return 1; }
-        return 0;
-      })
-      this.closeModal = `Closed with: ${res}`;
-    }, (res) => {
-      this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
-    });
-    if(modalRef && modalRef.componentInstance) modalRef.componentInstance.projHierarchies = this.projHierarchies;
-  }
-  
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
 
   
   

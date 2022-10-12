@@ -66,6 +66,10 @@ export class UserService {
     sessionStorage.setItem("company", JSON.stringify(company));
   }
 
+  getCompanyName() {
+    return JSON.parse(sessionStorage.getItem("company") || "{}"); 
+  }
+
   setOmanniAuthToken(token: any) {
     sessionStorage.setItem("oamnniToken", JSON.stringify(token));
   }

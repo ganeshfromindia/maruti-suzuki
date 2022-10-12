@@ -9,7 +9,7 @@
         <div class="red-tags">Project Hierarchy</div>
       </div>
       <div class="col-md-6">
-        <input type="text" name="projectHierarchyData" class="form-control" formControlName="projectHierarchyData" />
+        <input type="text" name="projectHierarchyName" class="form-control" formControlName="projectHierarchyName" />
         <div *ngIf="showSelectError" class="mt-2 mb-2">Please select hierarchy</div>
       </div>
       <button
@@ -61,6 +61,7 @@
         <div class="red-tags">Linked To</div>
       </div>
       <div class="col-md-6">
+        <div *ngIf="projecTHierarchyId; else nonId">
         <select formControlName="linkedTo" class="form-control form-select">
           <option [value]="null">Please select</option>
           <option
@@ -70,16 +71,25 @@
             {{ linkedto.designationName }}
           </option>
         </select>
+        </div>
+        <ng-template #nonId><input class="form-control" formControlName="linkedTo" type="text" /></ng-template>
       </div>
     </div>
     <div class="row mt-2">
-      <div class="col-md-6">
+      <div class="col-md-12">
         <button
         type="submit"
-          class="btn bg-danger red-tags w-100 rounded-0 text-white"
+          class="btn bg-danger red-tags col-md-5 rounded-0 text-white"
           [disabled]="projHierarchyCreateForm.invalid"
         >
           Submit
+        </button>
+        <button
+          type="button"
+          class="btn bg-danger red-tags offset-md-2 col-md-5 rounded-0 text-white"
+          (click)="resetForm()"
+        >
+          Reset
         </button>
       </div>
     </div>
@@ -105,12 +115,14 @@
                 <td>{{ pjData.level }}</td>
                 <td>
                   <button
+                    type="button"
                     (click)="postEditId(pjData)"
                     class="btn btn-sm me-2"
                   >
                   <i class="fa fa-pencil"></i>
                   </button>
                   <button
+                    type="button"
                     (click)="postEditId(pjData)"
                     class="btn btn-sm"
                   >
