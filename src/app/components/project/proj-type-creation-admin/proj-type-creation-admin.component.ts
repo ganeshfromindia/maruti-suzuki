@@ -89,7 +89,7 @@ export class ProjTypeCreationAdminComponent implements OnInit {
   }
 
   setProjectHierarchy() {
-    this.srchTrmSimilarTo = this.projHierarchy.id
+    this.srchTrmSimilarTo = this.projHierarchy;
   }
   setTreeData() {
     if(this.srchTrmSimilarTo == 'select') {
@@ -98,8 +98,7 @@ export class ProjTypeCreationAdminComponent implements OnInit {
     } else {
       this.showSelectError = false
     }
-
-    this.dataArray = this.srchTrmSimilarTo.hierarchyDetailList;
+    this.dataArray = this.srchTrmSimilarTo.projectHierarchy.hierarchyDetailList;
     this.data = this.unflattenTree(this.dataArray);
   }
 
@@ -143,13 +142,13 @@ export class ProjTypeCreationAdminComponent implements OnInit {
 
   postData() {
     this.pData.companyId  = this.userService.getCompanyID();
-    this.pData.projectTypeId = this.srchTrmSimilarTo;
+    this.pData.projectTypeId = this.projHierarchy.id;
     this.pData.adminId = this.userService.getUserId();
     this.pData.adminType = "SUPER_ADMIN";
     this.pData.projectTypeName = this.srchTrmProjName;
     return new Promise((resolve, reject) => {
         try {
-          this._beService.postMethod('copy/project/type', this.pData)
+          this._beService.postMethod('copy/project/type?companyId=' + this.pData.companyId + '&projectTypeId='+ this.pData.projectTypeId +'&adminId='+ this.pData.adminId +'&adminType=SUPER_ADMIN&projectTypeName='+ this.pData.projectTypeName , {})
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(resolvedData, false);

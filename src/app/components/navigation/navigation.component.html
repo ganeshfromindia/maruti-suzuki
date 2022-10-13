@@ -148,7 +148,7 @@
                 </li>
               </ul>
             </li>
-            <li ngbDropdown lass="nav-item dropdown">
+            <li ngbDropdown class="nav-item dropdown">
               <a
                 ngbDropdownToggle
                 class="nav-link dropdown-toggle ps-3"
@@ -388,7 +388,7 @@
                 </li>
               </ul>
             </li>
-            <li ngbDropdown lass="nav-item dropdown">
+            <li ngbDropdown class="nav-item dropdown">
               <a
                 ngbDropdownToggle
                 class="nav-link dropdown-toggle ps-3"
@@ -487,11 +487,46 @@
                 </li>
               </ul>
             </li>
+            <li ngbDropdown class="nav-item dropdown">
+              <a
+                ngbDropdownToggle
+                class="nav-link dropdown-toggle ps-3"
+                aria-current="page"
+                id="navDropdownDocument"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                [ngClass]="{
+                  active: child6_1RLA.isActive
+                }"
+                >Document</a
+              >
+              <ul
+                ngbDropdownMenu
+                class="dropdown-menup-0 pt-1 m-0 border-0"
+                aria-labelledby="navDropdownDocument"
+              >
+                <li>
+                  <a
+                    ngbDropdownItem
+                    routerLink="document/upload-document"
+                    class="dropdown-item ps-4"
+                    aria-current="page"
+                    routerLinkActive="active"
+                    #child6_1RLA="routerLinkActive"
+                    >Uplaod Document</a
+                  >
+                </li>
+              </ul>
+            </li>
           </ul>
         </li>
         <!-- Logout -->
         <li class="nav-item">
-          <a class="nav-link text-opacity-100 text-white" (click)="logout()" routerLinkActive="active" aria-current="page"
+          <a
+            class="nav-link text-opacity-100 text-white"
+            (click)="logout()"
+            routerLinkActive="active"
+            aria-current="page"
             >&laquo; Logout &raquo;</a
           >
         </li>

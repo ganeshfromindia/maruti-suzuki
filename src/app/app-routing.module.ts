@@ -39,6 +39,8 @@ import { LoginComponent } from './components/login/login.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { UnavailableComponent } from './components/unavailable/unavailable.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
+import { DocumentComponent } from './components/document/document.component';
+import { UploadDocumentComponent } from './components/document/upload-document/upload-document.component';
 
 
 
@@ -240,6 +242,16 @@ const routes: Routes = [
     ]
   },
   {
+    path:'document',
+    component: DocumentComponent,
+    children:[
+      {
+        path: 'upload-document',
+        component: UploadDocumentComponent
+      }
+    ]
+  },
+  {
     path: "",
     redirectTo: "/login",
     pathMatch: "full",
@@ -293,5 +305,7 @@ export const RoutingComponents = [
   LoginComponent,
   ForgotPasswordComponent,
   UnavailableComponent,
-  NavigationComponent
+  NavigationComponent,
+  DocumentComponent,
+  UploadDocumentComponent
 ]

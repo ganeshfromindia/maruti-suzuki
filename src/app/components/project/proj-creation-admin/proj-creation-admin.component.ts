@@ -70,7 +70,7 @@ export class ProjCreationAdminComponent implements OnInit {
       id: item.id,
       designation: item.designation,
       level: item.level,
-      name: ''
+      name: null
     })
   }
 

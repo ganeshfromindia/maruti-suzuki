@@ -1,0 +1,77 @@
+<form
+  [formGroup]="documentUploadForm"
+  (ngSubmit)="onSubmitDocumentUpload()"
+  
+>
+  <div class="row mt-5">
+    <div class="col-md-2">
+      <div class="red-tags">Select the document</div>
+    </div>
+    <div class="col-md-3">
+      <input type="file" class="form-control text-capitalize" formControlName="document" />
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Document Type</div>
+    </div>
+    <div class="col-md-3">
+      <select class="form-control" formControlName="docType" >
+        <option [value]="null" >Please Select</option>
+        <option 
+            *ngFor="let docType of docTypes; let i = index"
+            [value]="docType.id">
+            {{docType.docType}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Tagging Head</div>
+    </div>
+    <div class="col-md-3" [formArrayName]="'tags'">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Tagging Head</th>
+                <th>Yes / No</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let tag of tags; let i = index"
+                class="text-capitalize"
+                [formGroupName]="i"
+              >
+                <td>{{ i + 1}}</td>
+                <td>
+                  <input formControlName="taggingHeadName" class="view-input" />
+                </td>
+                <td>
+                  <input [value]="tag.taggingHeadName" type="checkbox" (change)="setTagForm($event)"/>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="offset-md-2 col-md-4">
+      <button
+        type="submit"
+        class="me-5 col-md-5 btn bg-danger red-tags rounded-0 text-white"
+        [disabled]="documentUploadForm.invalid"
+      >
+        Save
+      </button>
+      <button
+        class="col-md-5 btn bg-danger red-tags rounded-0 text-white"
+        type="button"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</form>
