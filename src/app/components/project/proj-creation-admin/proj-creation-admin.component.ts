@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BackendService } from 'src/app/services/backend.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -9,13 +9,17 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./proj-creation-admin.component.css']
 })
 export class ProjCreationAdminComponent implements OnInit {
-  public projTypeName: string = '';
-  public projType: string = '';
+  
   public projHierarchyData: any[] = [];
-  public showError: string = '';
   public urlHttpParams: any = {};
   public projCreateForm: FormGroup = new FormGroup({});
   public userNameGroup : FormArray = new FormArray([])
+  public projTypes: any[] = []; 
+  public showSelectError: boolean = false;
+  public userAllData: any[] = [];
+  public showError: string = '';
+  public showSuccess: string = '';
+  public pData: any ={};
 
   constructor(
     private _beService: BackendService,
@@ -25,83 +29,98 @@ export class ProjCreationAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.projCreateForm = this._fb.group({
-      users: this._fb.array([])
+      projTypeName: ['', Validators.required],
+      projType: ['select', Validators.required],
+      users: this._fb.array([]),
+
     })
+    this.setProjHierarchies();
+    this.setUserData();
+  }
+
+  async setUserData() {
+    this.userAllData = [];
+    let url = 'auth/get/user-list?';
+    this.urlHttpParams = {
+      userName: '',
+      companyId: this.userService.getCompanyID(),
+      emailId: ''
+    };
+    let returnedAlerts: any = await this.setData(url, this.urlHttpParams);
+    if(returnedAlerts.flag) {
+      if(returnedAlerts.data.status == 404) {
+        this.showError = "Data Not Found";
+      } else {
+        this.showError = "Something went wrong"
+      }
+      setTimeout(() => {
+        this.showError = ''
+      },5000)
+    } else {
+      if(returnedAlerts.data.status == 200) this.userAllData = returnedAlerts.data.payLoad;
+      
+    }
+  }
+
+  async setProjHierarchies() {
+    let url = 'get/project/type?';
+    this.urlHttpParams = {
+      companyId: this.userService.getCompanyID(),
+      capex: ''  
+    };
+    this.projTypes = []
+    let returnedAlerts: any = await this.setData(url, this.urlHttpParams);
+    if(returnedAlerts.flag) {
+      if(returnedAlerts.data.status == 404) {
+        this.showError = "Data Not Found";
+      } else {
+        this.showError = "Something went wrong"
+      }
+      setTimeout(() => {
+        this.showError = ''
+      },5000)
+    } else {
+      if(returnedAlerts.data.status == 200) this.projTypes = returnedAlerts.data.payLoad;
+      
+    }
   }
 
   async setSearchData() {
-    this.projHierarchyData = [];
-    let returnedAlerts: any = await this.setData();
-    if (returnedAlerts.flag) {
-      if (returnedAlerts.data.status == 404) {
-        this.showError = 'Data Not Found';
-      } else {
-        this.showError = 'Something went wrong';
-      }
-      setTimeout(() => {
-        this.showError = '';
-      }, 5000);
-    } else {
-      // if(returnedAlerts.data.status == 200) this.projHierarchyData = returnedAlerts.data.payLoad;
-      if (returnedAlerts.data.status == 200) {
-        this.projHierarchyData = [
-          { id: 1, designation: 'Project Head', level: 1 },
-          { id: 2, designation: 'Operations Manager', level: 3 },
-          { id: 3, designation: 'Accounts Head', level: 3 },
-          { id: 4, designation: 'Finance Manager', level: 4 },
-        ];
-        // this.userNameGroup = this._fb.array(this.getUserNames(this.projHierarchyData.length).map((data: any) => {
-        //   this._fb.group(data)
-        // }))
-        // this.projCreateForm = this._fb.group({
-        //   users: this.userNameGroup
-        // })
-        // this.projCreateForm.patchValue(this.projHierarchyData)
-        const orderItemsArray = this.projCreateForm.get('users') as FormArray;
-        this.projHierarchyData.forEach(item => {
-          orderItemsArray.push(this.buildProjCreateForm(item))
-        });
-      }
+    const formData = this.projCreateForm.getRawValue();
+    if(formData.projType == 'select') {
+      this.showSelectError = true;
+      return
+    }else {
+      this.showSelectError = false;
     }
+    this.projHierarchyData = formData.projType.projectHierarchy.hierarchyDetailList;
+    this.projHierarchyData = this.projHierarchyData.sort((a: any, b:any) => {
+      if(a.level < b.level) {return -1}
+      if(a.level > b.level) {return 1}
+      return 0;
+    })
+    const usersArray = this.projCreateForm.get('users') as FormArray
+    this.projHierarchyData.forEach((data) => {
+      usersArray.push(this.buildProjCreateForm(data))
+    })
   }
 
   buildProjCreateForm(item: any): FormGroup {
     return this._fb.group({
       id: item.id,
-      designation: item.designation,
+      designationId: item.designationId,
+      designationName: item.designationName,
       level: item.level,
-      name: null
+      linkedTo: item.linkedTo,
+      userId: null
     })
   }
 
-  // getUserNames(length: number) {
-  //   const userNamesArray = [];
-  //   for (let x = 0; x < length; x++) {
-  //     userNamesArray.push({
-  //       id: [{value: '', disabled: true}],
-  //       designation: [{value: '', disabled: true}],
-  //       level: [{value: '', disabled: true}],
-  //       name: ['']
-  //     })
-  //   }
-  //   return userNamesArray;
-  // }
-
-  setData() {
-    // this.urlHttpParams = {
-    //   projName: this.srchTrmProjHierarchyName,
-    //   projDesgn: this.srchTrmProjDesgn,
-    //   level: this.srchTrmLevel,
-    //   linkedTo: this.srchTrmLnkdTo,
-    // };
-    this.urlHttpParams = {
-      companyName: 'locate',
-      adminEmailId: '',
-    };
+  setData(url: string, urlParams: any) {
     return new Promise((resolve, reject) => {
       try {
         this._beService
-          .getMethod('get/company-list?', 1, 10, this.urlHttpParams)
+          .getMethod(url, 1, 10, urlParams)
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(
@@ -125,9 +144,48 @@ export class ProjCreationAdminComponent implements OnInit {
     });
   }
 
-  onSubmitProjCreateForm() {
+  async onSubmitProjCreateForm() {
     const formData = this.projCreateForm.getRawValue();
-    console.log(formData);
+    let returnedAlerts: any = await this.postData(formData);
+    if(returnedAlerts.flag) {
+      if(returnedAlerts.data.status == 404) {
+        this.showError = "Data Not Found";
+      } else {
+        this.showError = "Something went wrong";
+      }
+      setTimeout(() => {
+        this.showError = '';
+      },5000)
+    } else {
+      if(returnedAlerts.data.status == 200) this.projCreateForm.reset();
+      this.showSuccess = "Data saved successfully";
+      setTimeout(() => {
+        this.showSuccess = '';
+      },5000)
+    }
+  }
+
+  postData(formData: any) {
+    return new Promise((resolve, reject) => {
+        try {
+          this.pData.companyId  = this.userService.getCompanyID();
+          this.pData.adminId = this.userService.getUserId();
+          this._beService.postMethod('project/model/save?projectName='+ formData.projTypeName +'&companyId=' + this.pData.companyId +'&adminId='+ this.pData.adminId, formData.users)
+          .subscribe({
+            next: (resolvedData) => {
+              let alertsFetched = this.userService.handleAlerts(resolvedData, false);
+              resolve(alertsFetched);
+            },
+            error: (errorData) => {
+              let alertsFetched = this.userService.handleAlerts(errorData, true);
+              resolve(alertsFetched);
+            },
+          });
+      } catch (e) {
+        let alertsFetched = this.userService.handleAlerts(e, true);
+        reject(alertsFetched);
+      }
+    }) 
   }
 
 }

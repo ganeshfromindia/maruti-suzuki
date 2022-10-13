@@ -1,45 +1,54 @@
-<div class="row mt-5">
-  <div class="col-md-12">
-    <div class="row">
-      <span class="bc-cont col-md-3">Create Project</span>
+<form [formGroup]="projCreateForm" (ngSubmit)="onSubmitProjCreateForm()">
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <div class="row">
+        <span class="bc-cont col-md-3">Create Project</span>
+      </div>
     </div>
   </div>
-</div>
-<div class="row mt-5">
-  <div class="col-md-2">
-    <div class="red-tags">Project Type Name</div>
+  <div class="row mt-5">
+    <div class="col-md-2">
+      <div class="red-tags">Project Type Name</div>
+    </div>
+    <div class="col-md-3">
+      <input
+        type="text"
+        class="form-control"
+        id="userName"
+        formControlName="projTypeName"
+      />
+    </div>
   </div>
-  <div class="col-md-3">
-    <input
-      type="text"
-      class="form-control"
-      id="userName"
-      [(ngModel)]="projTypeName"
-    />
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Project Type</div>
+    </div>
+    <div class="col-md-3">
+      <select formControlName="projType" class="form-control form-select"  >
+        <option [ngValue]="'select'">Please select</option>
+        <option
+          *ngFor="let projHierarchy of projTypes; let i = index"
+          [ngValue]="projHierarchy"
+        >
+          {{ projHierarchy.projectTypeName }}
+        </option>
+      </select>
+      <div *ngIf="showSelectError" class="mt-2 mb-2">Please select hierarchy</div>
+    </div>
   </div>
-</div>
-<div class="row mt-2">
-  <div class="col-md-2">
-    <div class="red-tags">Project Type</div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <button
+        type="button"
+        (click)="setSearchData()"
+        class="btn bg-danger red-tags w-100 rounded-0 text-white"
+      >
+        Submit
+      </button>
+    </div>
   </div>
-  <div class="col-md-3">
-    <input type="text" class="form-control" id="email" [(ngModel)]="projType" />
-  </div>
-</div>
-<div class="row mt-2">
-  <div class="col-md-2">
-    <button
-      (click)="setSearchData()"
-      class="btn bg-danger red-tags w-100 rounded-0 text-white"
-      [disabled]="!projTypeName || !projType"
-    >
-      Submit
-    </button>
-  </div>
-</div>
-<div class="row mt-2">
-  <div class="col-12">
-    <form [formGroup]="projCreateForm" (ngSubmit)="onSubmitProjCreateForm()">
+  <div class="row mt-2">
+    <div class="col-12">
       <div *ngIf="projHierarchyData?.length" [formArrayName]="'users'">
         <table class="table table-striped">
           <thead>
@@ -58,11 +67,19 @@
             >
               <td>{{ i + 1 }}</td>
               <td>
-                <input formControlName="designation" class="view-input" />
+                <input formControlName="designationName" class="view-input" />
               </td>
               <td><input formControlName="level" class="view-input" /></td>
               <td>
-                <input formControlName="name" type="text" />
+                <select formControlName="userId" class="form-control form-select"  >
+                  <option [value]="null">Please select</option>
+                  <option
+                    *ngFor="let userdata of userAllData; let i = index"
+                    [value]="userdata.id"
+                  >
+                    {{ userdata.firstName}} {{userdata.lastName}}
+                  </option>
+                </select>
               </td>
             </tr>
           </tbody>
@@ -76,6 +93,25 @@
           Submit
         </button>
       </div>
-    </form>
+    </div>
+  </div>
+</form>
+<div class="row mt-5">
+  <div class="col-12">
+    <div *ngIf="showError" class="text-center">
+      <P
+        >{{showError}}</P
+      >
+    </div>
   </div>
 </div>
+<div class="row">
+  <div class="col-12">
+    <div *ngIf="showSuccess" class="text-center">
+      <P
+        >{{showSuccess}}</P
+      >
+    </div>
+  </div>
+</div>
+
