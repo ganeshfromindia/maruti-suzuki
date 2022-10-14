@@ -8,7 +8,7 @@
       <div class="red-tags">Select the document</div>
     </div>
     <div class="col-md-5">
-      <input type="file" class="form-control text-capitalize"  />
+      <input type="file" class="form-control" (change)="setFile($event)" />
     </div>
   </div>
   <div class="row mt-2">
@@ -16,11 +16,11 @@
       <div class="red-tags">Document Type</div>
     </div>
     <div class="col-md-5">
-      <select class="form-control form-select" formControlName="docType" >
+      <select class="form-control form-select" formControlName="document" >
         <option [value]="null" >Please Select</option>
         <option 
             *ngFor="let docType of docTypes; let i = index"
-            [value]="docType.id">
+            [value]="docType.documentType">
             {{docType.documentType}}
         </option>
       </select>
@@ -37,7 +37,15 @@
         </option>
       </select>
     </div>
-  </div>  
+  </div> 
+  <div class="row mt-5">
+    <div class="col-md-2">
+      <div class="red-tags">Document Date</div>
+    </div>
+    <div class="col-md-5">
+      <input type="date" class="form-control" formControlName="documentDate" />
+    </div>
+  </div> 
   <div class="row mt-2">
     <div class="col-md-2">
       <div class="red-tags">Tagging Head</div>
