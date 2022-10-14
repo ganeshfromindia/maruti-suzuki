@@ -7,30 +7,42 @@
     <div class="col-md-2">
       <div class="red-tags">Select the document</div>
     </div>
-    <div class="col-md-3">
-      <input type="file" class="form-control text-capitalize" formControlName="document" />
+    <div class="col-md-5">
+      <input type="file" class="form-control text-capitalize"  />
     </div>
   </div>
   <div class="row mt-2">
     <div class="col-md-2">
       <div class="red-tags">Document Type</div>
     </div>
-    <div class="col-md-3">
-      <select class="form-control" formControlName="docType" >
+    <div class="col-md-5">
+      <select class="form-control form-select" formControlName="docType" >
         <option [value]="null" >Please Select</option>
         <option 
             *ngFor="let docType of docTypes; let i = index"
             [value]="docType.id">
-            {{docType.docType}}
+            {{docType.documentType}}
         </option>
       </select>
     </div>
   </div>
   <div class="row mt-2">
     <div class="col-md-2">
+      <div class="red-tags">Additional Rights</div>
+    </div>
+    <div class="col-md-5">
+      <select class="form-control form-select" formControlName="additionalRights" multiple>
+        <option [value]="addRights.id" *ngFor="let addRights of additionalRights; let i = index;">
+          {{addRights.right}}
+        </option>
+      </select>
+    </div>
+  </div>  
+  <div class="row mt-2">
+    <div class="col-md-2">
       <div class="red-tags">Tagging Head</div>
     </div>
-    <div class="col-md-3" [formArrayName]="'tags'">
+    <div class="col-md-5" *ngIf="tags  && tags.length > 0" >
         <table class="table table-striped">
             <thead>
               <tr>
@@ -43,14 +55,13 @@
               <tr
                 *ngFor="let tag of tags; let i = index"
                 class="text-capitalize"
-                [formGroupName]="i"
               >
                 <td>{{ i + 1}}</td>
                 <td>
-                  <input formControlName="taggingHeadName" class="view-input" />
+                  {{tag.taggingHeadName}}
                 </td>
                 <td>
-                  <input [value]="tag.taggingHeadName" type="checkbox" (change)="setTagForm($event)"/>
+                  <input (change)="onChange(tag.id, $event)"type="checkbox" />
                 </td>
               </tr>
             </tbody>
