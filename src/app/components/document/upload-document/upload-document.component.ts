@@ -25,6 +25,8 @@ export class UploadDocumentComponent implements OnInit {
   public showSuccess: string = '';
   public documentUploadForm: FormGroup;
   public formDataFile: FormData = new FormData();
+  public fileType: string = '';
+  public fileTypeFlag: boolean = true;
 
   constructor(
     private router: Router,
@@ -152,19 +154,21 @@ export class UploadDocumentComponent implements OnInit {
   }
 
   setFile(event: any) {
+    this.fileTypeFlag = false;
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
       const file: File = fileList[0];
       this.formDataFile = new FormData();
-      this.formDataFile.append('file', file, file.name);
-      console.log(this.formDataFile);
+      this.fileType = file.type.includes('document') ? 'WORD' : file.type.includes('sheet') ? 'EXCEL' : 'PDF'
+      this.docTypes.forEach((data) => {
+        this.fileTypeFlag = file.name.toLowerCase().includes(data.documentType.toLowerCase())
+      })
+      if(this.fileTypeFlag) this.formDataFile.append('file', file, file.name);
     }
   }
 
   async onSubmitDocumentUpload() {
     const formData = this.documentUploadForm.getRawValue();
-    console.log(formData);
-    return
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'multipart/form-data',
@@ -195,8 +199,6 @@ export class UploadDocumentComponent implements OnInit {
     formData.companyId  = this.userService.getCompanyID();
     formData.userId = this.userService.getUserId();
     formData.userType = this.userService.getUserType();
-    console.log(formData);
-    console.log(this.formDataFile);
     return new Promise((resolve, reject) => {
         try {
           this._beService.postMethod('file-upload?id=' + formData.userId + '&companyId='+ formData.companyId +'&documentDate='+ formData.documentDate +'&additionalRights='+ formData.additionalRights +'&document='+ formData.document+'&userType='+ formData.userType+'&taggingHead='+ formData.taggingHead , this.formDataFile)

@@ -9,6 +9,7 @@
     </div>
     <div class="col-md-5">
       <input type="file" class="form-control" (change)="setFile($event)" />
+      <span *ngIf="!fileTypeFlag">Please choose file from one of the below format</span>
     </div>
   </div>
   <div class="row mt-2">

@@ -132,14 +132,17 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     let root;
     for (const node of data) {
       nodes[node.id] = { children: [], ...nodes[node.id], ...node };
+      console.log(nodes[node.id])
       if (node.linkedTo) {
         nodes[node.linkedTo] = { children: [], ...nodes[node.linkedTo] };
         nodes[node.linkedTo].children.push(nodes[node.id]);
         this.singleNode = nodes[node.linkedTo]
       } else {
+        console.log(nodes[node.id])
         root = nodes[node.id];
       }
     }
+    console.log(root)
     return root || this.singleNode.children[0];
   }
 
@@ -260,17 +263,19 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     this.selprojHierarchy = null;
     const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
     modalRef.result.then((res) => {
-      this.projecTHierarchyId = res.id;
-      this.projHierarchyCreateForm.patchValue({projectHierarchyName: res.projectHierarchyName})
-      this.projectHierarchy = this.projHierarchies.filter((data: any) => data.id == res.id)
-      this.projectHierarchy = this.projectHierarchy[0].hierarchyDetailList;
-      this.projectHierarchy = this.projectHierarchy.sort((a: any,b: any) => 
-      {
-        if(a.level < b.level) { return -1; }
-        if(a.level > b.level) { return 1; }
-        return 0;
-      })
-      this.closeModal = `Closed with: ${res}`;
+      if(res) {
+        this.projecTHierarchyId = res.id;
+        this.projHierarchyCreateForm.patchValue({projectHierarchyName: res.projectHierarchyName})
+        this.projectHierarchy = this.projHierarchies.filter((data: any) => data.id == res.id)
+        this.projectHierarchy = this.projectHierarchy[0].hierarchyDetailList;
+        this.projectHierarchy = this.projectHierarchy.sort((a: any,b: any) => 
+        {
+          if(a.level < b.level) { return -1; }
+          if(a.level > b.level) { return 1; }
+          return 0;
+        })
+        this.closeModal = `Closed with: ${res}`;
+      }
     }, (res) => {
       this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
     });
