@@ -14,8 +14,8 @@
           </thead>
           <tbody>
             <tr *ngFor="let docType of docTypes; let i = index">
-              <td scope="row">{{ docType.id }}</td>
-              <td>{{ docType.docType }}</td>
+              <td>{{ i + 1 }}</td>
+              <td>{{ docType.documentType }}</td>
               <td>
                 <button
                   (click)="postEditId(docType)"
@@ -27,6 +27,43 @@
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div *ngIf="showError" class="text-center">
+        <P
+          >{{showError}}</P
+        >
+      </div>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-12">
+      <div
+        class="col-12 d-flex align-items-start justify-content-between"
+        *ngIf="total"
+      >
+        <ngb-pagination
+          [collectionSize]="total"
+          [(page)]="page"
+          [pageSize]="pageSize"
+          (pageChange)="setPage($event)"
+        >
+        </ngb-pagination>
+  
+        <select
+          class="form-select"
+          style="width: auto"
+          name="pageSize"
+          [(ngModel)]="pageSize"
+          (change)="setPageSize($event)"
+        >
+          <option [value]="5">5 items per page</option>
+          <option [value]="10">10 items per page</option>
+          <!-- <option [ngValue]="10">10 items per page</option> -->
+        </select>
       </div>
     </div>
   </div>

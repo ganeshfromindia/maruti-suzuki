@@ -107,12 +107,11 @@ export class ProjCreationAdminComponent implements OnInit {
 
   buildProjCreateForm(item: any): FormGroup {
     return this._fb.group({
-      id: item.id,
-      designationId: item.designationId,
-      designationName: item.designationName,
-      level: item.level,
-      linkedTo: item.linkedTo,
-      userId: null
+      designationId: [item.designationId, Validators.required],
+      designationName: [item.designationName, Validators.required],
+      level: [item.level, Validators.required],
+      linkedTo: [item.linkedTo, Validators.required],
+      userId: [null, Validators.required],
     })
   }
 

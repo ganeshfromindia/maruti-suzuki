@@ -84,14 +84,15 @@
             </tr>
           </tbody>
         </table>
-      </div>
-      <div class="text-center">
-        <button
-          type="submit"
-          class="btn bg-danger red-tags col-md-2 rounded-0 text-white"
-        >
-          Submit
-        </button>
+        <div class="text-center">
+          <button
+            type="submit"
+            class="btn bg-danger red-tags col-md-2 rounded-0 text-white"
+            [disabled]="projCreateForm.invalid"
+          >
+            Submit
+          </button>
+        </div>
       </div>
     </div>
   </div>
