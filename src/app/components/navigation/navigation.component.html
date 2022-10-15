@@ -313,7 +313,7 @@
                     [ngClass]="{
                       active: child4_4_1RLA.isActive || child4_4_2RLA.isActive
                     }"
-                    >Doc Type</a
+                    >Document Type</a
                   >
                   <ul
                     ngbDropdownMenu
@@ -496,7 +496,7 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
                 [ngClass]="{
-                  active: child6_1RLA.isActive
+                  active: child6_1RLA.isActive || child6_2RLA.isActive
                 }"
                 >Document</a
               >
@@ -513,7 +513,18 @@
                     aria-current="page"
                     routerLinkActive="active"
                     #child6_1RLA="routerLinkActive"
-                    >Uplaod Document</a
+                    >Upload Document</a
+                  >
+                </li>
+                <li>
+                  <a
+                    ngbDropdownItem
+                    routerLink="document/search-document"
+                    class="dropdown-item ps-4"
+                    aria-current="page"
+                    routerLinkActive="active"
+                    #child6_2RLA="routerLinkActive"
+                    >Search Document</a
                   >
                 </li>
               </ul>

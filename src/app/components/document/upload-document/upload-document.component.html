@@ -9,7 +9,6 @@
     </div>
     <div class="col-md-5">
       <input type="file" class="form-control" (change)="setFile($event)" />
-      <span *ngIf="!fileTypeFlag">Please choose file from one of the below format</span>
     </div>
   </div>
   <div class="row mt-2">
@@ -39,7 +38,7 @@
       </select>
     </div>
   </div> 
-  <div class="row mt-5">
+  <div class="row mt-2">
     <div class="col-md-2">
       <div class="red-tags">Document Date</div>
     </div>
@@ -95,3 +94,21 @@
     </div>
   </div>
 </form>
+<div class="row mt-5">
+  <div class="col-12">
+    <div *ngIf="showError" class="text-center">
+      <P
+        >{{showError}}</P
+      >
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div *ngIf="showSuccess" class="text-center">
+      <P
+        >{{showSuccess}}</P
+      >
+    </div>
+  </div>
+</div>

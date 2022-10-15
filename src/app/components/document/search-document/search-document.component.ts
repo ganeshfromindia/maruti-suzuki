@@ -11,20 +11,22 @@ import { Router } from '@angular/router';
 import { BackendService } from 'src/app/services/backend.service';
 import { UserService } from 'src/app/services/user.service';
 
+
 @Component({
-  selector: 'app-upload-document',
-  templateUrl: './upload-document.component.html',
-  styleUrls: ['./upload-document.component.css'],
+  selector: 'app-search-document',
+  templateUrl: './search-document.component.html',
+  styleUrls: ['./search-document.component.css']
 })
-export class UploadDocumentComponent implements OnInit {
+export class SearchDocumentComponent implements OnInit {
+
   public urlHttpParams: any = {};
   public tags: any[] = [];
   public docTypes: any[] = [];
-  public additionalRights: any[] = [];
+  public projects: any[] = [];
+  public userAllData: any[] = [];
   public showError: string = '';
   public showSuccess: string = '';
-  public documentUploadForm: FormGroup;
-  public formDataFile: FormData = new FormData();
+  public documentSearchForm: FormGroup;
 
   constructor(
     private router: Router,
@@ -32,10 +34,14 @@ export class UploadDocumentComponent implements OnInit {
     private userService: UserService,
     private _fb: FormBuilder
   ) {
-    this.documentUploadForm = this._fb.group({
+    this.documentSearchForm = this._fb.group({
+      documentName: [null, Validators.required],
       document: [null, Validators.required],
-      additionalRights: [null, Validators.required],
-      documentDate: ['', Validators.required],
+      searchText: [null, Validators.required],
+      project: [null, Validators.required],
+      userId: [null, Validators.required],
+      documentFromDate: ['', Validators.required],
+      documentToDate: ['', Validators.required],
       taggingHead: this._fb.array([]),
     });
   }
@@ -43,17 +49,14 @@ export class UploadDocumentComponent implements OnInit {
   ngOnInit(): void {
     this.setDocTypes(1, 10);
     this.setTaggingData(1, 10);
-    this.setAdditionalRights(1, 10)
-    this.additionalRights = [
-      { id: 1, right: 'Within Company' },
-      { id: 2, right: 'Across Department' },
-      { id: 3, right: 'Sub Department' },
-      { id: 4, right: 'Within Company' },
-      { id: 5, right: 'Across Department' },
-      { id: 6, right: 'Sub Department' },
-      { id: 7, right: 'Within Company' },
-      { id: 8, right: 'Across Department' },
-      { id: 9, right: 'Sub Department' },
+    this.setProjects(1, 10);
+    this.setUserData(1, 10);
+    this.projects = [
+      { id: 1, projectName: 'Mumbai Nagpur Highway' },
+      { id: 2, projectName: 'Kandla Port Extn' },
+      { id: 3, projectName: 'Madurai Power Plant' },
+      { id: 4, projectName: 'Shikrapur Mining Modification' },
+      { id: 5, projectName: 'Sutlej Dam' }
     ];
   }
 
@@ -111,9 +114,9 @@ export class UploadDocumentComponent implements OnInit {
     }
   }
 
-  async setAdditionalRights(page: number, pageSize: number) {
+  async setProjects(page: number, pageSize: number) {
     return
-    this.additionalRights = [];
+    this.projects = [];
     let url = 'common/get/tagging/head?';
     this.urlHttpParams = {
       adminId: this.userService.getUserId(),
@@ -135,15 +138,42 @@ export class UploadDocumentComponent implements OnInit {
       }, 5000);
     } else {
       if (returnedAlerts.data.status == 200)
-        this.additionalRights = returnedAlerts.data.payLoad;
+        this.projects = returnedAlerts.data.payLoad;
     }
   }
 
+  async setUserData(page: number, pageSize: number) {
+    this.userAllData = [];
+    let url = 'auth/get/user-list?';
+    this.urlHttpParams = {
+      userName: '',
+      companyId: this.userService.getCompanyID(),
+      emailId: ''
+    };
+    let returnedAlerts: any = await this.setData(page,
+      pageSize,
+      url,
+      this.urlHttpParams
+    );
+    if(returnedAlerts.flag) {
+      if(returnedAlerts.data.status == 404) {
+        this.showError = "Data Not Found";
+      } else {
+        this.showError = "Something went wrong"
+      }
+      setTimeout(() => {
+        this.showError = ''
+      },5000)
+    } else {
+      if(returnedAlerts.data.status == 200) this.userAllData = returnedAlerts.data.payLoad;
+      
+    }
+  }
   setData(page: number, pageSize: number, url: string, httpParams: any) {
     return new Promise((resolve, reject) => {
       try {
         this._beService
-          .getMethod(url, undefined, undefined, httpParams)
+          .getMethod(url, page, pageSize, httpParams)
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(
@@ -168,7 +198,7 @@ export class UploadDocumentComponent implements OnInit {
   }
 
   onChange(id: string, data: any) {
-    const tagsArray: FormArray = this.documentUploadForm.get(
+    const tagsArray: FormArray = this.documentSearchForm.get(
       'taggingHead'
     ) as FormArray;
 
@@ -180,17 +210,14 @@ export class UploadDocumentComponent implements OnInit {
     }
   }
 
-  setFile(event: any) {
-    const fileList: FileList = event.target.files;
-    if (fileList.length > 0) {
-      const file: File = fileList[0];
-      this.formDataFile = new FormData();
-      this.formDataFile.append('file', file, file.name);
-    }
-  }
+  
 
-  async onSubmitDocumentUpload() {
-    const formData = this.documentUploadForm.getRawValue();
+  async onSubmitDocumentSearch() {
+    const formData = this.documentSearchForm.getRawValue();
+    console.log(formData);
+    return
+   
+
     let returnedAlerts: any = await this.postData(formData);
     if(returnedAlerts.flag) {
       if(returnedAlerts.data.status == 404) {
@@ -211,14 +238,14 @@ export class UploadDocumentComponent implements OnInit {
   }
 
   postData(formData: any) {
-    formData.documentDate = new Date(formData.documentDate).getTime();
+    formData.documentFromDate = new Date(formData.documentFromDate).getTime();
+    formData.documentToDate = new Date(formData.documentToDate).getTime();
     formData.companyId  = this.userService.getCompanyID();
     formData.userId = this.userService.getUserId();
     formData.userType = this.userService.getUserType();
-    formData.document = 'WORD';
     return new Promise((resolve, reject) => {
         try {
-          this._beService.postMethod('file-upload?id=' + formData.userId + '&companyId='+ formData.companyId +'&documentDate='+ formData.documentDate +'&additionalRights='+ formData.additionalRights +'&document='+ formData.document+'&userType='+ formData.userType+'&taggingHead='+ formData.taggingHead , this.formDataFile)
+          this._beService.postMethod('file-upload?id=' + formData.userId + '&companyId='+ formData.companyId +'&documentFromDate='+ formData.documentFromDate +'&additionalRights='+ formData.additionalRights +'&document='+ formData.document+'&userType='+ formData.userType+'&taggingHead='+ formData.taggingHead , {})
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(resolvedData, false);
@@ -235,5 +262,6 @@ export class UploadDocumentComponent implements OnInit {
       }
     }) 
   }
+
 
 }

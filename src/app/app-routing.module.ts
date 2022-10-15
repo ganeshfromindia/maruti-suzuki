@@ -41,6 +41,8 @@ import { UnavailableComponent } from './components/unavailable/unavailable.compo
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { DocumentComponent } from './components/document/document.component';
 import { UploadDocumentComponent } from './components/document/upload-document/upload-document.component';
+import { SearchDocumentComponent } from './components/document/search-document/search-document.component';
+
 
 
 
@@ -248,6 +250,10 @@ const routes: Routes = [
       {
         path: 'upload-document',
         component: UploadDocumentComponent
+      },
+      {
+        path: 'search-document',
+        component: SearchDocumentComponent
       }
     ]
   },
@@ -307,5 +313,6 @@ export const RoutingComponents = [
   UnavailableComponent,
   NavigationComponent,
   DocumentComponent,
-  UploadDocumentComponent
+  UploadDocumentComponent,
+  SearchDocumentComponent
 ]

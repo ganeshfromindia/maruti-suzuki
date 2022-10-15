@@ -65,7 +65,7 @@ export class BackendService {
    */
   public postMethod(apiUrl: string, body: object, httpHeaderOptional?: { headers: HttpHeaders }): Observable<any> {
     // httpHeaderOptional = httpHeaderOptional || this._headers();
-
+    console.log(httpHeaderOptional)
     return this._http.post(`${environment.base_url}` + apiUrl, body, httpHeaderOptional).pipe(
       map((response) => response),
       catchError(this._errorHandler)

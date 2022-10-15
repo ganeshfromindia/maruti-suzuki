@@ -1,0 +1,147 @@
+<form [formGroup]="documentSearchForm" (ngSubmit)="onSubmitDocumentSearch()">
+  <div class="row mt-5">
+    <div class="col-md-2">
+      <div class="red-tags">Document Name</div>
+    </div>
+    <div class="col-md-5">
+      <input type="text" class="form-control" formControlName="documentName" />
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Document Type</div>
+    </div>
+    <div class="col-md-5">
+      <select class="form-control form-select" formControlName="document">
+        <option [value]="null">Please Select</option>
+        <option
+          *ngFor="let docType of docTypes; let i = index"
+          [value]="docType.documentType"
+        >
+          {{ docType.documentType }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Contains Text</div>
+    </div>
+    <div class="col-md-5">
+      <input type="text" class="form-control" formControlName="searchText" />
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Project</div>
+    </div>
+    <div class="col-md-5">
+      <select class="form-control form-select" formControlName="project">
+        <option [value]="null">Please select</option>
+        <option
+          [value]="project.id"
+          *ngFor="let project of projects; let i = index"
+        >
+          {{ project.projectName }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Created By</div>
+    </div>
+    <div class="col-md-5">
+      <select formControlName="userId" class="form-control form-select">
+        <option [value]="null">Please select</option>
+        <option
+          *ngFor="let userdata of userAllData; let i = index"
+          [value]="userdata.id"
+        >
+          {{ userdata.firstName }} {{ userdata.lastName }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Doc Date Between</div>
+    </div>
+    <div class="col-md-2">
+      <input
+        type="date"
+        class="form-control"
+        formControlName="documentFromDate"
+      />
+    </div>
+    <div class="col-md-1">
+      <div class="red-tags">And</div>
+    </div>
+    <div class="col-md-2">
+      <input
+        type="date"
+        class="form-control"
+        formControlName="documentToDate"
+        min="{{ documentSearchForm.value.documentFromDate }}"
+      />
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Tagging Head</div>
+    </div>
+    <div class="col-md-5" *ngIf="tags && tags.length > 0">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Sr. No.</th>
+            <th>Tagging Head</th>
+            <th>Yes / No</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tag of tags; let i = index" class="text-capitalize">
+            <td>{{ i + 1 }}</td>
+            <td>
+              {{ tag.taggingHeadName }}
+            </td>
+            <td>
+              <input (change)="onChange(tag.id, $event)" type="checkbox" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="offset-md-2 col-md-4">
+      <button
+        type="submit"
+        class="me-5 col-md-5 btn bg-danger red-tags rounded-0 text-white"
+        [disabled]="documentSearchForm.invalid"
+      >
+        Save
+      </button>
+      <button
+        class="col-md-5 btn bg-danger red-tags rounded-0 text-white"
+        type="button"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</form>
+<div class="row mt-5">
+  <div class="col-12">
+    <div *ngIf="showError" class="text-center">
+      <P>{{ showError }}</P>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div *ngIf="showSuccess" class="text-center">
+      <P>{{ showSuccess }}</P>
+    </div>
+  </div>
+</div>
