@@ -10,9 +10,9 @@
   border-radius: 0px;
 }
 
-.nav-link.active {
-  background-color: #4554a5;
-  color: #fff;
+.nav-link.active, .dropdown-item.active, .dropdown-item:active {
+  background-color:#e3ebfe;
+  color: rgb(79,79,79);
 }
 
 .cont-height {
@@ -23,4 +23,12 @@
 
 #nav-bg .main-nav-link {
   color: #ffffff;
+}
+
+.light-border {
+  border-color: #dee2e6 !important;
+}
+
+#nav-bg .bg-primary {
+  background-color: #4554a5 !important;
 }

@@ -13,7 +13,7 @@
     </div>
     <div class="col-md-5">
       <select class="form-control form-select" formControlName="document">
-        <option [value]="null">Please Select</option>
+        <option [value]="''">Please Select</option>
         <option
           *ngFor="let docType of docTypes; let i = index"
           [value]="docType.documentType"
@@ -37,7 +37,7 @@
     </div>
     <div class="col-md-5">
       <select class="form-control form-select" formControlName="project">
-        <option [value]="null">Please select</option>
+        <option [value]="''">Please select</option>
         <option
           [value]="project.id"
           *ngFor="let project of projects; let i = index"
@@ -53,7 +53,7 @@
     </div>
     <div class="col-md-5">
       <select formControlName="userId" class="form-control form-select">
-        <option [value]="null">Please select</option>
+        <option [value]="''">Please select</option>
         <option
           *ngFor="let userdata of userAllData; let i = index"
           [value]="userdata.id"
@@ -72,6 +72,7 @@
         type="date"
         class="form-control"
         formControlName="documentFromDate"
+        max="{{ documentSearchForm.value.documentToDate }}"
       />
     </div>
     <div class="col-md-1">
@@ -118,7 +119,7 @@
       <button
         type="submit"
         class="me-5 col-md-5 btn bg-danger red-tags rounded-0 text-white"
-        [disabled]="documentSearchForm.invalid"
+        [disabled]="documentSearchForm.invalid || documentSearchForm.value.taggingHead.length == 0"
       >
         Save
       </button>
@@ -131,6 +132,44 @@
     </div>
   </div>
 </form>
+<div class="row mt-5">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Sr. No.</th>
+        <th>Docuemnt Name</th>
+        <th>Project</th>
+        <th>Uploaded Date</th>
+        <th>Document Type</th>
+        <th>Tagging Heads</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let document of documents; let i = index;"
+        class="text-capitalize"
+      >
+        <td>{{ i + 1}}</td>
+        <td>{{document.documentName}}</td>
+        <td>{{document.project}}</td>
+        <td>{{document.documentDate | date: 'dd:MM:yyyy &nbsp; HH:mm:ss.SSS'}}</td>
+        <td>
+          <select class="view-input" disabled>
+            <option *ngFor="let docType of docTypes; let i = index;"
+            [value]="docType.id"
+            [selected]="docType.id == document.documentId"
+            >
+              {{ docType.documentType }}
+            </option>
+          </select>
+        </td>
+        <td>{{document.documentName}}</td>
+        <td>{{document.documentName}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 <div class="row mt-5">
   <div class="col-12">
     <div *ngIf="showError" class="text-center">

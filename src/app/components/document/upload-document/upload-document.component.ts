@@ -33,7 +33,7 @@ export class UploadDocumentComponent implements OnInit {
     private _fb: FormBuilder
   ) {
     this.documentUploadForm = this._fb.group({
-      document: [null, Validators.required],
+      document: ['', Validators.required],
       additionalRights: [null, Validators.required],
       documentDate: ['', Validators.required],
       taggingHead: this._fb.array([]),

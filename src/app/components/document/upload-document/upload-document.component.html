@@ -8,7 +8,7 @@
       <div class="red-tags">Select the document</div>
     </div>
     <div class="col-md-5">
-      <input type="file" class="form-control" (change)="setFile($event)" />
+      <input type="file" class="form-control" (change)="setFile($event)" accept=".xls,.xlsx,.doc,.docx,.ppt,.pptx"/>
     </div>
   </div>
   <div class="row mt-2">
@@ -17,10 +17,10 @@
     </div>
     <div class="col-md-5">
       <select class="form-control form-select" formControlName="document" >
-        <option [value]="null" >Please Select</option>
+        <option [value]="''" >Please Select</option>
         <option 
             *ngFor="let docType of docTypes; let i = index"
-            [value]="docType.documentType">
+            [value]="docType.id">
             {{docType.documentType}}
         </option>
       </select>
@@ -81,7 +81,7 @@
       <button
         type="submit"
         class="me-5 col-md-5 btn bg-danger red-tags rounded-0 text-white"
-        [disabled]="documentUploadForm.invalid"
+        [disabled]="documentUploadForm.invalid || documentUploadForm.value.taggingHead.length == 0"
       >
         Save
       </button>

@@ -24,6 +24,7 @@ export class SearchDocumentComponent implements OnInit {
   public docTypes: any[] = [];
   public projects: any[] = [];
   public userAllData: any[] = [];
+  public documents: any[] = [];
   public showError: string = '';
   public showSuccess: string = '';
   public documentSearchForm: FormGroup;
@@ -35,11 +36,11 @@ export class SearchDocumentComponent implements OnInit {
     private _fb: FormBuilder
   ) {
     this.documentSearchForm = this._fb.group({
-      documentName: [null, Validators.required],
-      document: [null, Validators.required],
-      searchText: [null, Validators.required],
-      project: [null, Validators.required],
-      userId: [null, Validators.required],
+      documentName: ['', Validators.required],
+      document: ['', Validators.required],
+      searchText: ['', Validators.required],
+      project: ['', Validators.required],
+      userId: ['', Validators.required],
       documentFromDate: ['', Validators.required],
       documentToDate: ['', Validators.required],
       taggingHead: this._fb.array([]),
@@ -215,6 +216,96 @@ export class SearchDocumentComponent implements OnInit {
   async onSubmitDocumentSearch() {
     const formData = this.documentSearchForm.getRawValue();
     console.log(formData);
+    this.documents = [
+      {
+        "createdOn": "2022-10-15T07:01:20.614+00:00",
+        "lastUpdate": "2022-10-15T07:01:20.614+00:00",
+        "id": 10,
+        "userId": 3,
+        "companyId": 2,
+        "documentPath": "2/ADMIN/WORD/3.docx",
+        "documentName": null,
+        "documentDate": 1665532800000,
+        "documentId": 1,
+        "additionalRight": [],
+        "taggingHead": [],
+        "active": true
+      },
+      {
+        "createdOn": "2022-10-15T06:59:03.952+00:00",
+        "lastUpdate": "2022-10-15T06:59:03.952+00:00",
+        "id": 7,
+        "userId": 3,
+        "companyId": 2,
+        "documentPath": "2/SUPER_ADMIN/WORD/3.docx",
+        "documentName": null,
+        "documentDate": 1665705600000,
+        "documentId": 3,
+        "additionalRight": [],
+        "taggingHead": [],
+        "active": true
+      },
+      {
+        "createdOn": "2022-10-15T06:40:06.022+00:00",
+        "lastUpdate": "2022-10-15T06:40:06.022+00:00",
+        "id": 6,
+        "userId": 2,
+        "companyId": 2,
+        "documentPath": "Locate_2\\2\\22.Feature lists for  CMS v2.5 16th July 2022.docx",
+        "documentName": "docx_2_2_3_1665816000985",
+        "documentDate": 1665813305197,
+        "documentId": 2,
+        "additionalRight": [
+          6,
+          7
+        ],
+        "taggingHead": [
+          9,
+          10
+        ],
+        "active": true
+      },
+      {
+        "createdOn": "2022-10-16T06:26:53.464+00:00",
+        "lastUpdate": "2022-10-16T06:26:53.464+00:00",
+        "id": 11,
+        "userId": 3,
+        "companyId": 2,
+        "documentPath": "Locate_2\\3\\23.AndroidExpense.pdf",
+        "documentName": "pdf_2_3_8_1665901613379",
+        "documentDate": 1665901537938,
+        "documentId": 2,
+        "additionalRight": [
+          6,
+          7
+        ],
+        "taggingHead": [
+          9,
+          4
+        ],
+        "active": true
+      },
+      {
+        "createdOn": "2022-10-16T07:08:35.272+00:00",
+        "lastUpdate": "2022-10-16T07:08:35.272+00:00",
+        "id": 14,
+        "userId": 3,
+        "companyId": 2,
+        "documentPath": "Locate_2\\3\\abc.docx",
+        "documentName": "pdf_2_3_8_1665904115181",
+        "documentDate": 1665901537938,
+        "documentId": 1,
+        "additionalRight": [
+          6,
+          7
+        ],
+        "taggingHead": [
+          9,
+          4
+        ],
+        "active": true
+      }
+    ]
     return
    
 
