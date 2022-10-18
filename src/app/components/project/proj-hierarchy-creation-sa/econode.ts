@@ -6,6 +6,7 @@ Please, don't remove the comment
 export interface IECONode
 {
   data:any;
+  idMain:string;
   designationName: string;
   linkColor?:string;
   background?:string;
@@ -48,6 +49,7 @@ export enum Select {
 }
 
 export class ECONode {
+  idMain;
   designationName;
   id;
   pid;
@@ -76,7 +78,8 @@ export class ECONode {
 
   isSelected = false;
 
-  constructor(designationName: any,id: any, pid: any, dsc: any, w: any, h: any, c: any, bc: any, lc: any, meta: any) {
+  constructor(idMain:any,designationName: any,id: any, pid: any, dsc: any, w: any, h: any, c: any, bc: any, lc: any, meta: any) {
+    this.idMain = idMain;
     this.designationName = designationName;
     this.id = id;
     this.pid = pid;
@@ -397,7 +400,7 @@ export class ECOTree {
     this.nDatabaseNodes = [];
     this.mapIDs = {};
 
-    this.root = new ECONode('',-1, null, null, 2, 2, null, null, null, null);
+    this.root = new ECONode('','',-1, null, null, 2, 2, null, null, null, null);
     this.iSelectedNode = -1;
     this.iLastSearch = 0;
   }
@@ -698,7 +701,7 @@ export class ECOTree {
     }
   }
 
-  add(designationName: any,id: any, pid: any, dsc: any, w: any, h: any, c: any, bc: any, lc: any, meta: any) {
+  add(idMain:any,designationName: any,id: any, pid: any, dsc: any, w: any, h: any, c: any, bc: any, lc: any, meta: any) {
     const nw = w || this.config.defaultNodeWidth; //Width, height, colors, target and metadata defaults...
     const nh = h || this.config.defaultNodeHeight;
     const color = c || this.config.nodeColor;
@@ -717,7 +720,7 @@ export class ECOTree {
       }
     }
 
-    const node = new ECONode(designationName, id, pid, dsc, nw, nh, color, border, lc, metadata); //New node creation...
+    const node = new ECONode(idMain,designationName, id, pid, dsc, nw, nh, color, border, lc, metadata); //New node creation...
     node.nodeParent = pnode; //Set it's parent
     pnode.canCollapse = true; //It's obvious that now the parent can collapse
     const i = this.nDatabaseNodes.length; //Save it in database

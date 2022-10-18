@@ -12,7 +12,7 @@ import { IECONode, Orientation } from './econode';
   styleUrls: ['./proj-hierarchy-creation-sa.component.css'],
 })
 export class ProjHierarchyCreationSaComponent implements OnInit {
-  public data: IECONode = { data: null, designationName: '' };
+  public data: IECONode = { data: null, designationName: '', idMain: '' };
   public dataArray: any[] = [];
   public urlHttpParams: any = {};
   public projHierarchyData: any[] = [];
@@ -38,6 +38,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     private modalService: NgbModal
   ) {
     this.projHierarchyCreateForm = this._fb.group({
+      id:['', Validators.required],
       projectHierarchyName:['', Validators.required],
       projDesgn:[null, Validators.required],
       level:['', Validators.required],
@@ -94,7 +95,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
   }
 
   async setTreeData() {
-    this.data = { data: null, designationName: '' };
+    this.data = { data: null, designationName: '', idMain: '' };
     const formData = this.projHierarchyCreateForm.getRawValue();
     if(formData.projectHierarchyName == '') {
       this.showSelectError = true;
@@ -121,6 +122,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
       if (returnedAlerts.data.status == 200)
         this.dataArray = returnedAlerts.data.payLoad[0].hierarchyDetailList;
         console.log(this.dataArray);
+        this.dataArray.forEach((data) => data.idMain = data.id);
         this.data = this.unflattenTree(this.dataArray);
         console.log(this.data)
       //this.data = this.printTree(this.unflattenTree(this.dataArray));
@@ -167,6 +169,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
       projectHierarchyName: formData.projectHierarchyName,
       hierarchyDetailList: [
         {
+          id: formData.id || '',
           designationId: formData.projDesgn,
           designationName: fetchedProjDesgnName,
           level: formData.level,
@@ -220,6 +223,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
   //post edit id to edit component
   postEditId(data: any) {
     this.projHierarchyCreateForm.patchValue({
+      id: data.id,
       projDesgn: data.designationId,
       level: data.level
     })

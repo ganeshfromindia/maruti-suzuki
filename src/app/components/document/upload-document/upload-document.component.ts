@@ -23,6 +23,7 @@ export class UploadDocumentComponent implements OnInit {
   public additionalRights: any[] = [];
   public showError: string = '';
   public showSuccess: string = '';
+  public fileName: string = '';
   public documentUploadForm: FormGroup;
   public formDataFile: FormData = new FormData();
 
@@ -186,6 +187,7 @@ export class UploadDocumentComponent implements OnInit {
       const file: File = fileList[0];
       this.formDataFile = new FormData();
       this.formDataFile.append('file', file, file.name);
+      this.fileName = file.name;
     }
   }
 
@@ -215,10 +217,9 @@ export class UploadDocumentComponent implements OnInit {
     formData.companyId  = this.userService.getCompanyID();
     formData.userId = this.userService.getUserId();
     formData.userType = this.userService.getUserType();
-    formData.document = 'WORD';
     return new Promise((resolve, reject) => {
         try {
-          this._beService.postMethod('file-upload?id=' + formData.userId + '&companyId='+ formData.companyId +'&documentDate='+ formData.documentDate +'&additionalRights='+ formData.additionalRights +'&document='+ formData.document+'&userType='+ formData.userType+'&taggingHead='+ formData.taggingHead , this.formDataFile)
+          this._beService.postMethod('file-upload?userId=' + formData.userId + '&companyId='+ formData.companyId +'&documentDate='+ formData.documentDate +'&additionalRights='+ formData.additionalRights +'&document='+ formData.document+'&userType='+ formData.userType+'&taggingHead='+ formData.taggingHead+'&fileName='+ this.fileName , this.formDataFile)
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(resolvedData, false);

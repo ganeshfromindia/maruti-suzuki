@@ -169,7 +169,8 @@ export class ProjCreationAdminComponent implements OnInit {
         try {
           this.pData.companyId  = this.userService.getCompanyID();
           this.pData.adminId = this.userService.getUserId();
-          this._beService.postMethod('project/model/save?projectName='+ formData.projTypeName +'&companyId=' + this.pData.companyId +'&adminId='+ this.pData.adminId, formData.users)
+          console.log(formData.projType)
+          this._beService.postMethod('project/model/save?projectName='+ formData.projTypeName +'&companyId=' + this.pData.companyId +'&adminId='+ this.pData.adminId +'&projectTypeId='+formData.projType.id, formData.users)
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(resolvedData, false);

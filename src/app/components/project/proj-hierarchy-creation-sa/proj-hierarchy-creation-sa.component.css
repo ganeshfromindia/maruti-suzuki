@@ -40,3 +40,9 @@
     width: auto;
     z-index: 9;
 }
+
+.pos-ids {
+    position: absolute;
+    top: 14px;
+    left: 17px;
+}
