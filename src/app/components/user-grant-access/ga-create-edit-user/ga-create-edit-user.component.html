@@ -14,7 +14,7 @@
           </div>
           <div class="col-md-4">
             <select class="form-control form-select" formControlName="userName">
-              <option value="null">Please select</option>
+              <option [value]="''">Please select</option>
               <option
                 *ngFor="let user of users; let i = index"
                 [value]="user.id"
@@ -30,7 +30,7 @@
           </div>
           <div class="col-md-4">
               <select class="form-control form-select" formControlName="department">
-                  <option value="null">Please select</option>
+                  <option [value]="''">Please select</option>
                   <option
                     *ngFor="let department of departments; let i = index"
                     [value]="department.id"
@@ -46,7 +46,7 @@
           </div>
           <div class="col-md-4">
               <select class="form-control form-select" formControlName="designation">
-                  <option value="null">Please select</option>
+                  <option [value]="''">Please select</option>
                   <option
                     *ngFor="let designation of designations; let i = index"
                     [value]="designation.id"
@@ -84,7 +84,7 @@
           </div>
           <div class="col-md-4">
             <select class="form-control form-select" formControlName="level">
-                  <option value="null">Please select</option>
+                  <option [value]="''">Please select</option>
                   <option
                     *ngFor="let level of levels; let i = index"
                     [value]="level.id"
@@ -98,7 +98,7 @@
           </div>
           <div class="col-md-3">
               <select class="form-control form-select" formControlName="userType">
-                  <option value="null">Please select</option>
+                  <option [value]="''">Please select</option>
                   <option
                     *ngFor="let type of types; let i = index"
                     [value]="type.id"

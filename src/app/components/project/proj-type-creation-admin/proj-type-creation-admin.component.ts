@@ -33,7 +33,7 @@ export class ProjTypeCreationAdminComponent implements OnInit {
     
   ngOnInit(): void {
     this.setProjHierarchies();
-    this.projHierarchy = 'select'
+    this.projHierarchy = '';
   }
 
   async setProjHierarchies() {

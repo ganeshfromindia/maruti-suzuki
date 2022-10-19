@@ -31,17 +31,17 @@ export class CreateEditUserComponent implements OnInit {
   constructor(private route: ActivatedRoute,private _fb: FormBuilder, private _beService: BackendService, private userService: UserService) { 
     this.userCreateEditForm = this._fb.group({
       id:[''],
-      companyId:[null, Validators.required],
+      companyId:['', Validators.required],
       userName:['', Validators.required],
       firstName:['', Validators.required],
       lastName:['', Validators.required],
       password:['', Validators.required],
-      departmentId:[null, Validators.required],
-      designationId:[null, Validators.required],
+      departmentId:['', Validators.required],
+      designationId:['', Validators.required],
       emailId:['', Validators.required],
       phoneNumber:['', Validators.required],
       level:['', Validators.required],
-      userType:[null, Validators.required],
+      userType:['', Validators.required],
       searchRights:['', Validators.required],
       additionalField:['', Validators.required]
     })

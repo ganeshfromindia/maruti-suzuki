@@ -29,7 +29,7 @@
             </div>
             <div class="col-md-4 position-relative">
               <select class="form-control form-select" formControlName="projectHierarchyData"  [compareWith]="compareFn">
-                <option [ngValue]="'select'" >Please select</option>
+                <option [ngValue]="''" >Please select</option>
                 <option
                   *ngFor="let projHierarchy of projHierarchies; let i = index"
                   [ngValue]="projHierarchy"

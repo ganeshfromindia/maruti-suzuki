@@ -40,9 +40,9 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     this.projHierarchyCreateForm = this._fb.group({
       id:['', Validators.required],
       projectHierarchyName:['', Validators.required],
-      projDesgn:[null, Validators.required],
+      projDesgn:['', Validators.required],
       level:['', Validators.required],
-      linkedTo:[0, Validators.required]
+      linkedTo:['', Validators.required]
     })
   }
 
@@ -264,7 +264,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
 
   async triggerModal(content: any) {
     let returnedStatus = this.setProjectHierarchies('');
-    this.selprojHierarchy = null;
+    this.selprojHierarchy = '';
     const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
     modalRef.result.then((res) => {
       if(res) {

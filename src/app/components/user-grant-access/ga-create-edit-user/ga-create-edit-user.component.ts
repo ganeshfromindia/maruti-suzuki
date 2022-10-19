@@ -23,12 +23,12 @@ export class GaCreateEditUserComponent implements OnInit {
   constructor(private route: ActivatedRoute,private _fb: FormBuilder, private _beService: BackendService, private userService: UserService) { 
     this.userCreateEditForm = this._fb.group({
       userName:['', Validators.required],
-      department:[null, Validators.required],
-      designation:[null, Validators.required],
+      department:['', Validators.required],
+      designation:['', Validators.required],
       emailId:['', Validators.required],
       phoneNumber:['', Validators.required],
-      level:[null, Validators.required],
-      userType:[null, Validators.required],
+      level:['', Validators.required],
+      userType:['', Validators.required],
       searchRights:['', Validators.required],
       additionalField:['', Validators.required],
     })
@@ -111,7 +111,7 @@ export class GaCreateEditUserComponent implements OnInit {
       this.userCreateEditForm.patchValue(x)
     } else {
       this.userCreateEditForm.patchValue({
-        userName: null
+        userName: ''
       })
     }
   }
