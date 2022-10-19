@@ -36,13 +36,11 @@ export class SearchDocumentComponent implements OnInit {
     private _fb: FormBuilder
   ) {
     this.documentSearchForm = this._fb.group({
-      documentName: ['', Validators.required],
-      document: ['', Validators.required],
-      searchText: ['', Validators.required],
-      project: ['', Validators.required],
-      userId: ['', Validators.required],
-      documentFromDate: ['', Validators.required],
-      documentToDate: ['', Validators.required],
+      documentName: [''],
+      documentId: [''],
+      createdBy: [''],
+      startTime: [''],
+      endTime: [''],
       taggingHead: this._fb.array([]),
     });
   }
@@ -215,100 +213,6 @@ export class SearchDocumentComponent implements OnInit {
 
   async onSubmitDocumentSearch() {
     const formData = this.documentSearchForm.getRawValue();
-    console.log(formData);
-    this.documents = [
-      {
-        "createdOn": "2022-10-15T07:01:20.614+00:00",
-        "lastUpdate": "2022-10-15T07:01:20.614+00:00",
-        "id": 10,
-        "userId": 3,
-        "companyId": 2,
-        "documentPath": "2/ADMIN/WORD/3.docx",
-        "documentName": null,
-        "documentDate": 1665532800000,
-        "documentId": 1,
-        "additionalRight": [],
-        "taggingHead": [],
-        "active": true
-      },
-      {
-        "createdOn": "2022-10-15T06:59:03.952+00:00",
-        "lastUpdate": "2022-10-15T06:59:03.952+00:00",
-        "id": 7,
-        "userId": 3,
-        "companyId": 2,
-        "documentPath": "2/SUPER_ADMIN/WORD/3.docx",
-        "documentName": null,
-        "documentDate": 1665705600000,
-        "documentId": 3,
-        "additionalRight": [],
-        "taggingHead": [],
-        "active": true
-      },
-      {
-        "createdOn": "2022-10-15T06:40:06.022+00:00",
-        "lastUpdate": "2022-10-15T06:40:06.022+00:00",
-        "id": 6,
-        "userId": 2,
-        "companyId": 2,
-        "documentPath": "Locate_2\\2\\22.Feature lists for  CMS v2.5 16th July 2022.docx",
-        "documentName": "docx_2_2_3_1665816000985",
-        "documentDate": 1665813305197,
-        "documentId": 2,
-        "additionalRight": [
-          6,
-          7
-        ],
-        "taggingHead": [
-          9,
-          10
-        ],
-        "active": true
-      },
-      {
-        "createdOn": "2022-10-16T06:26:53.464+00:00",
-        "lastUpdate": "2022-10-16T06:26:53.464+00:00",
-        "id": 11,
-        "userId": 3,
-        "companyId": 2,
-        "documentPath": "Locate_2\\3\\23.AndroidExpense.pdf",
-        "documentName": "pdf_2_3_8_1665901613379",
-        "documentDate": 1665901537938,
-        "documentId": 2,
-        "additionalRight": [
-          6,
-          7
-        ],
-        "taggingHead": [
-          9,
-          4
-        ],
-        "active": true
-      },
-      {
-        "createdOn": "2022-10-16T07:08:35.272+00:00",
-        "lastUpdate": "2022-10-16T07:08:35.272+00:00",
-        "id": 14,
-        "userId": 3,
-        "companyId": 2,
-        "documentPath": "Locate_2\\3\\abc.docx",
-        "documentName": "pdf_2_3_8_1665904115181",
-        "documentDate": 1665901537938,
-        "documentId": 1,
-        "additionalRight": [
-          6,
-          7
-        ],
-        "taggingHead": [
-          9,
-          4
-        ],
-        "active": true
-      }
-    ]
-    return
-   
-
     let returnedAlerts: any = await this.postData(formData);
     if(returnedAlerts.flag) {
       if(returnedAlerts.data.status == 404) {
@@ -320,23 +224,27 @@ export class SearchDocumentComponent implements OnInit {
         this.showError = '';
       },5000)
     } else {
-      this.showSuccess = "Data saved successfully";
-      setTimeout(() => {
-        this.showSuccess = '';
-      },5000)
+      if(returnedAlerts.data.status == 200) this.documents = returnedAlerts.data.payLoad;
     }
    
   }
 
   postData(formData: any) {
-    formData.documentFromDate = new Date(formData.documentFromDate).getTime();
-    formData.documentToDate = new Date(formData.documentToDate).getTime();
+    formData.startTime = new Date(formData.startTime).getTime();
+    formData.endTime = new Date(formData.endTime).getTime();
     formData.companyId  = this.userService.getCompanyID();
-    formData.userId = this.userService.getUserId();
-    formData.userType = this.userService.getUserType();
+    this.urlHttpParams = {
+      companyId : formData.companyId,
+      documentName: formData.documentName,
+      createdBy: formData.createdBy,
+      documentId: formData.documentId,
+      endTime: formData.endTime,
+      startTime: formData.startTime,
+      taggingHead: formData.taggingHead
+    };
     return new Promise((resolve, reject) => {
         try {
-          this._beService.postMethod('file-upload?id=' + formData.userId + '&companyId='+ formData.companyId +'&documentFromDate='+ formData.documentFromDate +'&additionalRights='+ formData.additionalRights +'&document='+ formData.document+'&userType='+ formData.userType+'&taggingHead='+ formData.taggingHead , {})
+          this._beService.getMethod('get/document/list?', undefined, undefined, this.urlHttpParams)
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(resolvedData, false);
@@ -352,6 +260,24 @@ export class SearchDocumentComponent implements OnInit {
         reject(alertsFetched);
       }
     }) 
+  }
+
+  downloadFile(filePath: any) {
+    console.log(filePath)
+    this._beService.getMethod('view-file?filePath='+filePath, undefined, undefined, {}).subscribe({
+      next: (data) => {
+        const blob = new Blob([data]);
+        const url= window.URL.createObjectURL(blob);
+        window.open(url);
+      },
+      error: (errorData) => {
+          this.showError = "Something went wrong";
+        setTimeout(() => {
+          this.showError = '';
+        },5000)
+      },
+      
+    })
   }
 
 
