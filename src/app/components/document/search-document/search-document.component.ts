@@ -1,4 +1,3 @@
-import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {
   FormArray,
@@ -263,12 +262,20 @@ export class SearchDocumentComponent implements OnInit {
   }
 
   downloadFile(filePath: any) {
-    console.log(filePath)
-    this._beService.getMethod('view-file?filePath='+filePath, undefined, undefined, {}).subscribe({
-      next: (data) => {
-        const blob = new Blob([data]);
-        const url= window.URL.createObjectURL(blob);
-        window.open(url);
+
+    let fileName = filePath.split('/').slice(-1).pop()
+    this._beService.getMethodForFileDownload('view-file?filePath='+filePath).subscribe({
+      next: (res) => {
+        let fileNameP: string = !!fileName ? fileName : '';
+        let blob: Blob = res.body as Blob;
+        let a = document.createElement("a");
+        a.download = fileNameP;
+        a.href = window.URL.createObjectURL(blob);
+        a.click();
+        a.remove();
+        // const blob = new Blob([data]);
+        // const url= window.URL.createObjectURL(blob);
+        // window.open(url);
       },
       error: (errorData) => {
           this.showError = "Something went wrong";
@@ -278,6 +285,9 @@ export class SearchDocumentComponent implements OnInit {
       },
       
     })
+  }
+  resetForm() {
+    this.documentSearchForm.reset()
   }
 
 

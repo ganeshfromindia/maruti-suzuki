@@ -131,4 +131,17 @@ export class BackendService {
     });
     return theImage;
   }
+  public getMethodForFileDownload(
+    apiUrl: string,
+    pageNumber?: number,
+    pageSize?: number,
+    paramsOptional?: HttpParams | any
+  ): Observable<any> {
+    let apiParams: HttpParams = this._pageAuto(pageNumber, pageSize, paramsOptional);
+
+    return this._http.get(`${environment.base_url}` + apiUrl, { observe: "response", responseType: 'blob' as 'json'}).pipe(
+      map((response) => response),
+      catchError(this._errorHandler)
+    );
+  }
 }
