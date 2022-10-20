@@ -1,37 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
 .pages .form-control {
-    border: 1px solid #4554a5;
-    border-radius: 0px;
+  border: 1px solid #4554a5;
+  border-radius: 0px;
 }
 
 .red-tags {
-    line-height: 19px;
-    padding: 8px;
-    /*border: 1px solid #da2127;*/
+  line-height: 19px;
+  padding: 8px;
+  /*border: 1px solid #da2127;*/
 }
 .bc-cont {
-    padding: 3px 7px;
-    background-color: #e3ebfe;
-    display: inline-block;
+  padding: 3px 7px;
+  background-color: #e3ebfe;
+  display: inline-block;
 }
 
+[pointer] {
+  cursor: pointer;
+}
+
+[pointer]:hover {
+  background-color: #00f2;
+}
 
 .ptree {
-    padding-left: 5rem !important;
+  padding-left: 5rem !important;
 }
 
-.active>.page-link, .page-link.active {
-    background-color: #4554a5 !important;
-    border-color: #14216b !important;
+.active > .page-link,
+.page-link.active {
+  background-color: #4554a5 !important;
+  border-color: #14216b !important;
 }
 
 .nav-border {
-    border-radius: 0.25rem 0 0 0.25rem;
+  border-radius: 0.25rem 0 0 0.25rem;
 }
 
 .view-input {
-    border: none;
-    background: transparent;
-    appearance: none;
-    -webkit-appearance: none;
+  border: none;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
 }

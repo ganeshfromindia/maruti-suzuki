@@ -1,3 +1,14 @@
-section {
-  margin-top: -56px;
+.login-page {
+  background-image: linear-gradient(to bottom right, rgb(10, 10, 10), rgb(70, 70, 70), rgb(0, 0, 0));
+  .login-box {
+    animation: createBox 300ms;
+  }
+}
+@keyframes createBox {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
 }
