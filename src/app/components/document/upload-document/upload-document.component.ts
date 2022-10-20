@@ -45,17 +45,6 @@ export class UploadDocumentComponent implements OnInit {
     this.setDocTypes(1, 100);
     this.setTaggingData(1, 100);
     this.setAdditionalRights(1, 100);
-    this.additionalRights = [
-      { id: 1, right: 'Within Company' },
-      { id: 2, right: 'Across Department' },
-      { id: 3, right: 'Sub Department' },
-      { id: 4, right: 'Within Company' },
-      { id: 5, right: 'Across Department' },
-      { id: 6, right: 'Sub Department' },
-      { id: 7, right: 'Within Company' },
-      { id: 8, right: 'Across Department' },
-      { id: 9, right: 'Sub Department' },
-    ];
   }
 
   async setDocTypes(page: number, pageSize: number) {
@@ -113,9 +102,8 @@ export class UploadDocumentComponent implements OnInit {
   }
 
   async setAdditionalRights(page: number, pageSize: number) {
-    return
     this.additionalRights = [];
-    let url = 'common/get/tagging/head?';
+    let url = 'common/get/system/rights?';
     this.urlHttpParams = {
       adminId: this.userService.getUserId(),
     };
@@ -219,7 +207,7 @@ export class UploadDocumentComponent implements OnInit {
     formData.userType = this.userService.getUserType();
     return new Promise((resolve, reject) => {
         try {
-          this._beService.postMethod('file-upload?userId=' + formData.userId + '&companyId='+ formData.companyId +'&documentDate='+ formData.documentDate +'&additionalRights='+ formData.additionalRights +'&document='+ formData.document+'&userType='+ formData.userType+'&taggingHead='+ formData.taggingHead+'&fileName='+ this.fileName , this.formDataFile)
+          this._beService.postMethod('file-upload?userId=' + formData.userId + '&companyId='+ formData.companyId +'&documentDate='+ formData.documentDate +'&additionalRights='+ formData.additionalRights +'&document='+ formData.document+'&userType='+ formData.userType+'&taggingHead='+ formData.taggingHead+'&projectId='+ this.fileName , this.formDataFile)
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(resolvedData, false);

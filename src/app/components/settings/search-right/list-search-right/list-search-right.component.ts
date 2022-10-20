@@ -12,7 +12,7 @@ export class ListSearchRightComponent implements OnInit {
   urlHttpParams: any = {};
   srchTrmName: string = '';
   srchTrmEmail: string = '';
-  RightsTypes: any[]= [];
+  rightsTypes: any[]= [];
   total: number = 0
   showError: string = '';
   page: number = 1;
@@ -25,7 +25,7 @@ export class ListSearchRightComponent implements OnInit {
   }
 
   async setRightsData(page: number, pageSize: number) {
-    this.RightsTypes = []
+    this.rightsTypes = []
     let returnedAlerts: any = await this.setData(page, pageSize);
     if(returnedAlerts.flag) {
       if(returnedAlerts.data.status == 404) {
@@ -37,7 +37,7 @@ export class ListSearchRightComponent implements OnInit {
         this.showError = ''
       },5000)
     } else {
-      if(returnedAlerts.data.status == 200) this.RightsTypes = returnedAlerts.data.payLoad;
+      if(returnedAlerts.data.status == 200) this.rightsTypes = returnedAlerts.data.payLoad;
       this.page = page;
       this.pageSize = pageSize;
       this.total = returnedAlerts.data.totalRow;

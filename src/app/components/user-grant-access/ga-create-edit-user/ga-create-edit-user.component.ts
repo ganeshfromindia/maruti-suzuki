@@ -20,6 +20,7 @@ export class GaCreateEditUserComponent implements OnInit {
   public userDetails: any = {};
   public showError: string = '';
   public showSuccess: string = '';
+  public rightsTypes: any[]= [];
 
   constructor(private route: ActivatedRoute,private _fb: FormBuilder, private _beService: BackendService, private userService: UserService) { 
     this.userCreateEditForm = this._fb.group({
@@ -39,6 +40,7 @@ export class GaCreateEditUserComponent implements OnInit {
     this.setUsersData(1, 100)
     this.setDepartmentData(1, 100)
     this.setDesignationData(1, 100)
+    this.setRightsData(1, 100)
     this.types = ['ADMIN','SUPER_ADMIN','OPERATIONS']
     this.companyId = this.route.snapshot.params['id'];
     if(this.companyId) {
@@ -136,9 +138,28 @@ export class GaCreateEditUserComponent implements OnInit {
       }
     }
   }
+
+  async setRightsData(page: number, pageSize: number, url = 'common/get/system/rights?') {
+    this.rightsTypes = []
+    let returnedAlerts: any = await this.setData(page, pageSize, url);
+    if(returnedAlerts.flag) {
+      if(returnedAlerts.data.status == 404) {
+        this.showError = "Data Not Found";
+      } else {
+        this.showError = "Something went wrong"
+      }
+      setTimeout(() => {
+        this.showError = ''
+      },5000)
+    } else {
+      if(returnedAlerts.data.status == 200) this.rightsTypes = returnedAlerts.data.payLoad;
+      
+    }
+  }
   setData(page: number, pageSize: number, url: string) {
     this.urlHttpParams = {
       companyId : this.userService.getCompanyID(),
+      adminId: this.userService.getUserId(),
       id: ''
     };
     return new Promise((resolve, reject) => {
