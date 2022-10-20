@@ -81,8 +81,8 @@ export class CreateEditProjTypeCreationComponent implements OnInit {
         this._beService
           .getMethod(
             'get/project/hierarchy?',
-            undefined,
-            undefined,
+            1,
+            100,
             this.urlHttpParams
           )
           .subscribe({

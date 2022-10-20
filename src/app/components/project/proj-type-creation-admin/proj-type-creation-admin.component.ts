@@ -63,8 +63,8 @@ export class ProjTypeCreationAdminComponent implements OnInit {
         this._beService
           .getMethod(
             'get/project/type?',
-            undefined,
-            undefined,
+            1,
+            100,
             this.urlHttpParams
           )
           .subscribe({

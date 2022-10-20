@@ -300,7 +300,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     return new Promise((resolve, reject) => {
       try {
         this._beService
-          .getMethod(url, 1, 10, urlHttpParams)
+          .getMethod(url, 1, 100, urlHttpParams)
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(

@@ -50,9 +50,9 @@ export class CreateEditUserComponent implements OnInit {
   ngOnInit(): void {
     this.role = this.userService.getUserType();
     this.role = 'superadmin';
-    this.setCompanyData(1, 10);
-    this.setDepartmentData(1, 10);
-    this.setDesignationData(1, 10);
+    this.setCompanyData(1, 100);
+    this.setDepartmentData(1, 100);
+    this.setDesignationData(1, 100);
     this.userDetails = this.route.paramMap.pipe(map(() => window.history.state))
     this.userDetails.subscribe((data: any) => this.userDetails = data.data)
     this.userCreateEditForm.patchValue(this.userDetails);

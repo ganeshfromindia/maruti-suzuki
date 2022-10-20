@@ -45,13 +45,13 @@
             <div class="red-tags ps-0">Designation</div>
           </div>
           <div class="col-md-4">
-              <select class="form-control form-select" formControlName="designation">
+              <select class="form-control form-select" formControlName="designation" (change)="setLevel($event)">
                   <option [value]="''">Please select</option>
                   <option
                     *ngFor="let designation of designations; let i = index"
                     [value]="designation.id"
                   >
-                    {{ designation.designation }}
+                    {{ designation.designationName }}
                   </option>
                 </select>
             
@@ -83,15 +83,11 @@
             <div class="red-tags ps-0">Level</div>
           </div>
           <div class="col-md-4">
-            <select class="form-control form-select" formControlName="level">
-                  <option [value]="''">Please select</option>
-                  <option
-                    *ngFor="let level of levels; let i = index"
-                    [value]="level.id"
-                  >
-                    {{ level.level }}
-                  </option>
-                </select>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="level"
+            />
           </div>
           <div class="col-md-1">
             <div class="red-tags ps-0 text-end">Type</div>
@@ -101,9 +97,9 @@
                   <option [value]="''">Please select</option>
                   <option
                     *ngFor="let type of types; let i = index"
-                    [value]="type.id"
+                    [value]="type"
                   >
-                    {{ type.type }}
+                    {{ type}}
                   </option>
                 </select>
             
@@ -153,6 +149,24 @@
           </div>
         </div>
       </form>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-12">
+      <div *ngIf="showError" class="text-center">
+        <P
+          >{{showError}}</P
+        >
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div *ngIf="showSuccess" class="text-center">
+        <P
+          >{{showSuccess}}</P
+        >
+      </div>
     </div>
   </div>
   

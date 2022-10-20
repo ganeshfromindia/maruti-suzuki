@@ -45,10 +45,10 @@ export class SearchDocumentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setDocTypes(1, 10);
-    this.setTaggingData(1, 10);
-    this.setProjects(1, 10);
-    this.setUserData(1, 10);
+    this.setDocTypes(1, 100);
+    this.setTaggingData(1, 100);
+    this.setProjects(1, 100);
+    this.setUserData(1, 100);
     this.projects = [
       { id: 1, projectName: 'Mumbai Nagpur Highway' },
       { id: 2, projectName: 'Kandla Port Extn' },

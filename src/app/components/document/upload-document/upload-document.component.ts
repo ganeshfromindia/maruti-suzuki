@@ -42,9 +42,9 @@ export class UploadDocumentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setDocTypes(1, 10);
-    this.setTaggingData(1, 10);
-    this.setAdditionalRights(1, 10)
+    this.setDocTypes(1, 100);
+    this.setTaggingData(1, 100);
+    this.setAdditionalRights(1, 100);
     this.additionalRights = [
       { id: 1, right: 'Within Company' },
       { id: 2, right: 'Across Department' },

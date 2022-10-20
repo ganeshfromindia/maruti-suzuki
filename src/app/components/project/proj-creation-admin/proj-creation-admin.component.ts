@@ -119,7 +119,7 @@ export class ProjCreationAdminComponent implements OnInit {
     return new Promise((resolve, reject) => {
       try {
         this._beService
-          .getMethod(url, 1, 10, urlParams)
+          .getMethod(url, 1, 100, urlParams)
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(
