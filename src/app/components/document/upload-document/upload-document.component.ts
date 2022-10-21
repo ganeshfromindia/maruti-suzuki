@@ -20,6 +20,7 @@ export class UploadDocumentComponent implements OnInit {
   public urlHttpParams: any = {};
   public tags: any[] = [];
   public docTypes: any[] = [];
+  public projects: any[] = [];
   public additionalRights: any[] = [];
   public showError: string = '';
   public showSuccess: string = '';
@@ -35,6 +36,7 @@ export class UploadDocumentComponent implements OnInit {
   ) {
     this.documentUploadForm = this._fb.group({
       document: ['', Validators.required],
+      projectId: ['', Validators.required],
       additionalRights: [null, Validators.required],
       documentDate: ['', Validators.required],
       taggingHead: this._fb.array([]),
@@ -42,12 +44,13 @@ export class UploadDocumentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setDocTypes(1, 100);
+    this.setDocTypesData(1, 100);
+    this.setProjectsData(1, 100);
     this.setTaggingData(1, 100);
-    this.setAdditionalRights(1, 100);
+    this.setAdditionalRightsData(1, 100);
   }
 
-  async setDocTypes(page: number, pageSize: number) {
+  async setDocTypesData(page: number, pageSize: number) {
     this.docTypes = [];
     let url = 'common/get/document/type?';
     this.urlHttpParams = {
@@ -71,6 +74,32 @@ export class UploadDocumentComponent implements OnInit {
     } else {
       if (returnedAlerts.data.status == 200)
         this.docTypes = returnedAlerts.data.payLoad;
+    }
+  }
+  async setProjectsData(page: number, pageSize: number) {
+    this.projects = [];
+    let url = 'get/project/model?';
+    this.urlHttpParams = {
+      companyId: this.userService.getCompanyID(),
+    };
+    let returnedAlerts: any = await this.setData(
+      page,
+      pageSize,
+      url,
+      this.urlHttpParams
+    );
+    if (returnedAlerts.flag) {
+      if (returnedAlerts.data.status == 404) {
+        this.showError = 'Data Not Found';
+      } else {
+        this.showError = 'Something went wrong';
+      }
+      setTimeout(() => {
+        this.showError = '';
+      }, 5000);
+    } else {
+      if (returnedAlerts.data.status == 200)
+        this.projects = returnedAlerts.data.payLoad;
     }
   }
 
@@ -101,7 +130,7 @@ export class UploadDocumentComponent implements OnInit {
     }
   }
 
-  async setAdditionalRights(page: number, pageSize: number) {
+  async setAdditionalRightsData(page: number, pageSize: number) {
     this.additionalRights = [];
     let url = 'common/get/system/rights?';
     this.urlHttpParams = {
@@ -192,7 +221,7 @@ export class UploadDocumentComponent implements OnInit {
         this.showError = '';
       },5000)
     } else {
-      this.showSuccess = "Data saved successfully";
+      this.showSuccess = "Document Uploaded successfully";
       setTimeout(() => {
         this.showSuccess = '';
       },5000)
@@ -207,7 +236,7 @@ export class UploadDocumentComponent implements OnInit {
     formData.userType = this.userService.getUserType();
     return new Promise((resolve, reject) => {
         try {
-          this._beService.postMethod('file-upload?userId=' + formData.userId + '&companyId='+ formData.companyId +'&documentDate='+ formData.documentDate +'&additionalRights='+ formData.additionalRights +'&document='+ formData.document+'&userType='+ formData.userType+'&taggingHead='+ formData.taggingHead+'&projectId='+ this.fileName , this.formDataFile)
+          this._beService.postMethod('file-upload?userId=' + formData.userId + '&companyId='+ formData.companyId +'&documentDate='+ formData.documentDate +'&additionalRights='+ formData.additionalRights +'&document='+ formData.document+'&userType='+ formData.userType+'&taggingHead='+ formData.taggingHead+'&projectId='+ formData.projectId , this.formDataFile)
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(resolvedData, false);

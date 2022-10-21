@@ -121,7 +121,7 @@
         class="me-5 col-md-5 btn bg-danger red-tags rounded-0 text-white"
         
       >
-        Save
+        Search
       </button>
       <button
         class="col-md-5 btn bg-danger red-tags rounded-0 text-white"
@@ -165,7 +165,16 @@
             </option>
           </select>
         </td>
-        <td>{{document.documentName}}</td>
+        <td> 
+          <div *ngFor="let tagsId of document.taggingHead; let j = index">
+          <select class="view-input" disabled>
+          <option *ngFor="let tag of tags; let i = index"
+          [value]="tag.id"
+          [selected]="tag.id == tagsId"
+          >
+            {{ tag.taggingHeadName }}
+          </option>
+        </select></div></td>
         <td><button type="button" (click)="downloadFile(document.documentPath)">Download</button></td>
       </tr>
     </tbody>

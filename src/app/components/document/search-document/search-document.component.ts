@@ -263,7 +263,8 @@ export class SearchDocumentComponent implements OnInit {
 
   downloadFile(filePath: any) {
 
-    let fileName = filePath.split('/').slice(-1).pop()
+    // let fileName = filePath.split('/').slice(-1).pop()
+    let fileName = filePath.split('/').pop();
     this._beService.getMethodForFileDownload('view-file?filePath='+filePath).subscribe({
       next: (res) => {
         let fileNameP: string = !!fileName ? fileName : '';

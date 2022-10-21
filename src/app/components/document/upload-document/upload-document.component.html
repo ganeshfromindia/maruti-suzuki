@@ -30,6 +30,22 @@
   </div>
   <div class="row mt-2">
     <div class="col-md-2">
+      <div class="red-tags">Project</div>
+    </div>
+    <div class="col-md-5">
+      <select class="form-control form-select" formControlName="projectId">
+        <option [value]="''">Please select</option>
+        <option
+          [value]="project.id"
+          *ngFor="let project of projects; let i = index"
+        >
+          {{ project.projectName }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
       <div class="red-tags">Additional Rights</div>
     </div>
     <div class="col-md-5">
@@ -93,7 +109,7 @@
           documentUploadForm.value.taggingHead.length == 0
         "
       >
-        Save
+        Upload
       </button>
       <button
         class="col-md-5 btn bg-danger red-tags rounded-0 text-white"
