@@ -101,13 +101,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let tag of tags; let i = index" class="text-capitalize">
+          <tr formArrayName="taggingHead"  *ngFor="let tag of tags; let i = index" class="text-capitalize">
             <td>{{ i + 1 }}</td>
             <td>
               {{ tag.taggingHeadName }}
             </td>
             <td>
-              <input #checkboxes (change)="onChange(tag.id, $event)" type="checkbox" />
+              <input [formControlName]="i" (change)="onChange(tag.id, $event, i)" type="checkbox" />
             </td>
           </tr>
         </tbody>

@@ -110,6 +110,10 @@ export class SearchDocumentComponent implements OnInit {
     } else {
       if (returnedAlerts.data.status == 200)
         this.tags = returnedAlerts.data.payLoad;
+        this.tags.forEach((o, i) => {
+          const control = new FormControl(); // if first item set to true, else false
+          (this.documentSearchForm.get('taggingHead') as FormArray).push(control);
+        });
     }
   }
 
@@ -192,21 +196,22 @@ export class SearchDocumentComponent implements OnInit {
     });
   }
 
-  onChange(id: string, data: any) {
+  onChange(id: string, data: any, index: number) {
     const tagsArray: FormArray = this.documentSearchForm.get(
       'taggingHead'
     ) as FormArray;
 
     if (data.target.checked) {
-      tagsArray.push(new FormControl(id));
+      tagsArray.at(index).patchValue(id);
     } else {
-      let index = tagsArray.controls.findIndex((x) => x.value == id);
-      tagsArray.removeAt(index);
+      tagsArray.at(index).patchValue(false);
     }
   }
 
   async onSubmitDocumentSearch() {
     const formData = this.documentSearchForm.getRawValue();
+    formData.taggingHead = formData.taggingHead.filter((data: any) => data != false);
+    formData.taggingHead = formData.taggingHead.filter((data: any) => data != null);
     let returnedAlerts: any = await this.postData(formData);
     if (returnedAlerts.flag) {
       if (returnedAlerts.data.status == 404) {
@@ -296,17 +301,9 @@ export class SearchDocumentComponent implements OnInit {
   }
   resetForm() {
     this.documentSearchForm.reset();
-    this.documentSearchForm = this._fb.group({
-      documentName: [''],
-      documentId: [''],
-      createdBy: [''],
-      startTime: [''],
-      endTime: [''],
-      taggingHead: this._fb.array([]),
-    });
-
-    this.checkboxes.forEach((element) => {
-      element.nativeElement.checked = false;
-    });
+    this.documentSearchForm.patchValue({
+      documentId: '',
+      createdBy: '',
+    })
   }
 }
