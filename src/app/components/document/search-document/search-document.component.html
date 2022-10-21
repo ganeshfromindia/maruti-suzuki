@@ -107,7 +107,7 @@
               {{ tag.taggingHeadName }}
             </td>
             <td>
-              <input (change)="onChange(tag.id, $event)" type="checkbox" />
+              <input #checkboxes (change)="onChange(tag.id, $event)" type="checkbox" />
             </td>
           </tr>
         </tbody>
