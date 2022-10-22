@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
         this.userService.setUserID(data.payLoad.data.id);
         this.userService.setUserType(data.payLoad.data.userType);
         this.userService.setCompanyName(data.payLoad.data.companyName);
-        this.router.navigate(["/company"]);
+        this.router.navigate(["/company/search-company"]);
       },
       error: (error: any): void => {
         console.log(error);

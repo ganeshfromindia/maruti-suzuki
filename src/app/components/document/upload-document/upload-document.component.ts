@@ -27,6 +27,7 @@ export class UploadDocumentComponent implements OnInit {
   public fileName: string = '';
   public documentUploadForm: FormGroup;
   public formDataFile: FormData = new FormData();
+  public showProcess: boolean = false;
 
   constructor(
     private router: Router,
@@ -212,6 +213,7 @@ export class UploadDocumentComponent implements OnInit {
     const formData = this.documentUploadForm.getRawValue();
     let returnedAlerts: any = await this.postData(formData);
     if(returnedAlerts.flag) {
+      this.showProcess = false;
       if(returnedAlerts.data.status == 404) {
         this.showError = "Data Not Found";
       } else {
@@ -222,6 +224,7 @@ export class UploadDocumentComponent implements OnInit {
       },5000)
     } else {
       this.showSuccess = "Document Uploaded successfully";
+      this.showProcess = true;
       setTimeout(() => {
         this.showSuccess = '';
       },5000)
@@ -252,6 +255,10 @@ export class UploadDocumentComponent implements OnInit {
         reject(alertsFetched);
       }
     }) 
+  }
+
+  processDocument() {
+    
   }
 
 }

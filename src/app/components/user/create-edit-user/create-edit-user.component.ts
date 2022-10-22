@@ -56,7 +56,7 @@ export class CreateEditUserComponent implements OnInit {
     this.userDetails = this.route.paramMap.pipe(map(() => window.history.state))
     this.userDetails.subscribe((data: any) => this.userDetails = data.data)
     this.userCreateEditForm.patchValue(this.userDetails);
-    this.types = ['ADMIN','SUPER_ADMIN','OPERATIONS']
+    this.types = ['ADMIN','SUPER_ADMIN','OPERATION']
 
     this.companyId = this.route.snapshot.params['id'];
     if(this.companyId) {

@@ -132,5 +132,8 @@
     <div *ngIf="showSuccess" class="text-center">
       <P>{{ showSuccess }}</P>
     </div>
+    <div *ngIf="showProcess">
+      <button type="button" (click)="processDocument();">Process Document</button>
+    </div>
   </div>
 </div>

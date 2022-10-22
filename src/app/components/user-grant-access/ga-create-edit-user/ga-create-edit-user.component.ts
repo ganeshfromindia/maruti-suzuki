@@ -41,7 +41,7 @@ export class GaCreateEditUserComponent implements OnInit {
     this.setDepartmentData(1, 100)
     this.setDesignationData(1, 100)
     this.setRightsData(1, 100)
-    this.types = ['ADMIN','SUPER_ADMIN','OPERATIONS']
+    this.types = ['ADMIN','SUPER_ADMIN','OPERATION']
     this.companyId = this.route.snapshot.params['id'];
     if(this.companyId) {
       this.userCreateEditForm && this.userCreateEditForm.get('userName') && this.userCreateEditForm.get('userName')?.disable()
