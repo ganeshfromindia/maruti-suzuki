@@ -39,6 +39,8 @@ export class CreateEditDepartmentComponent implements OnInit {
     if(returnedAlerts.flag) {
       if(returnedAlerts.data.status == 404) {
         this.showError = "Data Not Found";
+      } else if(returnedAlerts.data.status == 409) {
+        this.showError = "Duplicate Entry";
       } else {
         this.showError = "Something went wrong";
       }

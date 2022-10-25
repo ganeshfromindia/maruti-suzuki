@@ -33,7 +33,7 @@
       </div>
       <div class="col-md-6">
         <select formControlName="projDesgn" class="form-control form-select" (change)="setLevel($event)">
-          <option [value]="null">Please select</option>
+          <option [value]="''">Please select</option>
           <option
             *ngFor="let designation of designations; let i = index"
             [value]="designation.id"
@@ -63,7 +63,7 @@
       <div class="col-md-6">
         <div *ngIf="projecTHierarchyId; else nonId">
         <select formControlName="linkedTo" class="form-control form-select">
-          <option [value]="null">Please select</option>
+          <option [value]="''">Please select</option>
           <option
             *ngFor="let linkedto of linkedToData; let i = index"
             [value]="linkedto.id"
@@ -165,7 +165,7 @@
   </div>
   <div class="modal-body">
     <select [(ngModel)]="selprojHierarchy" class="form-control form-select"  >
-      <option [ngValue]="null" selected>Please select</option>
+      <option [ngValue]="''" selected>Please select</option>
       <option
         *ngFor="let projHierarchy of projHierarchies; let i = index"
         [ngValue]="projHierarchy"

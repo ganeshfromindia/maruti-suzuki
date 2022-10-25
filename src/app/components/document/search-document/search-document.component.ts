@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -10,13 +10,14 @@ import { Router } from '@angular/router';
 import { BackendService } from 'src/app/services/backend.service';
 import { UserService } from 'src/app/services/user.service';
 
-
 @Component({
   selector: 'app-search-document',
   templateUrl: './search-document.component.html',
-  styleUrls: ['./search-document.component.css']
+  styleUrls: ['./search-document.component.css'],
 })
 export class SearchDocumentComponent implements OnInit {
+
+  @ViewChildren("checkboxes") checkboxes!: QueryList<ElementRef>
 
   public urlHttpParams: any = {};
   public tags: any[] = [];
@@ -45,16 +46,16 @@ export class SearchDocumentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setDocTypes(1, 10);
-    this.setTaggingData(1, 10);
-    this.setProjects(1, 10);
-    this.setUserData(1, 10);
+    this.setDocTypes(1, 100);
+    this.setTaggingData(1, 100);
+    this.setProjects(1, 100);
+    this.setUserData(1, 100);
     this.projects = [
       { id: 1, projectName: 'Mumbai Nagpur Highway' },
       { id: 2, projectName: 'Kandla Port Extn' },
       { id: 3, projectName: 'Madurai Power Plant' },
       { id: 4, projectName: 'Shikrapur Mining Modification' },
-      { id: 5, projectName: 'Sutlej Dam' }
+      { id: 5, projectName: 'Sutlej Dam' },
     ];
   }
 
@@ -109,11 +110,15 @@ export class SearchDocumentComponent implements OnInit {
     } else {
       if (returnedAlerts.data.status == 200)
         this.tags = returnedAlerts.data.payLoad;
+        this.tags.forEach((o, i) => {
+          const control = new FormControl(); // if first item set to true, else false
+          (this.documentSearchForm.get('taggingHead') as FormArray).push(control);
+        });
     }
   }
 
   async setProjects(page: number, pageSize: number) {
-    return
+    return;
     this.projects = [];
     let url = 'common/get/tagging/head?';
     this.urlHttpParams = {
@@ -146,32 +151,105 @@ export class SearchDocumentComponent implements OnInit {
     this.urlHttpParams = {
       userName: '',
       companyId: this.userService.getCompanyID(),
-      emailId: ''
+      emailId: '',
     };
-    let returnedAlerts: any = await this.setData(page,
+    let returnedAlerts: any = await this.setData(
+      page,
       pageSize,
       url,
       this.urlHttpParams
     );
-    if(returnedAlerts.flag) {
-      if(returnedAlerts.data.status == 404) {
-        this.showError = "Data Not Found";
+    if (returnedAlerts.flag) {
+      if (returnedAlerts.data.status == 404) {
+        this.showError = 'Data Not Found';
       } else {
-        this.showError = "Something went wrong"
+        this.showError = 'Something went wrong';
       }
       setTimeout(() => {
-        this.showError = ''
-      },5000)
+        this.showError = '';
+      }, 5000);
     } else {
-      if(returnedAlerts.data.status == 200) this.userAllData = returnedAlerts.data.payLoad;
-      
+      if (returnedAlerts.data.status == 200)
+        this.userAllData = returnedAlerts.data.payLoad;
     }
   }
   setData(page: number, pageSize: number, url: string, httpParams: any) {
     return new Promise((resolve, reject) => {
       try {
+        this._beService.getMethod(url, page, pageSize, httpParams).subscribe({
+          next: (resolvedData) => {
+            let alertsFetched = this.userService.handleAlerts(
+              resolvedData,
+              false
+            );
+            resolve(alertsFetched);
+          },
+          error: (errorData) => {
+            let alertsFetched = this.userService.handleAlerts(errorData, true);
+            resolve(alertsFetched);
+          },
+        });
+      } catch (e) {
+        let alertsFetched = this.userService.handleAlerts(e, true);
+        reject(alertsFetched);
+      }
+    });
+  }
+
+  onChange(id: string, data: any, index: number) {
+    const tagsArray: FormArray = this.documentSearchForm.get(
+      'taggingHead'
+    ) as FormArray;
+
+    if (data.target.checked) {
+      tagsArray.at(index).patchValue(id);
+    } else {
+      tagsArray.at(index).patchValue(false);
+    }
+  }
+
+  async onSubmitDocumentSearch() {
+    const formData = this.documentSearchForm.getRawValue();
+    formData.taggingHead = formData.taggingHead.filter((data: any) => data != false);
+    formData.taggingHead = formData.taggingHead.filter((data: any) => data != null);
+    let returnedAlerts: any = await this.postData(formData);
+    if (returnedAlerts.flag) {
+      if (returnedAlerts.data.status == 404) {
+        this.showError = 'Data Not Found';
+      } else {
+        this.showError = 'Something went wrong';
+      }
+      setTimeout(() => {
+        this.showError = '';
+      }, 5000);
+    } else {
+      if (returnedAlerts.data.status == 200)
+        this.documents = returnedAlerts.data.payLoad;
+    }
+  }
+
+  postData(formData: any) {
+    formData.startTime = new Date(formData.startTime).getTime();
+    formData.endTime = new Date(formData.endTime).getTime();
+    formData.companyId = this.userService.getCompanyID();
+    this.urlHttpParams = {
+      companyId: formData.companyId,
+      documentName: formData.documentName,
+      createdBy: formData.createdBy,
+      documentId: formData.documentId,
+      endTime: formData.endTime,
+      startTime: formData.startTime,
+      taggingHead: formData.taggingHead,
+    };
+    return new Promise((resolve, reject) => {
+      try {
         this._beService
-          .getMethod(url, page, pageSize, httpParams)
+          .getMethod(
+            'get/document/list?',
+            undefined,
+            undefined,
+            this.urlHttpParams
+          )
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(
@@ -195,100 +273,37 @@ export class SearchDocumentComponent implements OnInit {
     });
   }
 
-  onChange(id: string, data: any) {
-    const tagsArray: FormArray = this.documentSearchForm.get(
-      'taggingHead'
-    ) as FormArray;
-
-    if (data.target.checked) {
-      tagsArray.push(new FormControl(id));
-    } else {
-      let index = tagsArray.controls.findIndex((x) => x.value == id);
-      tagsArray.removeAt(index);
-    }
-  }
-
-  
-
-  async onSubmitDocumentSearch() {
-    const formData = this.documentSearchForm.getRawValue();
-    let returnedAlerts: any = await this.postData(formData);
-    if(returnedAlerts.flag) {
-      if(returnedAlerts.data.status == 404) {
-        this.showError = "Data Not Found";
-      } else {
-        this.showError = "Something went wrong";
-      }
-      setTimeout(() => {
-        this.showError = '';
-      },5000)
-    } else {
-      if(returnedAlerts.data.status == 200) this.documents = returnedAlerts.data.payLoad;
-    }
-   
-  }
-
-  postData(formData: any) {
-    formData.startTime = new Date(formData.startTime).getTime();
-    formData.endTime = new Date(formData.endTime).getTime();
-    formData.companyId  = this.userService.getCompanyID();
-    this.urlHttpParams = {
-      companyId : formData.companyId,
-      documentName: formData.documentName,
-      createdBy: formData.createdBy,
-      documentId: formData.documentId,
-      endTime: formData.endTime,
-      startTime: formData.startTime,
-      taggingHead: formData.taggingHead
-    };
-    return new Promise((resolve, reject) => {
-        try {
-          this._beService.getMethod('get/document/list?', undefined, undefined, this.urlHttpParams)
-          .subscribe({
-            next: (resolvedData) => {
-              let alertsFetched = this.userService.handleAlerts(resolvedData, false);
-              resolve(alertsFetched);
-            },
-            error: (errorData) => {
-              let alertsFetched = this.userService.handleAlerts(errorData, true);
-              resolve(alertsFetched);
-            },
-          });
-      } catch (e) {
-        let alertsFetched = this.userService.handleAlerts(e, true);
-        reject(alertsFetched);
-      }
-    }) 
-  }
-
   downloadFile(filePath: any) {
-
-    let fileName = filePath.split('/').slice(-1).pop()
-    this._beService.getMethodForFileDownload('view-file?filePath='+filePath).subscribe({
-      next: (res) => {
-        let fileNameP: string = !!fileName ? fileName : '';
-        let blob: Blob = res.body as Blob;
-        let a = document.createElement("a");
-        a.download = fileNameP;
-        a.href = window.URL.createObjectURL(blob);
-        a.click();
-        a.remove();
-        // const blob = new Blob([data]);
-        // const url= window.URL.createObjectURL(blob);
-        // window.open(url);
-      },
-      error: (errorData) => {
-          this.showError = "Something went wrong";
-        setTimeout(() => {
-          this.showError = '';
-        },5000)
-      },
-      
-    })
+    // let fileName = filePath.split('/').slice(-1).pop()
+    let fileName = filePath.split('/').pop();
+    this._beService
+      .getMethodForFileDownload('view-file?filePath=' + filePath)
+      .subscribe({
+        next: (res) => {
+          let fileNameP: string = !!fileName ? fileName : '';
+          let blob: Blob = res.body as Blob;
+          let a = document.createElement('a');
+          a.download = fileNameP;
+          a.href = window.URL.createObjectURL(blob);
+          a.click();
+          a.remove();
+          // const blob = new Blob([data]);
+          // const url= window.URL.createObjectURL(blob);
+          // window.open(url);
+        },
+        error: (errorData) => {
+          this.showError = 'Something went wrong';
+          setTimeout(() => {
+            this.showError = '';
+          }, 5000);
+        },
+      });
   }
   resetForm() {
-    this.documentSearchForm.reset()
+    this.documentSearchForm.reset();
+    this.documentSearchForm.patchValue({
+      documentId: '',
+      createdBy: '',
+    })
   }
-
-
 }

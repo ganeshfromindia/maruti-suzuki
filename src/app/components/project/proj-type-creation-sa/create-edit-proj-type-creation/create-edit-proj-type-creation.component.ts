@@ -28,14 +28,18 @@ export class CreateEditProjTypeCreationComponent implements OnInit {
       id:[''],
       projectTypeName:['', Validators.required],
       capex:['', Validators.required],
-      projectHierarchyData:['select', Validators.required],
+      projectHierarchyData:['', Validators.required],
       additionalField1:['', Validators.required],
       additionalField2:['', Validators.required]
     })
   }
 
   compareFn(itemOne: any, itemTwo: any): boolean {
-    return itemOne && itemTwo && itemOne.id == itemTwo.id;
+    if (itemTwo) {
+      return itemOne && itemTwo && itemOne.id == itemTwo.id
+    } else {
+      return true;
+    }
   }
   ngOnInit(): void {
     this.projTypeId = this.route.snapshot.params['id'];
@@ -77,8 +81,8 @@ export class CreateEditProjTypeCreationComponent implements OnInit {
         this._beService
           .getMethod(
             'get/project/hierarchy?',
-            undefined,
-            undefined,
+            1,
+            100,
             this.urlHttpParams
           )
           .subscribe({

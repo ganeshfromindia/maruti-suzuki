@@ -20,12 +20,14 @@ export class UploadDocumentComponent implements OnInit {
   public urlHttpParams: any = {};
   public tags: any[] = [];
   public docTypes: any[] = [];
+  public projects: any[] = [];
   public additionalRights: any[] = [];
   public showError: string = '';
   public showSuccess: string = '';
   public fileName: string = '';
   public documentUploadForm: FormGroup;
   public formDataFile: FormData = new FormData();
+  public showProcess: boolean = false;
 
   constructor(
     private router: Router,
@@ -35,6 +37,7 @@ export class UploadDocumentComponent implements OnInit {
   ) {
     this.documentUploadForm = this._fb.group({
       document: ['', Validators.required],
+      projectId: ['', Validators.required],
       additionalRights: [null, Validators.required],
       documentDate: ['', Validators.required],
       taggingHead: this._fb.array([]),
@@ -42,23 +45,13 @@ export class UploadDocumentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setDocTypes(1, 10);
-    this.setTaggingData(1, 10);
-    this.setAdditionalRights(1, 10)
-    this.additionalRights = [
-      { id: 1, right: 'Within Company' },
-      { id: 2, right: 'Across Department' },
-      { id: 3, right: 'Sub Department' },
-      { id: 4, right: 'Within Company' },
-      { id: 5, right: 'Across Department' },
-      { id: 6, right: 'Sub Department' },
-      { id: 7, right: 'Within Company' },
-      { id: 8, right: 'Across Department' },
-      { id: 9, right: 'Sub Department' },
-    ];
+    this.setDocTypesData(1, 100);
+    this.setProjectsData(1, 100);
+    this.setTaggingData(1, 100);
+    this.setAdditionalRightsData(1, 100);
   }
 
-  async setDocTypes(page: number, pageSize: number) {
+  async setDocTypesData(page: number, pageSize: number) {
     this.docTypes = [];
     let url = 'common/get/document/type?';
     this.urlHttpParams = {
@@ -82,6 +75,32 @@ export class UploadDocumentComponent implements OnInit {
     } else {
       if (returnedAlerts.data.status == 200)
         this.docTypes = returnedAlerts.data.payLoad;
+    }
+  }
+  async setProjectsData(page: number, pageSize: number) {
+    this.projects = [];
+    let url = 'get/project/model?';
+    this.urlHttpParams = {
+      companyId: this.userService.getCompanyID(),
+    };
+    let returnedAlerts: any = await this.setData(
+      page,
+      pageSize,
+      url,
+      this.urlHttpParams
+    );
+    if (returnedAlerts.flag) {
+      if (returnedAlerts.data.status == 404) {
+        this.showError = 'Data Not Found';
+      } else {
+        this.showError = 'Something went wrong';
+      }
+      setTimeout(() => {
+        this.showError = '';
+      }, 5000);
+    } else {
+      if (returnedAlerts.data.status == 200)
+        this.projects = returnedAlerts.data.payLoad;
     }
   }
 
@@ -112,10 +131,9 @@ export class UploadDocumentComponent implements OnInit {
     }
   }
 
-  async setAdditionalRights(page: number, pageSize: number) {
-    return
+  async setAdditionalRightsData(page: number, pageSize: number) {
     this.additionalRights = [];
-    let url = 'common/get/tagging/head?';
+    let url = 'common/get/system/rights?';
     this.urlHttpParams = {
       adminId: this.userService.getUserId(),
     };
@@ -195,6 +213,7 @@ export class UploadDocumentComponent implements OnInit {
     const formData = this.documentUploadForm.getRawValue();
     let returnedAlerts: any = await this.postData(formData);
     if(returnedAlerts.flag) {
+      this.showProcess = false;
       if(returnedAlerts.data.status == 404) {
         this.showError = "Data Not Found";
       } else {
@@ -204,7 +223,8 @@ export class UploadDocumentComponent implements OnInit {
         this.showError = '';
       },5000)
     } else {
-      this.showSuccess = "Data saved successfully";
+      this.showSuccess = "Document Uploaded successfully";
+      this.showProcess = true;
       setTimeout(() => {
         this.showSuccess = '';
       },5000)
@@ -219,7 +239,7 @@ export class UploadDocumentComponent implements OnInit {
     formData.userType = this.userService.getUserType();
     return new Promise((resolve, reject) => {
         try {
-          this._beService.postMethod('file-upload?userId=' + formData.userId + '&companyId='+ formData.companyId +'&documentDate='+ formData.documentDate +'&additionalRights='+ formData.additionalRights +'&document='+ formData.document+'&userType='+ formData.userType+'&taggingHead='+ formData.taggingHead+'&fileName='+ this.fileName , this.formDataFile)
+          this._beService.postMethod('file-upload?userId=' + formData.userId + '&companyId='+ formData.companyId +'&documentDate='+ formData.documentDate +'&additionalRights='+ formData.additionalRights +'&document='+ formData.document+'&userType='+ formData.userType+'&taggingHead='+ formData.taggingHead+'&projectId='+ formData.projectId , this.formDataFile)
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(resolvedData, false);
@@ -235,6 +255,10 @@ export class UploadDocumentComponent implements OnInit {
         reject(alertsFetched);
       }
     }) 
+  }
+
+  processDocument() {
+    
   }
 
 }

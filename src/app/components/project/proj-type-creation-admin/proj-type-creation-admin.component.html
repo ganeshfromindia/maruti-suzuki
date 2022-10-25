@@ -18,8 +18,8 @@
         <div class="red-tags">Similar To</div>
       </div>
       <div class="col-md-6">
-        <select [(ngModel)]="projHierarchy" [ngModelOptions]="{standalone: true}" class="form-control form-select" (change)="setProjectHierarchy()" [compareWith]="compareFn">
-          <option [ngValue]="'select'">Please select</option>
+        <select [(ngModel)]="projHierarchy"  class="form-control form-select" (change)="setProjectHierarchy()" >
+          <option [ngValue]="''" selected>Please select</option>
           <option
             *ngFor="let projHierarchy of projTypes; let i = index"
             [ngValue]="projHierarchy"

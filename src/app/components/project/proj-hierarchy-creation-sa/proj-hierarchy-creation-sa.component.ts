@@ -40,9 +40,9 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     this.projHierarchyCreateForm = this._fb.group({
       id:['', Validators.required],
       projectHierarchyName:['', Validators.required],
-      projDesgn:[null, Validators.required],
+      projDesgn:['', Validators.required],
       level:['', Validators.required],
-      linkedTo:[0, Validators.required]
+      linkedTo:['', Validators.required]
     })
   }
 
@@ -121,10 +121,8 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     } else {
       if (returnedAlerts.data.status == 200)
         this.dataArray = returnedAlerts.data.payLoad[0].hierarchyDetailList;
-        console.log(this.dataArray);
         this.dataArray.forEach((data) => data.idMain = data.id);
         this.data = this.unflattenTree(this.dataArray);
-        console.log(this.data)
       //this.data = this.printTree(this.unflattenTree(this.dataArray));
     }
   }
@@ -134,17 +132,14 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     let root;
     for (const node of data) {
       nodes[node.id] = { children: [], ...nodes[node.id], ...node };
-      console.log(nodes[node.id])
       if (node.linkedTo) {
         nodes[node.linkedTo] = { children: [], ...nodes[node.linkedTo] };
         nodes[node.linkedTo].children.push(nodes[node.id]);
         this.singleNode = nodes[node.linkedTo]
       } else {
-        console.log(nodes[node.id])
         root = nodes[node.id];
       }
     }
-    console.log(root)
     return root || this.singleNode.children[0];
   }
 
@@ -264,7 +259,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
 
   async triggerModal(content: any) {
     let returnedStatus = this.setProjectHierarchies('');
-    this.selprojHierarchy = null;
+    this.selprojHierarchy = '';
     const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
     modalRef.result.then((res) => {
       if(res) {
@@ -300,7 +295,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     return new Promise((resolve, reject) => {
       try {
         this._beService
-          .getMethod(url, 1, 10, urlHttpParams)
+          .getMethod(url, 1, 100, urlHttpParams)
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(

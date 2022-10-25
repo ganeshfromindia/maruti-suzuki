@@ -18,6 +18,7 @@ export class CreateEditUserComponent implements OnInit {
   public role: string = '';
   public departments: any[] = [];
   public designations: any[] = [];
+  public rightsTypes: any[] = [];
   public levels: any[] = [];
   public types: any[] = [];
   public companyAllData: any[]= [];
@@ -31,17 +32,17 @@ export class CreateEditUserComponent implements OnInit {
   constructor(private route: ActivatedRoute,private _fb: FormBuilder, private _beService: BackendService, private userService: UserService) { 
     this.userCreateEditForm = this._fb.group({
       id:[''],
-      companyId:[null, Validators.required],
+      companyId:['', Validators.required],
       userName:['', Validators.required],
       firstName:['', Validators.required],
       lastName:['', Validators.required],
       password:['', Validators.required],
-      departmentId:[null, Validators.required],
-      designationId:[null, Validators.required],
+      departmentId:['', Validators.required],
+      designationId:['', Validators.required],
       emailId:['', Validators.required],
       phoneNumber:['', Validators.required],
       level:['', Validators.required],
-      userType:[null, Validators.required],
+      userType:['', Validators.required],
       searchRights:['', Validators.required],
       additionalField:['', Validators.required]
     })
@@ -50,13 +51,14 @@ export class CreateEditUserComponent implements OnInit {
   ngOnInit(): void {
     this.role = this.userService.getUserType();
     this.role = 'superadmin';
-    this.setCompanyData(1, 10);
-    this.setDepartmentData(1, 10);
-    this.setDesignationData(1, 10);
+    this.setCompanyData(1, 100);
+    this.setDepartmentData(1, 100);
+    this.setDesignationData(1, 100);
+    this.setRightsData(1, 100)
     this.userDetails = this.route.paramMap.pipe(map(() => window.history.state))
     this.userDetails.subscribe((data: any) => this.userDetails = data.data)
     this.userCreateEditForm.patchValue(this.userDetails);
-    this.types = ['ADMIN','SUPER_ADMIN','OPERATIONS']
+    this.types = ['ADMIN','SUPER_ADMIN','OPERATION']
 
     this.companyId = this.route.snapshot.params['id'];
     if(this.companyId) {
@@ -118,9 +120,28 @@ export class CreateEditUserComponent implements OnInit {
       }
     }
   }
+
+  async setRightsData(page: number, pageSize: number, url = 'common/get/system/rights?') {
+    this.rightsTypes = []
+    let returnedAlerts: any = await this.setData(page, pageSize, url);
+    if(returnedAlerts.flag) {
+      if(returnedAlerts.data.status == 404) {
+        this.showError = "Data Not Found";
+      } else {
+        this.showError = "Something went wrong"
+      }
+      setTimeout(() => {
+        this.showError = ''
+      },5000)
+    } else {
+      if(returnedAlerts.data.status == 200) this.rightsTypes = returnedAlerts.data.payLoad;
+      
+    }
+  }
   setData(page: number, pageSize: number, url: string) {
     this.urlHttpParams = {
       companyId : this.userService.getCompanyID(),
+      adminId: this.userService.getUserId(),
       id: ''
     };
     return new Promise((resolve, reject) => {

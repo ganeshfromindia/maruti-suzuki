@@ -1,14 +1,15 @@
-<form
-  [formGroup]="documentUploadForm"
-  (ngSubmit)="onSubmitDocumentUpload()"
-  
->
+<form [formGroup]="documentUploadForm" (ngSubmit)="onSubmitDocumentUpload()">
   <div class="row mt-5">
     <div class="col-md-2">
       <div class="red-tags">Select the document</div>
     </div>
     <div class="col-md-5">
-      <input type="file" class="form-control" (change)="setFile($event)" accept=".xls,.xlsx,.doc,.docx,.ppt,.pptx,.pdf"/>
+      <input
+        type="file"
+        class="form-control"
+        (change)="setFile($event)"
+        accept=".xls,.xlsx,.doc,.docx,.ppt,.pptx,.pdf"
+      />
     </div>
   </div>
   <div class="row mt-2">
@@ -16,12 +17,29 @@
       <div class="red-tags">Document Type</div>
     </div>
     <div class="col-md-5">
-      <select class="form-control form-select" formControlName="document" >
-        <option [value]="''" >Please Select</option>
-        <option 
-            *ngFor="let docType of docTypes; let i = index"
-            [value]="docType.id">
-            {{docType.documentType}}
+      <select class="form-control form-select" formControlName="document">
+        <option [value]="''">Please Select</option>
+        <option
+          *ngFor="let docType of docTypes; let i = index"
+          [value]="docType.id"
+        >
+          {{ docType.documentType }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Project</div>
+    </div>
+    <div class="col-md-5">
+      <select class="form-control form-select" formControlName="projectId">
+        <option [value]="''">Please select</option>
+        <option
+          [value]="project.id"
+          *ngFor="let project of projects; let i = index"
+        >
+          {{ project.projectName }}
         </option>
       </select>
     </div>
@@ -31,13 +49,21 @@
       <div class="red-tags">Additional Rights</div>
     </div>
     <div class="col-md-5">
-      <select class="form-control form-select" formControlName="additionalRights" multiple>
-        <option [value]="addRights.id" *ngFor="let addRights of additionalRights; let i = index;">
-          {{addRights.right}}
+      <select
+        class="form-control form-select"
+        formControlName="additionalRights"
+        multiple
+      >
+        <option [value]="''">Please select</option>
+        <option
+          *ngFor="let rightType of additionalRights; let i = index"
+          [value]="rightType.id"
+        >
+          {{ rightType.description }}
         </option>
       </select>
     </div>
-  </div> 
+  </div>
   <div class="row mt-2">
     <div class="col-md-2">
       <div class="red-tags">Document Date</div>
@@ -45,35 +71,32 @@
     <div class="col-md-5">
       <input type="date" class="form-control" formControlName="documentDate" />
     </div>
-  </div> 
+  </div>
   <div class="row mt-2">
     <div class="col-md-2">
       <div class="red-tags">Tagging Head</div>
     </div>
-    <div class="col-md-5" *ngIf="tags  && tags.length > 0" >
-        <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Sr. No.</th>
-                <th>Tagging Head</th>
-                <th>Yes / No</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                *ngFor="let tag of tags; let i = index"
-                class="text-capitalize"
-              >
-                <td>{{ i + 1}}</td>
-                <td>
-                  {{tag.taggingHeadName}}
-                </td>
-                <td>
-                  <input (change)="onChange(tag.id, $event)"type="checkbox" />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+    <div class="col-md-5" *ngIf="tags && tags.length > 0">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Sr. No.</th>
+            <th>Tagging Head</th>
+            <th>Yes / No</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tag of tags; let i = index" class="text-capitalize">
+            <td>{{ i + 1 }}</td>
+            <td>
+              {{ tag.taggingHeadName }}
+            </td>
+            <td>
+              <input (change)="onChange(tag.id, $event)" type="checkbox" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
   <div class="row mt-2">
@@ -81,9 +104,12 @@
       <button
         type="submit"
         class="me-5 col-md-5 btn bg-danger red-tags rounded-0 text-white"
-        [disabled]="documentUploadForm.invalid || documentUploadForm.value.taggingHead.length == 0"
+        [disabled]="
+          documentUploadForm.invalid ||
+          documentUploadForm.value.taggingHead.length == 0
+        "
       >
-        Save
+        Upload
       </button>
       <button
         class="col-md-5 btn bg-danger red-tags rounded-0 text-white"
@@ -97,18 +123,17 @@
 <div class="row mt-5">
   <div class="col-12">
     <div *ngIf="showError" class="text-center">
-      <P
-        >{{showError}}</P
-      >
+      <P>{{ showError }}</P>
     </div>
   </div>
 </div>
 <div class="row">
   <div class="col-12">
     <div *ngIf="showSuccess" class="text-center">
-      <P
-        >{{showSuccess}}</P
-      >
+      <P>{{ showSuccess }}</P>
+    </div>
+    <div *ngIf="showProcess">
+      <button type="button" (click)="processDocument();">Process Document</button>
     </div>
   </div>
 </div>

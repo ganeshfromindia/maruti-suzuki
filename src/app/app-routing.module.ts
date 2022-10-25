@@ -42,6 +42,9 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { DocumentComponent } from './components/document/document.component';
 import { UploadDocumentComponent } from './components/document/upload-document/upload-document.component';
 import { SearchDocumentComponent } from './components/document/search-document/search-document.component';
+import { LoginActivateGuard } from './services/login-activate.guard';
+import { AuthActivateGuard } from './services/auth-activate.guard';
+import { audit } from 'rxjs';
 
 
 
@@ -50,6 +53,7 @@ const routes: Routes = [
   {
     path: "login",
     component: LoginComponent,
+    canActivate: [LoginActivateGuard]
   },
   {
     path: "forgotpassword",
@@ -60,148 +64,181 @@ const routes: Routes = [
   },
   { path: 'company',
     component: CompanyComponent,
+    canActivate:[AuthActivateGuard],
     children: [
       {
         path: 'search-company',
-        component: SearchCompanyComponent
+        component: SearchCompanyComponent,
+        canActivateChild: [AuthActivateGuard]
       },
       {
         path:  'create-edit-company',
-        component: CreateEditCompanyComponent
+        component: CreateEditCompanyComponent,
+        canActivateChild: [AuthActivateGuard]
       },
       {
         path:  'create-edit-company/:id',
-        component: CreateEditCompanyComponent
+        component: CreateEditCompanyComponent,
+        canActivateChild: [AuthActivateGuard]
       }
     ]
   },
   {
     path: 'user',
     component: UserComponent,
+    canActivate:[AuthActivateGuard],
     children: [
       {
         path: 'search-user',
-        component: SearchUserComponent
+        component: SearchUserComponent,
+        canActivateChild: [AuthActivateGuard]
       },
       {
         path:  'create-edit-user',
-        component: CreateEditUserComponent
+        component: CreateEditUserComponent,
+        canActivateChild: [AuthActivateGuard]
       },
       {
         path:  'create-edit-user/:id',
-        component: CreateEditUserComponent
+        component: CreateEditUserComponent,
+        canActivateChild: [AuthActivateGuard]
       }
     ]
   },
   {
     path: 'ga-user',
     component: UserGrantAccessComponent,
+    canActivate:[AuthActivateGuard],
     children: [
       {
         path: 'ga-search-user',
-        component: GaSearchUserComponent
+        component: GaSearchUserComponent,
+        canActivateChild: [AuthActivateGuard]
       },
       {
         path:  'ga-create-edit-user',
-        component: GaCreateEditUserComponent
+        component: GaCreateEditUserComponent,
+        canActivateChild: [AuthActivateGuard]
       },
       {
         path:  'ga-create-edit-user/:id',
-        component: GaCreateEditUserComponent
+        component: GaCreateEditUserComponent,
+        canActivateChild: [AuthActivateGuard]
       }
     ]
   },
   {
     path: 'settings',
     component: SettingsComponent,
+    canActivate:[AuthActivateGuard],
     children: [
       {
         path: 'designation',
         component: DesignationComponent,
+        canActivate: [AuthActivateGuard],
         children: [
           {
             path: 'list-designation',
-            component: ListDesignationComponent
+            component: ListDesignationComponent,
+            canActivateChild: [AuthActivateGuard]
           },
           {
             path:  'create-edit-designation',
-            component: CreateEditDesignationComponent
+            component: CreateEditDesignationComponent,
+            canActivateChild: [AuthActivateGuard]
           },
           {
             path:  'create-edit-designation/:id',
-            component: CreateEditDesignationComponent
+            component: CreateEditDesignationComponent,
+            canActivateChild: [AuthActivateGuard]
           }
         ]
       },
       {
         path:  'department',
         component: DepartmentComponent,
+        canActivate: [AuthActivateGuard],
         children: [
           {
             path: 'list-department',
-            component: ListDepartmentComponent
+            component: ListDepartmentComponent,
+            canActivateChild: [AuthActivateGuard]
           },
           {
             path:  'create-edit-department',
-            component: CreateEditDepartmentComponent
+            component: CreateEditDepartmentComponent,
+            canActivateChild: [AuthActivateGuard]
           },
           {
             path:  'create-edit-department/:id',
-            component: CreateEditDepartmentComponent
+            component: CreateEditDepartmentComponent,
+            canActivateChild: [AuthActivateGuard]
           }
         ]
       },
       {
         path:  'tagging',
         component: TaggingComponent,
+        canActivate:[AuthActivateGuard],
         children: [
           {
             path: 'list-tagging',
-            component: ListTaggingComponent
+            component: ListTaggingComponent,
+            canActivateChild: [AuthActivateGuard]
           },
           {
             path:  'create-edit-tagging',
-            component: CreateEditTaggingComponent
+            component: CreateEditTaggingComponent,
+            canActivateChild: [AuthActivateGuard]
           },
           {
             path:  'create-edit-tagging/:id',
-            component: CreateEditTaggingComponent
+            component: CreateEditTaggingComponent,
+            canActivateChild: [AuthActivateGuard]
           }
         ]
       },
       {
         path:  'doc-type-creation',
         component: DocTypeCreationComponent,
+        canActivate:[AuthActivateGuard],
         children: [
           {
             path: 'list-doc-type-creation',
-            component: ListDocTypeCreationComponent
+            component: ListDocTypeCreationComponent,
+            canActivateChild: [AuthActivateGuard]
           },
           {
             path:  'create-edit-doc-type-creation',
-            component: CreateEditDocTypeCreationComponent
+            component: CreateEditDocTypeCreationComponent,
+            canActivateChild: [AuthActivateGuard]
           },
           {
             path:  'create-edit-doc-type-creation/:id',
-            component: CreateEditDocTypeCreationComponent
+            component: CreateEditDocTypeCreationComponent,
+            canActivateChild: [AuthActivateGuard]
           }
         ]
       },
       {
         path:  'search-right',
         component: SearchRightComponent,
+        canActivate:[AuthActivateGuard],
         children: [
           {
             path: 'list-search-right',
-            component: ListSearchRightComponent
+            component: ListSearchRightComponent,
+            canActivateChild: [AuthActivateGuard]
           },
           {
             path:  'create-edit-search-right',
-            component: CreateEditSearchRightComponent
+            component: CreateEditSearchRightComponent,
+            canActivateChild: [AuthActivateGuard]
           },
           {
             path:  'create-edit-search-right/:id',
-            component: CreateEditSearchRightComponent
+            component: CreateEditSearchRightComponent,
+            canActivateChild: [AuthActivateGuard]
           }
         ]
       }
@@ -210,50 +247,61 @@ const routes: Routes = [
   {
     path: 'project',
     component: ProjectComponent,
+    canActivate:[AuthActivateGuard],
     children: [
       {
         path: 'proj-type-creation-sa',
         component: ProjTypeCreationSaComponent,
+        canActivate:[AuthActivateGuard],
         children: [
           {
             path: 'list-proj-type-creation',
-            component: ListProjTypeCreationComponent
+            component: ListProjTypeCreationComponent,
+            canActivateChild: [AuthActivateGuard]
           },
           {
             path: 'create-edit-proj-type-creation',
             component: CreateEditProjTypeCreationComponent,
+            canActivateChild: [AuthActivateGuard]
           },
           {
             path: 'create-edit-proj-type-creation/:id',
-            component: CreateEditProjTypeCreationComponent, 
+            component: CreateEditProjTypeCreationComponent,
+            canActivateChild: [AuthActivateGuard] 
           }
         ]
       },
       {
         path: 'proj-hierarchy-creation-sa',
-        component: ProjHierarchyCreationSaComponent
+        component: ProjHierarchyCreationSaComponent,
+        canActivateChild: [AuthActivateGuard]
       },
       {
         path: 'proj-type-creation-admin',
-        component: ProjTypeCreationAdminComponent
+        component: ProjTypeCreationAdminComponent,
+        canActivateChild: [AuthActivateGuard]
       },
       {
         path: 'proj-creation-admin',
-        component: ProjCreationAdminComponent
+        component: ProjCreationAdminComponent,
+        canActivateChild: [AuthActivateGuard]
       }
     ]
   },
   {
     path:'document',
     component: DocumentComponent,
+    canActivate:[AuthActivateGuard],
     children:[
       {
         path: 'upload-document',
-        component: UploadDocumentComponent
+        component: UploadDocumentComponent,
+        canActivateChild: [AuthActivateGuard]
       },
       {
         path: 'search-document',
-        component: SearchDocumentComponent
+        component: SearchDocumentComponent,
+        canActivateChild: [AuthActivateGuard]
       }
     ]
   },

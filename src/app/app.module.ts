@@ -8,6 +8,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpInterceptorService } from './services/http-interceptor.service';
+import { LoginActivateGuard } from './services/login-activate.guard';
+import { AuthActivateGuard } from './services/auth-activate.guard';
 
 
 @NgModule({
@@ -27,7 +29,10 @@ import { HttpInterceptorService } from './services/http-interceptor.service';
     provide: HTTP_INTERCEPTORS,
     useClass: HttpInterceptorService,
     multi: true,
-  }],
+  },
+  LoginActivateGuard,
+  AuthActivateGuard 
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

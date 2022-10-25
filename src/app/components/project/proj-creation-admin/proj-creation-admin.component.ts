@@ -30,7 +30,7 @@ export class ProjCreationAdminComponent implements OnInit {
   ngOnInit(): void {
     this.projCreateForm = this._fb.group({
       projTypeName: ['', Validators.required],
-      projType: ['select', Validators.required],
+      projType: ['', Validators.required],
       users: this._fb.array([]),
 
     })
@@ -111,7 +111,7 @@ export class ProjCreationAdminComponent implements OnInit {
       designationName: [item.designationName, Validators.required],
       level: [item.level, Validators.required],
       linkedTo: [item.linkedTo, Validators.required],
-      userId: [null, Validators.required],
+      userId: ['', Validators.required],
     })
   }
 
@@ -119,7 +119,7 @@ export class ProjCreationAdminComponent implements OnInit {
     return new Promise((resolve, reject) => {
       try {
         this._beService
-          .getMethod(url, 1, 10, urlParams)
+          .getMethod(url, 1, 100, urlParams)
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(

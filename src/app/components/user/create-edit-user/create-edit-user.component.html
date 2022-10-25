@@ -13,7 +13,7 @@
         </div>
         <div class="col-md-4">
           <select class="form-control form-select" formControlName="companyId">
-            <option value="null">Please select</option>
+            <option [value]="''">Please select</option>
             <option
               *ngFor="let company of companyAllData; let i = index"
               [value]="company.id"
@@ -61,7 +61,7 @@
         </div>
         <div class="col-md-4">
             <select class="form-control form-select" formControlName="departmentId">
-                <option value="null">Please select</option>
+                <option [value]="''">Please select</option>
                 <option
                   *ngFor="let department of departments; let i = index"
                   [value]="department.id"
@@ -77,7 +77,7 @@
         </div>
         <div class="col-md-4">
             <select class="form-control form-select" formControlName="designationId" (change)="setLevel($event)">
-                <option value="null">Please select</option>
+                <option [value]="''">Please select</option>
                 <option
                   *ngFor="let designation of designations; let i = index"
                   [value]="designation.id"
@@ -121,7 +121,7 @@
         </div>
         <div class="col-md-3">
             <select class="form-control form-select" formControlName="userType">
-                <option value="null">Please select</option>
+                <option [value]="''">Please select</option>
                 <option
                   *ngFor="let type of types; let i = index"
                   [value]="type"
@@ -137,11 +137,12 @@
           <div class="red-tags ps-0">Search Rights</div>
         </div>
         <div class="col-md-4">
-          <input
-            type="text"
-            class="form-control"
-            formControlName="searchRights"
-          />
+          <select class="form-control form-select" formControlName="searchRights">
+            <option [value]="''">Please select</option>
+            <option *ngFor="let rightType of rightsTypes; let i = index" [value]="rightType.id">
+              {{ rightType.description }}
+            </option>
+          </select>
         </div>
       </div>
       <div class="row mt-2">

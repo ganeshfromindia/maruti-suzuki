@@ -33,6 +33,7 @@ export class SearchCompanyComponent implements OnInit {
     this.companyAllData = []
     let returnedAlerts: any = await this.setData(page, pageSize);
     if(returnedAlerts.flag) {
+      this.total = 0;
       if(returnedAlerts.data.status == 404) {
         this.showError = "Data Not Found";
       } else {
