@@ -137,11 +137,12 @@
           <div class="red-tags ps-0">Search Rights</div>
         </div>
         <div class="col-md-4">
-          <input
-            type="text"
-            class="form-control"
-            formControlName="searchRights"
-          />
+          <select class="form-control form-select" formControlName="searchRights">
+            <option [value]="''">Please select</option>
+            <option *ngFor="let rightType of rightsTypes; let i = index" [value]="rightType.id">
+              {{ rightType.description }}
+            </option>
+          </select>
         </div>
       </div>
       <div class="row mt-2">

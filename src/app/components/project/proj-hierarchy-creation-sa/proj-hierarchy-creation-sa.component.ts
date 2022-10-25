@@ -121,10 +121,8 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     } else {
       if (returnedAlerts.data.status == 200)
         this.dataArray = returnedAlerts.data.payLoad[0].hierarchyDetailList;
-        console.log(this.dataArray);
         this.dataArray.forEach((data) => data.idMain = data.id);
         this.data = this.unflattenTree(this.dataArray);
-        console.log(this.data)
       //this.data = this.printTree(this.unflattenTree(this.dataArray));
     }
   }
@@ -134,17 +132,14 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     let root;
     for (const node of data) {
       nodes[node.id] = { children: [], ...nodes[node.id], ...node };
-      console.log(nodes[node.id])
       if (node.linkedTo) {
         nodes[node.linkedTo] = { children: [], ...nodes[node.linkedTo] };
         nodes[node.linkedTo].children.push(nodes[node.id]);
         this.singleNode = nodes[node.linkedTo]
       } else {
-        console.log(nodes[node.id])
         root = nodes[node.id];
       }
     }
-    console.log(root)
     return root || this.singleNode.children[0];
   }
 
