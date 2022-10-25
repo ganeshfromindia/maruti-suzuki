@@ -193,6 +193,8 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
 
   postData(postData: any) {
     const formData = this.projHierarchyCreateForm.getRawValue();
+    postData.hierarchyDetailList[0].linkedTo = parseInt(postData.hierarchyDetailList[0].linkedTo)
+    console.log(postData)
     return new Promise((resolve, reject) => {
         try {
           this._beService.postMethod('project/hierarchy/save', postData)
