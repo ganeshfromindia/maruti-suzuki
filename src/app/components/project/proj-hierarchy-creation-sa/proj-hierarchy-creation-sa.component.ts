@@ -17,6 +17,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
   public urlHttpParams: any = {};
   public projHierarchyData: any[] = [];
   public showError: string = '';
+  public showSuccess: string = '';
   public showSelectError: boolean = false;
   public singleNode: any = {};
   public projHierarchies: any[] = [];
@@ -225,6 +226,23 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
       level: data.level
     })
     this.setLinkedToData();
+  }
+
+  postDeleteId(data: any) {
+    return
+    // this._beService.deleteMethod('delete'+data.id).subscribe({
+    //   next: (resolvedData) => {
+    //     if(resolvedData.status == 200) this.showSuccess = 'Hierarchy deleted successfully'
+    //   },
+    //   error: (errorData) => {
+    //     if(errorData.status == 404) {
+    //       this.showError = "Hierarchy Not Found";
+    //     } else {
+    //       this.showError = "Something went wrong";
+    //     }
+    //   },
+    // })
+
   }
 
   setLevel(dataP: any) {
