@@ -11,28 +11,28 @@ import { HttpInterceptorService } from './services/http-interceptor.service';
 import { LoginActivateGuard } from './services/login-activate.guard';
 import { AuthActivateGuard } from './services/auth-activate.guard';
 
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    RoutingComponents
-  ],
+  declarations: [AppComponent, RoutingComponents],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: HttpInterceptorService,
-    multi: true,
-  },
-  LoginActivateGuard,
-  AuthActivateGuard 
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true,
+    },
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    LoginActivateGuard,
+    AuthActivateGuard,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
