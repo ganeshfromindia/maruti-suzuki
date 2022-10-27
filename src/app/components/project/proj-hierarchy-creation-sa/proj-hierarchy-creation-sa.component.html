@@ -125,7 +125,7 @@
                   </button>
                   <button
                     type="button"
-                    (click)="postEditId(pjData)"
+                    (click)="postDeleteId(pjData)"
                     class="btn btn-sm"
                   >
                   <i class="fa fa-trash-o"></i>
@@ -141,6 +141,13 @@
       <div class="col-12">
         <div *ngIf="showError" class="text-center">
           <P>{{ showError }}</P>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div *ngIf="showSuccess" class="text-center">
+          <P>{{ showSuccess }}</P>
         </div>
       </div>
     </div>
