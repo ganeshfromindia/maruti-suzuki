@@ -1,7 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
-.pages .form-control {
+/* .pages .form-control {
   border: 1px solid #4554a5;
   border-radius: 0px;
+} */
+
+html,
+body {
+  font-size: 14px;
 }
 
 .red-tags {
@@ -11,8 +16,9 @@
 }
 .bc-cont {
   padding: 3px 7px;
-  background-color: #e3ebfe;
+  background-color: lavender;
   display: inline-block;
+  border-radius: 0 0.25em 0.25em 0;
 }
 
 [pointer] {
@@ -27,11 +33,11 @@
   padding-left: 5rem !important;
 }
 
-.active > .page-link,
+/* .active > .page-link,
 .page-link.active {
   background-color: #4554a5 !important;
   border-color: #14216b !important;
-}
+} */
 
 .nav-border {
   border-radius: 0.25rem 0 0 0.25rem;
@@ -42,4 +48,24 @@
   background: transparent;
   appearance: none;
   -webkit-appearance: none;
+}
+
+input.form-select:focus,
+textarea.form-select:focus,
+select.form-select:focus,
+input.form-control:focus,
+textarea.form-control:focus,
+select.form-control:focus,
+input.form-check:focus,
+textarea.form-check:focus,
+select.form-check:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.active > .page-link,
+.page-link.active,
+.page-link:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }

@@ -1,4 +1,6 @@
-
+:host {
+  width: 100%;
+}
 .dropdown-toggle::after {
   right: 12px;
   position: absolute;
@@ -10,9 +12,11 @@
   border-radius: 0px;
 }
 
-.nav-link.active, .dropdown-item.active, .dropdown-item:active {
-  background-color:#e3ebfe;
-  color: rgb(79,79,79);
+.nav-link.active,
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: #e3ebfe;
+  color: rgb(79, 79, 79);
 }
 
 .cont-height {
