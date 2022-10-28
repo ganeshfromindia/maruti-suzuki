@@ -24,7 +24,7 @@ export class SearchUserComponent implements OnInit {
   public total: number = 0
   public showError: string = '';
   public page: number = 1;
-  public pageSize: number = 10;
+  public pageSize: number = 15;
 
   constructor(private _beService: BackendService, public router: Router, private userService: UserService) {
   }

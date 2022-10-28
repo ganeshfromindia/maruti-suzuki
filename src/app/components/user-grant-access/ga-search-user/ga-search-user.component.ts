@@ -22,6 +22,10 @@ export class GaSearchUserComponent implements OnInit {
   });
   showTE: boolean = false;
 
+  page: number = 1;
+  pageSize: number = 15;
+
+
   constructor(public service: GaSearchUserService, public router: Router) {
     this.gaUserAllData$ = service.gaUserAllData$
     this.total$ = service.total$;

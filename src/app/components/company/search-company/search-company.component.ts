@@ -19,7 +19,7 @@ export class SearchCompanyComponent implements OnInit {
   total: number = 0
   showError: string = '';
   page: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 15;
 
   constructor(private _beService: BackendService, public router: Router, private userService: UserService) {
     
