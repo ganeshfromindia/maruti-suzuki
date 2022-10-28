@@ -4,9 +4,10 @@
         <span class="bc-cont col-md-3">Edit Rights</span>
       </div>
       <div class="row mt-5">
-        <table class="table table-striped">
+        <div class="col">
+        <table class="table table-sm table-striped align-middle">
           <thead>
-            <tr>
+            <tr class="bg-primary bg-gradient text-white">
               <th scope="col">#</th>
               <th>Description</th>
               <th>Name</th>
@@ -29,22 +30,9 @@
             </tr>
           </tbody>
         </table>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-12">
-      <div *ngIf="showError" class="text-center">
-        <P
-          >{{showError}}</P
-        >
-      </div>
-    </div>
-  </div>
-  <div class="row mt-5">
-    <div class="col-12">
-      <div
-        class="col-12 d-flex align-items-start justify-content-between"
+        <div class="w-100"></div>
+        <div
+        class="col d-flex align-items-start justify-content-between"
         *ngIf="total"
       >
         <ngb-pagination
@@ -54,18 +42,16 @@
           (pageChange)="setPage($event)"
         >
         </ngb-pagination>
-  
-        <select
-          class="form-select"
-          style="width: auto"
-          name="pageSize"
-          [(ngModel)]="pageSize"
-          (change)="setPageSize($event)"
-        >
-          <option [value]="5">5 items per page</option>
-          <option [value]="10">10 items per page</option>
-          <!-- <option [ngValue]="10">10 items per page</option> -->
-        </select>
+      </div>
+      </div>
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-12">
+      <div *ngIf="showError" class="text-center">
+        <p>{{showError}}</p>
+      </div>
+    </div>
+  </div>
+  

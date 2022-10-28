@@ -16,12 +16,12 @@ export class ListSearchRightComponent implements OnInit {
   total: number = 0
   showError: string = '';
   page: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 15;
   constructor(private router: Router, private _beService: BackendService, private userService: UserService) { }
 
 
   ngOnInit(): void {
-    this.setRightsData(1, 10)
+    this.setRightsData(1, 15)
   }
 
   async setRightsData(page: number, pageSize: number) {
@@ -79,11 +79,7 @@ export class ListSearchRightComponent implements OnInit {
     this.setRightsData(page, this.pageSize)
   }
 
-  // set pageSize data on page change
-  async setPageSize(data: any) {
-    let pageSize = data.target.value;
-    this.setRightsData(1, pageSize)
-  }
+  
 
   //post edit id to edit component
   postEditId(data: any) {

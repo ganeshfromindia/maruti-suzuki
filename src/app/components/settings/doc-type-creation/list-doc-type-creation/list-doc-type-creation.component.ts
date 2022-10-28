@@ -16,7 +16,7 @@ export class ListDocTypeCreationComponent implements OnInit {
   total: number = 0
   showError: string = '';
   page: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 15;
 
   constructor(private router: Router, private _beService: BackendService, private userService: UserService) {
     this.docTypes = [
@@ -29,9 +29,9 @@ export class ListDocTypeCreationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setDesignationData(1, 10)
+    this.setDocTypeData(1, 15)
   }
-  async setDesignationData(page: number, pageSize: number) {
+  async setDocTypeData(page: number, pageSize: number) {
     this.docTypes = []
     let returnedAlerts: any = await this.setData(page, pageSize);
     if(returnedAlerts.flag) {
@@ -84,16 +84,10 @@ export class ListDocTypeCreationComponent implements OnInit {
 
   // setting current page data
   async setPage(page: any) {
-    this.setDesignationData(page, this.pageSize)
+    this.setDocTypeData(page, this.pageSize)
   }
 
-  // set pageSize data on page change
-  async setPageSize(data: any) {
-    let pageSize = data.target.value;
-    this.setDesignationData(1, pageSize)
-  }
-
-
+  
   //post edit id to edit component
   postEditId(data: any) {
     let url = `settings/doc-type-creation/create-edit-doc-type-creation/${data.id}`;
