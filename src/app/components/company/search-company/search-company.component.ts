@@ -88,11 +88,6 @@ export class SearchCompanyComponent implements OnInit {
     this.setSearchData(page, this.pageSize)
   }
 
-  // set pageSize data on page change
-  async setPageSize(data: any) {
-    let pageSize = data.target.value;
-    this.setSearchData(1, pageSize)
-  }
 
   //post edit id to edit component
   postEditId(data: any) {

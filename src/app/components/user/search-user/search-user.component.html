@@ -1,36 +1,24 @@
-<div class="row mt-5" *ngIf="role == 'superadmin'">
-  <div class="col-md-2">
-    <div class="red-tags">Name of Company</div>
-  </div>
-  <div class="col-md-3">
+<div class="row" *ngIf="role == 'superadmin'">
+  <label class="col-auto col-form-label pe-0">Company:</label>
+  <div class="col me-3">
     <input
       type="text"
       class="form-control"
       id="companyName"
       [(ngModel)]="srchTrmCoName"
-     
     />
   </div>
-</div>
-<div class="row mt-2">
-  <div class="col-md-2">
-    <div class="red-tags">Name of User</div>
-  </div>
-  <div class="col-md-3">
+  <label class="col-auto col-form-label pe-0">User:</label>
+  <div class="col me-3">
     <input
       type="text"
       class="form-control"
       id="userName"
       [(ngModel)]="srchTrmUserName"
-      
     />
   </div>
-</div>
-<div class="row mt-2">
-  <div class="col-md-2">
-    <div class="red-tags">User Email Id</div>
-  </div>
-  <div class="col-md-3">
+  <label class="col-auto col-form-label pe-0">User Email Id:</label>
+  <div class="col me-3">
     <input
       type="text"
       class="form-control"
@@ -38,20 +26,14 @@
       [(ngModel)]="srchTrmEmail"
     />
   </div>
-</div>
-<div class="row mt-2">
-  <div class="col-md-2">
-    <button
-      (click)="setSearchData(1, 10)"
-      class="btn bg-danger red-tags w-100 rounded-0 text-white"
-      
-    >
+  <div class="col-auto d-flex justify-content-center">
+    <button (click)="setSearchData(1, 15)" class="btn btn-sm btn-danger">
       Search
     </button>
   </div>
 </div>
 <div class="row mt-2">
-  <div class="col-12">
+  <div class="col">
     <div *ngIf="userAllData.length">
       <table class="table table-striped">
         <thead>
@@ -79,19 +61,6 @@
         </tbody>
       </table>
     </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-12">
-    <div *ngIf="showTE" class="text-center">
-      <P
-        >Data Not found. Please submit different criteria and try again later</P
-      >
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-12">
     <div
       class="col-12 d-flex align-items-start justify-content-between"
       *ngIf="total"
@@ -103,18 +72,15 @@
         (pageChange)="setPage($event)"
       >
       </ngb-pagination>
-
-      <select
-        class="form-select"
-        style="width: auto"
-        name="pageSize"
-        [(ngModel)]="pageSize"
-        (change)="setPageSize($event)"
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div *ngIf="showTE" class="text-center">
+      <P
+        >Data Not found. Please submit different criteria and try again later</P
       >
-        <option [value]="5">5 items per page</option>
-        <option [value]="10">10 items per page</option>
-        <!-- <option [ngValue]="10">10 items per page</option> -->
-      </select>
     </div>
   </div>
 </div>

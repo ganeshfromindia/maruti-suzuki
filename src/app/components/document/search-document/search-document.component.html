@@ -1,5 +1,5 @@
 <form [formGroup]="documentSearchForm" (ngSubmit)="onSubmitDocumentSearch()">
-  <div class="row mt-5">
+  <div class="row">
     <div class="col-md-2">
       <div class="red-tags">Document Name</div>
     </div>
@@ -92,22 +92,30 @@
       <div class="red-tags">Tagging Head</div>
     </div>
     <div class="col-md-5" *ngIf="tags && tags.length > 0">
-      <table class="table table-striped">
+      <table class="table table-sm table-striped align-middle">
         <thead>
-          <tr>
+          <tr class="bg-primary bg-gradient text-white">
             <th>Sr. No.</th>
             <th>Tagging Head</th>
             <th>Yes / No</th>
           </tr>
         </thead>
         <tbody>
-          <tr formArrayName="taggingHead"  *ngFor="let tag of tags; let i = index" class="text-capitalize">
+          <tr
+            formArrayName="taggingHead"
+            *ngFor="let tag of tags; let i = index"
+            class="text-capitalize"
+          >
             <td>{{ i + 1 }}</td>
             <td>
               {{ tag.taggingHeadName }}
             </td>
             <td>
-              <input [formControlName]="i" (change)="onChange(tag.id, $event, i)" type="checkbox" />
+              <input
+                [formControlName]="i"
+                (change)="onChange(tag.id, $event, i)"
+                type="checkbox"
+              />
             </td>
           </tr>
         </tbody>
@@ -119,7 +127,6 @@
       <button
         type="submit"
         class="me-5 col-md-5 btn bg-danger red-tags rounded-0 text-white"
-        
       >
         Search
       </button>
@@ -134,51 +141,65 @@
   </div>
 </form>
 <div class="row mt-5">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Sr. No.</th>
-        <th>Docuemnt Name</th>
-        <!-- <th>Project</th> -->
-        <th>Uploaded Date</th>
-        <th>Document Type</th>
-        <th>Tagging Heads</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="let document of documents; let i = index;"
-        class="text-capitalize"
-      >
-        <td>{{ i + 1}}</td>
-        <td>{{document.documentName}}</td>
-        <!-- <td>{{document.project}}</td> -->
-        <td>{{document.documentDate | date: 'dd/MM/yyyy'}}</td>
-        <td>
-          <select class="view-input" disabled>
-            <option *ngFor="let docType of docTypes; let i = index;"
-            [value]="docType.id"
-            [selected]="docType.id == document.documentId"
+  <div class="col">
+    <table class="table table-sm table-striped align-middle">
+      <thead>
+        <tr class="bg-primary bg-gradient text-white">
+          <th>Sr. No.</th>
+          <th>Docuemnt Name</th>
+          <!-- <th>Project</th> -->
+          <th>Uploaded Date</th>
+          <th>Document Type</th>
+          <th>Tagging Heads</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let document of documents; let i = index"
+          class="text-capitalize"
+        >
+          <td>{{ i + 1 }}</td>
+          <td>{{ document.documentName }}</td>
+          <!-- <td>{{document.project}}</td> -->
+          <td>{{ document.documentDate | date: "dd/MM/yyyy" }}</td>
+          <td>
+            <select class="view-input" disabled>
+              <option
+                *ngFor="let docType of docTypes; let i = index"
+                [value]="docType.id"
+                [selected]="docType.id == document.documentId"
+              >
+                {{ docType.documentType }}
+              </option>
+            </select>
+          </td>
+          <td>
+            <div *ngFor="let tagsId of document.taggingHead; let j = index">
+              <select class="view-input" disabled>
+                <option
+                  *ngFor="let tag of tags; let i = index"
+                  [value]="tag.id"
+                  [selected]="tag.id == tagsId"
+                >
+                  {{ tag.taggingHeadName }}
+                </option>
+              </select>
+            </div>
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-sm btn-success"
+              (click)="downloadFile(document.documentPath)"
             >
-              {{ docType.documentType }}
-            </option>
-          </select>
-        </td>
-        <td> 
-          <div *ngFor="let tagsId of document.taggingHead; let j = index">
-          <select class="view-input" disabled>
-          <option *ngFor="let tag of tags; let i = index"
-          [value]="tag.id"
-          [selected]="tag.id == tagsId"
-          >
-            {{ tag.taggingHeadName }}
-          </option>
-        </select></div></td>
-        <td><button type="button" (click)="downloadFile(document.documentPath)">Download</button></td>
-      </tr>
-    </tbody>
-  </table>
+              Download
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 <div class="row mt-5">
   <div class="col-12">

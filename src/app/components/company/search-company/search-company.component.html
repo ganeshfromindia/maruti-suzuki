@@ -8,7 +8,7 @@
     <input type="text" class="form-control" id="email" [(ngModel)]="srchTrmEmail" />
   </div>
   <div class="col-auto d-flex justify-content-center">
-    <button (click)="setSearchData(1, 10)" class="btn btn-sm btn-danger">Search</button>
+    <button (click)="setSearchData(1, 15)" class="btn btn-sm btn-danger">Search</button>
   </div>
 </div>
 <hr />
@@ -42,18 +42,6 @@
     <div class="col d-flex align-items-start justify-content-between" *ngIf="total">
       <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="pageSize" (pageChange)="setPage($event)">
       </ngb-pagination>
-
-      <select
-        class="form-select"
-        style="width: auto"
-        name="pageSize"
-        [(ngModel)]="pageSize"
-        (change)="setPageSize($event)"
-      >
-        <option [value]="5">5 items per page</option>
-        <option [value]="10">10 items per page</option>
-        <!-- <option [ngValue]="10">10 items per page</option> -->
-      </select>
     </div>
   </div>
 </div>
