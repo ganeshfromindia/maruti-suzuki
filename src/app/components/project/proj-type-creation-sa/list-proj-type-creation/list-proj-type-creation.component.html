@@ -1,15 +1,6 @@
-<div class="row mt-5">
-  <div class="col-md-12">
-    <div class="row">
-      <span class="bc-cont col-md-3">Search Project Type</span>
-    </div>
-  </div>
-</div>
-<div class="row mt-5">
-  <div class="col-md-2">
-    <div class="red-tags">Type of Project</div>
-  </div>
-  <div class="col-md-3">
+<div class="row">
+  <label class="col-auto col-form-label pe-0">Type of Project:</label>
+  <div class="col me-3">
     <input
       type="text"
       class="form-control"
@@ -17,12 +8,8 @@
       [(ngModel)]="projType"
     />
   </div>
-</div>
-<div class="row mt-2">
-  <div class="col-md-2">
-    <div class="red-tags">Additional Field</div>
-  </div>
-  <div class="col-md-3">
+  <label class="col-auto col-form-label pe-0">Additional Field:</label>  
+  <div class="col me-3">
     <input
       type="text"
       class="form-control"
@@ -30,23 +17,20 @@
       [(ngModel)]="additionalField"
     />
   </div>
-</div>
-<div class="row mt-2">
-  <div class="col-md-2">
+  <div class="col-auto d-flex justify-content-center">
     <button
       (click)="setSearchData()"
-      class="btn bg-danger red-tags w-100 rounded-0 text-white"
+      class="btn btn-sm btn-danger"
     >
       Search
     </button>
   </div>
 </div>
-<div class="row mt-5">
-  <div class="col-md-12">
-    <div class="row mt-5">
-      <table class="table table-striped">
+<div class="row mt-3">
+  <div class="col">
+      <table class="table table-sm table-striped align-middle">
         <thead>
-          <tr>
+          <tr class="bg-primary bg-gradient text-white">
             <th scope="col">#</th>
             <th>Description</th>
             <th>Function</th>
@@ -67,7 +51,6 @@
           </tr>
         </tbody>
       </table>
-    </div>
   </div>
 </div>
 <div class="row">

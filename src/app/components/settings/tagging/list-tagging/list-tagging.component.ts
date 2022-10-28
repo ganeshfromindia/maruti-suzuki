@@ -13,13 +13,16 @@ export class ListTaggingComponent implements OnInit {
   urlHttpParams: any = {};
   tags: any[] = [];
   showError: string = '';
+  page: number = 1;
+  pageSize: number = 15;
+  total: number = 0;
   constructor(private router: Router, private _beService: BackendService, private userService: UserService) {
    
 
   }
 
   ngOnInit(): void {
-    this.setTaggingData(1, 10)
+    this.setTaggingData(1, 15)
   }
 
   async setTaggingData(page: number, pageSize: number) {
@@ -73,6 +76,11 @@ export class ListTaggingComponent implements OnInit {
   postEditId(data: any) {
     let url = `settings/tagging/create-edit-tagging/${data.id}`;
     this.router.navigateByUrl(url, { state: { data: data } });
+  }
+
+  // setting current page data
+  async setPage(page: any) {
+    this.setTaggingData(page, this.pageSize)
   }
 
 }
