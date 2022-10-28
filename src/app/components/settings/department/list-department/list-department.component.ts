@@ -17,11 +17,11 @@ export class ListDepartmentComponent implements OnInit {
   total: number = 0
   showError: string = '';
   page: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 15;
   constructor(private router: Router, private _beService: BackendService, private userService: UserService) { }
 
   ngOnInit(): void {
-    this.setDepartmentData(1, 10)
+    this.setDepartmentData(1, 15)
   }
 
   async setDepartmentData(page: number, pageSize: number) {
@@ -79,12 +79,7 @@ export class ListDepartmentComponent implements OnInit {
     this.setDepartmentData(page, this.pageSize)
   }
 
-  // set pageSize data on page change
-  async setPageSize(data: any) {
-    let pageSize = data.target.value;
-    this.setDepartmentData(1, pageSize)
-  }
-
+  
 
   //post edit id to edit component
   postEditId(data: any) {

@@ -15,11 +15,11 @@ export class ListDesignationComponent implements OnInit {
   total: number = 0
   showError: string = '';
   page: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 15;
   constructor(private router: Router, private _beService: BackendService, private userService: UserService) { }
 
   ngOnInit(): void {
-    this.setDesignationData(1, 10)
+    this.setDesignationData(1, 15)
   }
   async setDesignationData(page: number, pageSize: number) {
     this.designations = []
@@ -76,12 +76,7 @@ export class ListDesignationComponent implements OnInit {
     this.setDesignationData(page, this.pageSize)
   }
 
-  // set pageSize data on page change
-  async setPageSize(data: any) {
-    let pageSize = data.target.value;
-    this.setDesignationData(1, pageSize)
-  }
-
+  
 
 
   //post edit id to edit component
