@@ -1,7 +1,11 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": "fe294d3d-659e-469d-88b9-7453e793e04d"
+    "analytics": "fe294d3d-659e-469d-88b9-7453e793e04d",
+    "cache": {
+      "enabled": false
+    },
+    "packageManager": "yarn"
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -53,6 +57,14 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              },
               "outputHashing": "all"
             },
             "development": {

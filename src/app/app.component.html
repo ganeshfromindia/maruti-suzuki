@@ -1,10 +1,9 @@
 <div class="container-fluid">
-  <!--  mt-1 -->
-  <div class="row" *ngIf="isAuthenticated() == true; else elseBlock">
-    <div class="col-md-2">
+  <div class="row h-100 mt-1" *ngIf="isAuthenticated() == true; else elseBlock">
+    <div class="col-lg-3 col-xl-2 navigation">
       <app-navigation></app-navigation>
     </div>
-    <div class="col-md-10 pages">
+    <div class="col pages">
       <app-breadcrumb [fetchPageRouteDetails]="pageRouteDetails"></app-breadcrumb>
       <router-outlet></router-outlet>
     </div>
