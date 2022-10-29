@@ -299,6 +299,40 @@ export class SearchDocumentComponent implements OnInit {
         },
       });
   }
+
+  
+
+  async processDocuemnt(documentName: string) {
+    this.userAllData = [];
+    let url = 'common/process/document?';
+    this.urlHttpParams = {
+      documentName: documentName,
+    };
+    let returnedAlerts: any = await this.setData(
+      0,
+      0,
+      url,
+      this.urlHttpParams
+    );
+    if (returnedAlerts.flag) {
+      if (returnedAlerts.data.status == 404) {
+        this.showError = 'Data Not Found';
+      } else {
+        this.showError = 'Something went wrong';
+      }
+      setTimeout(() => {
+        this.showError = '';
+      }, 5000);
+    } else {
+      if (returnedAlerts.data.status == 200)
+        this.showSuccess = 'Document processed successfully';
+        setTimeout(() => {
+          this.showSuccess = '';
+        },3000)
+        this.onSubmitDocumentSearch();
+
+    }
+  }
   resetForm() {
     this.documentSearchForm.reset();
     this.documentSearchForm.patchValue({

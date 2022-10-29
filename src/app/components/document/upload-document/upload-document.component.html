@@ -100,6 +100,44 @@
     </div>
   </div>
   <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Select Previous Document</div>
+    </div>
+    <div class="col-md-5">
+      <select
+        class="form-control form-select"
+        formControlName="previousDocument"
+      >
+        <option [value]="''">Please select</option>
+        <option
+          *ngFor="let doc of documents; let i = index"
+          [value]="doc.documentName"
+        >
+          {{ doc.documentName }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <div class="red-tags">Select Next Document</div>
+    </div>
+    <div class="col-md-5">
+      <select
+        class="form-control form-select"
+        formControlName="nextDocument"
+      >
+        <option [value]="''">Please select</option>
+        <option
+          *ngFor="let doc of documents; let i = index"
+          [value]="doc.documentName"
+        >
+          {{ doc.documentName }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row mt-2">
     <div class="offset-md-2 col-md-4">
       <button
         type="submit"
@@ -127,13 +165,17 @@
     </div>
   </div>
 </div>
+<div class="row mt-5">
+  <div class="col-12">
+    <div *ngIf="showDocError" class="text-center">
+      <P>{{ showDocError }}</P>
+    </div>
+  </div>
+</div>
 <div class="row">
   <div class="col-12">
     <div *ngIf="showSuccess" class="text-center">
       <P>{{ showSuccess }}</P>
-    </div>
-    <div *ngIf="showProcess">
-      <button type="button" (click)="processDocument();">Process Document</button>
     </div>
   </div>
 </div>

@@ -190,10 +190,17 @@
           <td>
             <button
               type="button"
-              class="btn btn-sm btn-success"
+              class="btn btn-sm btn-success me-1"
               (click)="downloadFile(document.documentPath)"
             >
               Download
+            </button>
+            <button 
+              *ngIf="!document.isProcessed"
+              type="button"
+              class="btn btn-sm btn-primary"
+              (click)="processDocuemnt(document.documentName)">
+              Process
             </button>
           </td>
         </tr>

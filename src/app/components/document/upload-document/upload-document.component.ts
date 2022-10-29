@@ -22,12 +22,13 @@ export class UploadDocumentComponent implements OnInit {
   public docTypes: any[] = [];
   public projects: any[] = [];
   public additionalRights: any[] = [];
+  public documents: any[] = [];
+  public showDocError: string = '';
   public showError: string = '';
   public showSuccess: string = '';
   public fileName: string = '';
   public documentUploadForm: FormGroup;
   public formDataFile: FormData = new FormData();
-  public showProcess: boolean = false;
 
   constructor(
     private router: Router,
@@ -38,9 +39,11 @@ export class UploadDocumentComponent implements OnInit {
     this.documentUploadForm = this._fb.group({
       document: ['', Validators.required],
       projectId: ['', Validators.required],
-      additionalRights: [null, Validators.required],
+      additionalRights: ['', Validators.required],
       documentDate: ['', Validators.required],
       taggingHead: this._fb.array([]),
+      previousDocument : [''],
+      nextDocument  : [''],
     });
   }
 
@@ -49,6 +52,7 @@ export class UploadDocumentComponent implements OnInit {
     this.setProjectsData(1, 100);
     this.setTaggingData(1, 100);
     this.setAdditionalRightsData(1, 100);
+    this.setDocumentListData(1, 100)
   }
 
   async setDocTypesData(page: number, pageSize: number) {
@@ -158,6 +162,33 @@ export class UploadDocumentComponent implements OnInit {
     }
   }
 
+  async setDocumentListData(page: number, pageSize: number) {
+    this.documents = [];
+    let url = 'get/document/list?';
+    this.urlHttpParams = {
+      companyId: this.userService.getCompanyID(),
+    };
+    let returnedAlerts: any = await this.setData(
+      page,
+      pageSize,
+      url,
+      this.urlHttpParams
+    );
+    if (returnedAlerts.flag) {
+      if (returnedAlerts.data.status == 404) {
+        this.showError = 'Data Not Found';
+      } else {
+        this.showError = 'Something went wrong';
+      }
+      setTimeout(() => {
+        this.showError = '';
+      }, 5000);
+    } else {
+      if (returnedAlerts.data.status == 200)
+        this.documents = returnedAlerts.data.payLoad;
+    }
+  }
+
   setData(page: number, pageSize: number, url: string, httpParams: any) {
     return new Promise((resolve, reject) => {
       try {
@@ -211,9 +242,15 @@ export class UploadDocumentComponent implements OnInit {
 
   async onSubmitDocumentUpload() {
     const formData = this.documentUploadForm.getRawValue();
+    if(formData.previousDocument == formData.nextDocument) {
+      this.showDocError = "Previous document and Next document should be different";
+      setTimeout(() => {
+        this.showDocError = ''
+      },3000);
+      return
+    }
     let returnedAlerts: any = await this.postData(formData);
     if(returnedAlerts.flag) {
-      this.showProcess = false;
       if(returnedAlerts.data.status == 404) {
         this.showError = "Data Not Found";
       } else {
@@ -224,7 +261,6 @@ export class UploadDocumentComponent implements OnInit {
       },5000)
     } else {
       this.showSuccess = "Document Uploaded successfully";
-      this.showProcess = true;
       setTimeout(() => {
         this.showSuccess = '';
       },5000)
@@ -239,7 +275,7 @@ export class UploadDocumentComponent implements OnInit {
     formData.userType = this.userService.getUserType();
     return new Promise((resolve, reject) => {
         try {
-          this._beService.postMethod('file-upload?userId=' + formData.userId + '&companyId='+ formData.companyId +'&documentDate='+ formData.documentDate +'&additionalRights='+ formData.additionalRights +'&document='+ formData.document+'&userType='+ formData.userType+'&taggingHead='+ formData.taggingHead+'&projectId='+ formData.projectId , this.formDataFile)
+          this._beService.postMethod('file-upload?userId=' + formData.userId + '&companyId='+ formData.companyId +'&documentDate='+ formData.documentDate +'&additionalRights='+ formData.additionalRights +'&document='+ formData.document +'&userType='+ formData.userType +'&taggingHead='+ formData.taggingHead+'&projectId='+ formData.projectId + '&previousDocument=' + formData.previousDocument + '&nextDocument' + formData.nextDocument , this.formDataFile)
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(resolvedData, false);
@@ -257,8 +293,5 @@ export class UploadDocumentComponent implements OnInit {
     }) 
   }
 
-  processDocument() {
-    
-  }
-
+  
 }
