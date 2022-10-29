@@ -13,7 +13,7 @@
             >Admin</a
           >
           <ul class="dropdown-menu w-100 cont-height light-border p-1" aria-labelledby="navDropdownAdmin">
-            <li ngbDropdown class="nav-item dropdown" [autoClose]="false">
+            <li ngbDropdown class="nav-item dropdown" [autoClose]="false" #dda0="ngbDropdown">
               <a
                 ngbDropdownToggle
                 pointer
@@ -25,6 +25,7 @@
                 [ngClass]="{
                   active: child1_1RLA.isActive || child1_2RLA.isActive
                 }"
+                (click)="closeOthers(dda0, dda0)"
                 >Company</a
               >
               <ul ngbDropdownMenu class="dropdown-menu p-0 pt-1 m-0 border-0" aria-labelledby="navDropdownCompany">
@@ -52,7 +53,7 @@
                 </li>
               </ul>
             </li>
-            <li ngbDropdown class="nav-item dropdown"  [autoClose]="false">
+            <li ngbDropdown class="nav-item dropdown"  [autoClose]="false" #ddb0="ngbDropdown">
               <a
                 ngbDropdownToggle
                 pointer
@@ -64,6 +65,7 @@
                 [ngClass]="{
                   active: child2_1RLA.isActive || child2_2RLA.isActive
                 }"
+                (click)="closeOthers(ddb0, ddb0)"
                 >User</a
               >
               <ul ngbDropdownMenu class="dropdown-menu p-0 pt-1 m-0 border-0" aria-labelledby="navDropdownUser">
@@ -91,7 +93,7 @@
                 </li>
               </ul>
             </li>
-            <li ngbDropdown class="nav-item dropdown"  [autoClose]="false">
+            <li ngbDropdown class="nav-item dropdown"  [autoClose]="false" #ddc0="ngbDropdown">
               <a
                 ngbDropdownToggle
                 pointer
@@ -103,6 +105,7 @@
                 [ngClass]="{
                   active: child3_1RLA.isActive || child3_2RLA.isActive
                 }"
+                (click)="closeOthers(ddc0, ddc0)"
                 >Grant Access</a
               >
               <ul ngbDropdownMenu class="dropdown-menu p-0 pt-1 m-0 border-0" aria-labelledby="navDropdownGAUser">
@@ -130,7 +133,7 @@
                 </li>
               </ul>
             </li>
-            <li ngbDropdown class="nav-item dropdown" #dd0="ngbDropdown"  [autoClose]="false">
+            <li ngbDropdown class="nav-item dropdown" [autoClose]="false" #ddd0="ngbDropdown">
               <a
                 ngbDropdownToggle
                 pointer
@@ -152,10 +155,11 @@
                     child4_5_1RLA.isActive ||
                     child4_5_2RLA.isActive
                 }"
+                (click)="closeOthers(ddd0, ddd0)"
                 >Settings</a
               >
               <ul ngbDropdownMenu class="dropdown-menup-0 pt-1 m-0 border-0" aria-labelledby="navDropdownSettings">
-                <li ngbDropdown class="nav-item dropdown" #dd1="ngbDropdown"  [autoClose]="false">
+                <li ngbDropdown class="nav-item dropdown" [autoClose]="false" #ddd1="ngbDropdown"  >
                   <a
                     ngbDropdownToggle
                     pointer
@@ -167,7 +171,7 @@
                     [ngClass]="{
                       active: child4_1_1RLA.isActive || child4_1_2RLA.isActive
                     }"
-                    (click)="closeOthers(dd1, dd0)"
+                    (click)="closeOthers(ddd1, ddd0)"
                     >Designation</a
                   >
                   <ul
@@ -199,7 +203,7 @@
                     </li>
                   </ul>
                 </li>
-                <li ngbDropdown class="nav-item dropdown" #dd2="ngbDropdown"  [autoClose]="false">
+                <li ngbDropdown class="nav-item dropdown" [autoClose]="false" #ddd2="ngbDropdown"  >
                   <a
                     ngbDropdownToggle
                     pointer
@@ -211,7 +215,7 @@
                     [ngClass]="{
                       active: child4_2_1RLA.isActive || child4_2_2RLA.isActive
                     }"
-                    (click)="closeOthers(dd2, dd0)"
+                    (click)="closeOthers(ddd2, ddd0)"
                     >Department</a
                   >
                   <ul
@@ -243,7 +247,7 @@
                     </li>
                   </ul>
                 </li>
-                <li ngbDropdown class="nav-item dropdown" >
+                <li ngbDropdown class="nav-item dropdown"   [autoClose]="false" #ddd3="ngbDropdown">
                   <a
                     ngbDropdownToggle
                     pointer
@@ -255,6 +259,7 @@
                     [ngClass]="{
                       active: child4_3_1RLA.isActive || child4_3_2RLA.isActive
                     }"
+                    (click)="closeOthers(ddd3, ddd0)"
                     >Tagging</a
                   >
                   <ul ngbDropdownMenu class="dropdown-menu p-0 pt-1 m-0 border-0" aria-labelledby="navDropdownTagging">
@@ -282,7 +287,7 @@
                     </li>
                   </ul>
                 </li>
-                <li ngbDropdown class="nav-item dropdown">
+                <li ngbDropdown class="nav-item dropdown"   [autoClose]="false" #ddd4="ngbDropdown">
                   <a
                     ngbDropdownToggle
                     pointer
@@ -294,6 +299,7 @@
                     [ngClass]="{
                       active: child4_4_1RLA.isActive || child4_4_2RLA.isActive
                     }"
+                    (click)="closeOthers(ddd4, ddd0)"
                     >Document Type</a
                   >
                   <ul ngbDropdownMenu class="dropdown-menu p-0 pt-1 m-0 border-0" aria-labelledby="navDropdownDTC">
@@ -321,7 +327,7 @@
                     </li>
                   </ul>
                 </li>
-                <li ngbDropdown class="nav-item dropdown">
+                <li ngbDropdown class="nav-item dropdown"   [autoClose]="false" #ddd5="ngbDropdown">
                   <a
                     ngbDropdownToggle
                     pointer
@@ -333,6 +339,7 @@
                     [ngClass]="{
                       active: child4_5_1RLA.isActive || child4_5_2RLA.isActive
                     }"
+                    (click)="closeOthers(ddd5, ddd0)"
                     >Search Rights</a
                   >
                   <ul ngbDropdownMenu class="dropdown-menu p-0 pt-1 m-0 border-0" aria-labelledby="navDropdownSR">
@@ -362,7 +369,7 @@
                 </li>
               </ul>
             </li>
-            <li ngbDropdown class="nav-item dropdown">
+            <li ngbDropdown class="nav-item dropdown"  [autoClose]="false" #dde0="ngbDropdown">
               <a
                 ngbDropdownToggle
                 pointer
@@ -375,10 +382,11 @@
                   active:
                     child5_1_1RLA.isActive || child5_1_2RLA.isActive || child5_2_1RLA.isActive || child5_3_1RLA.isActive
                 }"
+                (click)="closeOthers(dde0, dde0)"
                 >Project</a
               >
               <ul ngbDropdownMenu class="dropdown-menup-0 pt-1 m-0 border-0" aria-labelledby="navDropdownProject">
-                <li ngbDropdown class="nav-item dropdown">
+                <li ngbDropdown class="nav-item dropdown"   [autoClose]="false" #dde1="ngbDropdown">
                   <a
                     ngbDropdownToggle
                     pointer
@@ -390,6 +398,7 @@
                     [ngClass]="{
                       active: child5_1_1RLA.isActive || child5_1_2RLA.isActive
                     }"
+                    (click)="closeOthers(dde1, dde0)"
                     >Project Type</a
                   >
                   <ul
@@ -429,6 +438,7 @@
                     aria-current="page"
                     routerLinkActive="active"
                     #child5_2_1RLA="routerLinkActive"
+                    (click)="closeOthers(dde0, dde0)"
                     >Project Hierarchy</a
                   >
                 </li>
@@ -440,6 +450,7 @@
                     aria-current="page"
                     routerLinkActive="active"
                     #child5_3_1RLA="routerLinkActive"
+                    (click)="closeOthers(dde0, dde0)"
                     >Project Type</a
                   >
                 </li>
@@ -451,12 +462,13 @@
                     aria-current="page"
                     routerLinkActive="active"
                     #child5_3_1RLA="routerLinkActive"
+                    (click)="closeOthers(dde0, dde0)"
                     >Project Creation</a
                   >
                 </li>
               </ul>
             </li>
-            <li ngbDropdown class="nav-item dropdown">
+            <li ngbDropdown class="nav-item dropdown"   [autoClose]="false" #ddf0="ngbDropdown">
               <a
                 ngbDropdownToggle
                 pointer
@@ -468,6 +480,7 @@
                 [ngClass]="{
                   active: child6_1RLA.isActive || child6_2RLA.isActive
                 }"
+                (click)="closeOthers(ddf0, ddf0)"
                 >Document</a
               >
               <ul ngbDropdownMenu class="dropdown-menup-0 pt-1 m-0 border-0" aria-labelledby="navDropdownDocument">
