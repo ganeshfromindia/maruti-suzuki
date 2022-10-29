@@ -13,8 +13,8 @@
 </div>
 <hr />
 <div class="row mt-3">
-  <div class="col">
-    <table class="table table-sm table-striped align-middle" *ngIf="companyAllData?.length">
+  <div class="offset-xl-2 col-xl-8 p-3 shadow-sm" *ngIf="!!companyAllData.length">
+    <table class="table table-sm table-striped align-middle">
       <thead>
         <tr class="bg-primary bg-gradient text-white">
           <th scope="col">#</th>
@@ -22,7 +22,7 @@
           <th>City</th>
           <th>Person</th>
           <th>Contact Details</th>
-          <th>Action</th>
+          <th class="col-1">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -38,11 +38,14 @@
         </tr>
       </tbody>
     </table>
-    <div class="w-100"></div>
-    <div class="col d-flex align-items-start justify-content-between" *ngIf="total">
-      <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="pageSize" (pageChange)="setPage($event)">
-      </ngb-pagination>
-    </div>
+    <ngb-pagination
+      *ngIf="total"
+      [collectionSize]="total"
+      [(page)]="page"
+      [pageSize]="pageSize"
+      (pageChange)="setPage($event)"
+    >
+    </ngb-pagination>
   </div>
 </div>
 <div class="row">

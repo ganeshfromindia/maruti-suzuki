@@ -1,64 +1,42 @@
 <div class="row">
   <label class="col-auto col-form-label pe-0">Type of Project:</label>
   <div class="col me-3">
-    <input
-      type="text"
-      class="form-control"
-      id="userName"
-      [(ngModel)]="projType"
-    />
+    <input type="text" class="form-control" id="userName" [(ngModel)]="projType" />
   </div>
-  <label class="col-auto col-form-label pe-0">Additional Field:</label>  
+  <label class="col-auto col-form-label pe-0">Additional Field:</label>
   <div class="col me-3">
-    <input
-      type="text"
-      class="form-control"
-      id="email"
-      [(ngModel)]="additionalField"
-    />
+    <input type="text" class="form-control" id="email" [(ngModel)]="additionalField" />
   </div>
   <div class="col-auto d-flex justify-content-center">
-    <button
-      (click)="setSearchData()"
-      class="btn btn-sm btn-danger"
-    >
-      Search
-    </button>
+    <button (click)="setSearchData()" class="btn btn-sm btn-danger">Search</button>
   </div>
 </div>
 <div class="row mt-3">
-  <div class="col">
-      <table class="table table-sm table-striped align-middle">
-        <thead>
-          <tr class="bg-primary bg-gradient text-white">
-            <th scope="col">#</th>
-            <th>Description</th>
-            <th>Function</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let projType of projectTypes; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ projType.projectTypeName }}</td>
-            <td>
-              <button
-                (click)="postEditId(projType)"
-                class="btn btn-sm btn-success"
-              >
-                EDIT
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="offset-xl-3 col-xl-6 p-3 shadow-sm">
+    <table class="table table-sm table-striped align-middle">
+      <thead>
+        <tr class="bg-primary bg-gradient text-white">
+          <th scope="col">#</th>
+          <th>Description</th>
+          <th class="col-1">Function</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let projType of projectTypes; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ projType.projectTypeName }}</td>
+          <td>
+            <button (click)="postEditId(projType)" class="btn btn-sm btn-success">EDIT</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 <div class="row">
   <div class="col-12">
     <div *ngIf="showError" class="text-center">
-      <P
-        >{{showError}}</P
-      >
+      <P>{{ showError }}</P>
     </div>
   </div>
 </div>

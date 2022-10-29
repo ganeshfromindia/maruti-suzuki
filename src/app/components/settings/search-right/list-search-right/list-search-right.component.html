@@ -1,17 +1,17 @@
-<div class="row mt-5">
+<div class="row">
   <div class="col-md-12">
-    <div class="row">
-      <span class="bc-cont col-md-3">Edit Rights</span>
+    <div class="row mb-3">
+      <h3 class="col-md-3">Edit Rights</h3>
     </div>
-    <div class="row mt-5">
-      <div class="col">
+    <div class="row">
+      <div class="offset-xl-2 col-xl-8 p-3 shadow-sm">
         <table class="table table-sm table-striped align-middle">
           <thead>
             <tr class="bg-primary bg-gradient text-white">
               <th scope="col">#</th>
               <th>Description</th>
               <th>Name</th>
-              <th>Function</th>
+              <th class="col-1">Function</th>
             </tr>
           </thead>
           <tbody>
@@ -20,27 +20,14 @@
               <td>{{ rightType.description }}</td>
               <td>{{ rightType.name }}</td>
               <td>
-                <button
-                  (click)="postEditId(rightType)"
-                  class="btn btn-sm btn-success"
-                >
-                  EDIT
-                </button>
+                <button (click)="postEditId(rightType)" class="btn btn-sm btn-success">EDIT</button>
               </td>
             </tr>
           </tbody>
         </table>
         <div class="w-100"></div>
-        <div
-          class="col d-flex align-items-start justify-content-between"
-          *ngIf="total"
-        >
-          <ngb-pagination
-            [collectionSize]="total"
-            [(page)]="page"
-            [pageSize]="pageSize"
-            (pageChange)="setPage($event)"
-          >
+        <div class="col d-flex align-items-start justify-content-between" *ngIf="total">
+          <ngb-pagination [collectionSize]="total" [(page)]="page" [pageSize]="pageSize" (pageChange)="setPage($event)">
           </ngb-pagination>
         </div>
       </div>
