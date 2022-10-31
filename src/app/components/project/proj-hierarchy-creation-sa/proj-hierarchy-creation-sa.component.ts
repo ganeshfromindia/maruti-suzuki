@@ -298,7 +298,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     }, (res) => {
       this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
     });
-    if(modalRef && modalRef.componentInstance) modalRef.componentInstance.projHierarchies = this.projHierarchies;
+    
   }
   
   private getDismissReason(reason: any): string {

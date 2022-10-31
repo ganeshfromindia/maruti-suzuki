@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BackendService } from 'src/app/services/backend.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -25,15 +26,21 @@ export class SearchDocumentComponent implements OnInit {
   public projects: any[] = [];
   public userAllData: any[] = [];
   public documents: any[] = [];
+  public documentsList: any[] = [];
   public showError: string = '';
   public showSuccess: string = '';
   public documentSearchForm: FormGroup;
+
+  public closeModal: string = '';
+  public docuName: string = '';
+  public documentNamePosted: string = '';
 
   constructor(
     private router: Router,
     private _beService: BackendService,
     private userService: UserService,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private modalService: NgbModal
   ) {
     this.documentSearchForm = this._fb.group({
       documentName: [''],
@@ -50,6 +57,7 @@ export class SearchDocumentComponent implements OnInit {
     this.setTaggingData(1, 100);
     this.setProjects(1, 100);
     this.setUserData(1, 100);
+    this.setDocumentListData(1, 100)
     this.projects = [
       { id: 1, projectName: 'Mumbai Nagpur Highway' },
       { id: 2, projectName: 'Kandla Port Extn' },
@@ -173,6 +181,33 @@ export class SearchDocumentComponent implements OnInit {
         this.userAllData = returnedAlerts.data.payLoad;
     }
   }
+
+  async setDocumentListData(page: number, pageSize: number) {
+    this.documents = [];
+    let url = 'get/document/list?';
+    this.urlHttpParams = {
+      companyId: this.userService.getCompanyID(),
+    };
+    let returnedAlerts: any = await this.setData(
+      page,
+      pageSize,
+      url,
+      this.urlHttpParams
+    );
+    if (returnedAlerts.flag) {
+      if (returnedAlerts.data.status == 404) {
+        this.showError = 'Data Not Found';
+      } else {
+        this.showError = 'Something went wrong';
+      }
+      setTimeout(() => {
+        this.showError = '';
+      }, 5000);
+    } else {
+      if (returnedAlerts.data.status == 200)
+        this.documents = returnedAlerts.data.payLoad;
+    }
+  }
   setData(page: number, pageSize: number, url: string, httpParams: any) {
     return new Promise((resolve, reject) => {
       try {
@@ -224,7 +259,7 @@ export class SearchDocumentComponent implements OnInit {
       }, 5000);
     } else {
       if (returnedAlerts.data.status == 200)
-        this.documents = returnedAlerts.data.payLoad;
+        this.documentsList = returnedAlerts.data.payLoad;
     }
   }
 
@@ -340,4 +375,56 @@ export class SearchDocumentComponent implements OnInit {
       createdBy: '',
     })
   }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+  async triggerModal(content: any, data: any) {
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    modalRef.result.then((res) => {
+      if(res) {
+        this.closeModal = `Closed with: ${res}`;
+      }
+    }, (res) => {
+      this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
+    });
+    this.documentNamePosted = data;
+   
+  }
+
+  async postDocFB(data: string) {
+      console.log(data);
+      this.documents = [];
+    let url = 'get/document/list?';
+    this.urlHttpParams = {
+      companyId: this.userService.getCompanyID(),
+    };
+    let returnedAlerts: any = await this.setData(
+      1,
+      100,
+      url,
+      this.urlHttpParams
+    );
+    if (returnedAlerts.flag) {
+      if (returnedAlerts.data.status == 404) {
+        this.showError = 'Data Not Found';
+      } else {
+        this.showError = 'Something went wrong';
+      }
+      setTimeout(() => {
+        this.showError = '';
+      }, 5000);
+    } else {
+      if (returnedAlerts.data.status == 200)
+        this.documents = returnedAlerts.data.payLoad;
+        console.log("in success")
+    }
+  }
+
 }

@@ -20,6 +20,7 @@ export class ProjCreationAdminComponent implements OnInit {
   public showError: string = '';
   public showSuccess: string = '';
   public pData: any ={};
+  public setdisabled: boolean = false;
 
   constructor(
     private _beService: BackendService,
@@ -108,8 +109,8 @@ export class ProjCreationAdminComponent implements OnInit {
   buildProjCreateForm(item: any): FormGroup {
     return this._fb.group({
       designationId: [item.designationId, Validators.required],
-      designationName: [item.designationName, Validators.required],
-      level: [item.level, Validators.required],
+      designationName: [{value: item.designationName, disabled: true}, Validators.required],
+      level: [{value: item.level, disabled: true}, Validators.required],
       linkedTo: [item.linkedTo, Validators.required],
       userId: ['', Validators.required],
     })
