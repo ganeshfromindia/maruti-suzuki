@@ -141,7 +141,7 @@
   </div>
 </form>
 <div class="row mt-5">
-  <div class="col">
+  <div class="col shadow-sm p-3">
     <table class="table table-sm table-striped align-middle">
       <thead>
         <tr class="bg-primary bg-gradient text-white">
@@ -151,7 +151,7 @@
           <th>Uploaded Date</th>
           <th>Document Type</th>
           <th>Tagging Heads</th>
-          <th>Action</th>
+          <th class="col-2">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -203,23 +203,25 @@
             >
               Process
             </button>
-            <div *ngIf="!document.forwardLinkage" class="d-inline-block">
-              <button
-                type="button"
-                class="btn btn-sm btn-info me-1 text-white"
-                (click)="triggerModal(attachDocModal, document.documentName)"
-              >
-                Link Forward
-              </button>
-            </div>
-            <div *ngIf="!document.backwardLinkage" class="d-inline-block">
-              <button
-                type="button"
-                class="btn btn-sm btn-info me-1 text-white"
-                (click)="triggerModal(attachDocModal, document.documentName)"
-              >
-                Link Backward
-              </button>
+            <div class="mt-1">
+              <div *ngIf="!document.forwardLinkage" class="d-inline-block">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-info me-1 text-white"
+                  (click)="triggerModal(attachDocModal, document.documentName)"
+                >
+                  Link Forward
+                </button>
+              </div>
+              <div *ngIf="!document.backwardLinkage" class="d-inline-block">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-info me-1 text-white"
+                  (click)="triggerModal(attachDocModal, document.documentName)"
+                >
+                  Link Backward
+                </button>
+              </div>
             </div>
           </td>
         </tr>

@@ -1,87 +1,57 @@
 <div class="row" *ngIf="role == 'superadmin'">
   <label class="col-auto col-form-label pe-0">Company:</label>
   <div class="col me-3">
-    <input
-      type="text"
-      class="form-control"
-      id="companyName"
-      [(ngModel)]="srchTrmCoName"
-    />
+    <input type="text" class="form-control" id="companyName" [(ngModel)]="srchTrmCoName" />
   </div>
   <label class="col-auto col-form-label pe-0">User:</label>
   <div class="col me-3">
-    <input
-      type="text"
-      class="form-control"
-      id="userName"
-      [(ngModel)]="srchTrmUserName"
-    />
+    <input type="text" class="form-control" id="userName" [(ngModel)]="srchTrmUserName" />
   </div>
   <label class="col-auto col-form-label pe-0">User Email Id:</label>
   <div class="col me-3">
-    <input
-      type="text"
-      class="form-control"
-      id="email"
-      [(ngModel)]="srchTrmEmail"
-    />
+    <input type="text" class="form-control" id="email" [(ngModel)]="srchTrmEmail" />
   </div>
   <div class="col-auto d-flex justify-content-center">
-    <button (click)="setSearchData(1, 15)" class="btn btn-sm btn-danger">
-      Search
-    </button>
+    <button (click)="setSearchData(1, 15)" class="btn btn-sm btn-danger">Search</button>
   </div>
 </div>
+<hr />
 <div class="row mt-2">
-  <div class="col">
-    <div *ngIf="userAllData.length">
-      <table class="table table-sm table-striped align-middle" >
-        <thead>
-          <tr class="bg-primary bg-gradient text-white">
-            <th scope="col">#</th>
-            <th>Name of User</th>
-            <th>Email Id</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let userdata of userAllData; let i = index">
-            <td scope="row">{{ (this.page - 1) * this.pageSize + i + 1 }}</td>
-            <td>{{ userdata.companyName }}</td>
-            <td>{{ userdata.emailId }}</td>
-            <td>
-              <button
-                (click)="postEditId(userdata)"
-                class="btn btn-sm btn-success"
-              >
-                EDIT
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="w-100"></div>
-    <div
-      class="col d-flex align-items-start justify-content-between"
+  <div class="offset-xl-2 col-xl-8 p-3 shadow-sm" *ngIf="!!userAllData.length">
+    <table class="table table-sm table-striped align-middle">
+      <thead>
+        <tr class="bg-primary bg-gradient text-white">
+          <th scope="col">#</th>
+          <th>User Name</th>
+          <th>Email Address</th>
+          <th class="col-1">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let userdata of userAllData; let i = index">
+          <td scope="row">{{ (this.page - 1) * this.pageSize + i + 1 }}</td>
+          <td>{{ userdata.companyName }}</td>
+          <td>{{ userdata.emailId }}</td>
+          <td>
+            <button (click)="postEditId(userdata)" class="btn btn-sm btn-success">EDIT</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ngb-pagination
       *ngIf="total"
+      [collectionSize]="total"
+      [(page)]="page"
+      [pageSize]="pageSize"
+      (pageChange)="setPage($event)"
     >
-      <ngb-pagination
-        [collectionSize]="total"
-        [(page)]="page"
-        [pageSize]="pageSize"
-        (pageChange)="setPage($event)"
-      >
-      </ngb-pagination>
-    </div>
+    </ngb-pagination>
   </div>
 </div>
 <div class="row">
   <div class="col-12">
     <div *ngIf="showTE" class="text-center">
-      <P
-        >Data Not found. Please submit different criteria and try again later</P
-      >
+      <P>Data Not found. Please submit different criteria and try again later</P>
     </div>
   </div>
 </div>
