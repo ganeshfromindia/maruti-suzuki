@@ -228,22 +228,22 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     this.setLinkedToData();
   }
 
-  postDeleteId(data: any) {
-    return
-    // this._beService.deleteMethod('delete'+data.id).subscribe({
-    //   next: (resolvedData) => {
-    //     if(resolvedData.status == 200) this.showSuccess = 'Hierarchy deleted successfully'
-    //   },
-    //   error: (errorData) => {
-    //     if(errorData.status == 404) {
-    //       this.showError = "Hierarchy Not Found";
-    //     } else {
-    //       this.showError = "Something went wrong";
-    //     }
-    //   },
-    // })
+  // postDeleteId(data: any) {
+  //   return
+  //   this._beService.deleteMethod('delete'+data.id).subscribe({
+  //     next: (resolvedData) => {
+  //       if(resolvedData.status == 200) this.showSuccess = 'Hierarchy deleted successfully'
+  //     },
+  //     error: (errorData) => {
+  //       if(errorData.status == 404) {
+  //         this.showError = "Hierarchy Not Found";
+  //       } else {
+  //         this.showError = "Something went wrong";
+  //       }
+  //     },
+  //   })
 
-  }
+  // }
 
   setLevel(dataP: any) {
     let levelFromChange = this.designations.filter((data: any) => data.id == dataP.target.value);
@@ -284,7 +284,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     modalRef.result.then((res) => {
       if(res) {
         this.projecTHierarchyId = res.id;
-        this.projHierarchyCreateForm.patchValue({projectHierarchyName: res.projectHierarchyName})
+        this.projHierarchyCreateForm.patchValue({projectHierarchyName: res.projectHierarchyName, id: res.id})
         this.projectHierarchy = this.projHierarchies.filter((data: any) => data.id == res.id)
         this.projectHierarchy = this.projectHierarchy[0].hierarchyDetailList;
         this.projectHierarchy = this.projectHierarchy.sort((a: any,b: any) => 

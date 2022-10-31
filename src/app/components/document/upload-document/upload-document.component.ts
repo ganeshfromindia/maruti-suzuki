@@ -275,7 +275,7 @@ export class UploadDocumentComponent implements OnInit {
     formData.userType = this.userService.getUserType();
     return new Promise((resolve, reject) => {
         try {
-          this._beService.postMethod('file-upload?userId=' + formData.userId + '&companyId='+ formData.companyId +'&documentDate='+ formData.documentDate +'&additionalRights='+ formData.additionalRights +'&document='+ formData.document +'&userType='+ formData.userType +'&taggingHead='+ formData.taggingHead+'&projectId='+ formData.projectId + '&previousDocument=' + formData.previousDocument + '&nextDocument' + formData.nextDocument , this.formDataFile)
+          this._beService.postMethod('file-upload?userId=' + formData.userId + '&companyId='+ formData.companyId +'&documentDate='+ formData.documentDate +'&additionalRights='+ formData.additionalRights +'&document='+ formData.document +'&userType='+ formData.userType +'&taggingHead='+ formData.taggingHead+'&projectId='+ formData.projectId + '&previousDocument=' + formData.previousDocument + '&nextDocument=' + formData.nextDocument , this.formDataFile)
           .subscribe({
             next: (resolvedData) => {
               let alertsFetched = this.userService.handleAlerts(resolvedData, false);

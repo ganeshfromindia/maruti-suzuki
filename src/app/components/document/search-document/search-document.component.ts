@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -17,8 +23,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./search-document.component.css'],
 })
 export class SearchDocumentComponent implements OnInit {
-
-  @ViewChildren("checkboxes") checkboxes!: QueryList<ElementRef>
+  @ViewChildren('checkboxes') checkboxes!: QueryList<ElementRef>;
 
   public urlHttpParams: any = {};
   public tags: any[] = [];
@@ -33,7 +38,9 @@ export class SearchDocumentComponent implements OnInit {
 
   public closeModal: string = '';
   public docuName: string = '';
-  public documentNamePosted: string = '';
+  public currentDocumentName: string = '';
+  public linkedDocumentName: string = '';
+  public documentStatus: string = '';
 
   constructor(
     private router: Router,
@@ -57,7 +64,7 @@ export class SearchDocumentComponent implements OnInit {
     this.setTaggingData(1, 100);
     this.setProjects(1, 100);
     this.setUserData(1, 100);
-    this.setDocumentListData(1, 100)
+    this.setDocumentListData(1, 100);
     this.projects = [
       { id: 1, projectName: 'Mumbai Nagpur Highway' },
       { id: 2, projectName: 'Kandla Port Extn' },
@@ -118,10 +125,10 @@ export class SearchDocumentComponent implements OnInit {
     } else {
       if (returnedAlerts.data.status == 200)
         this.tags = returnedAlerts.data.payLoad;
-        this.tags.forEach((o, i) => {
-          const control = new FormControl(); // if first item set to true, else false
-          (this.documentSearchForm.get('taggingHead') as FormArray).push(control);
-        });
+      this.tags.forEach((o, i) => {
+        const control = new FormControl(); // if first item set to true, else false
+        (this.documentSearchForm.get('taggingHead') as FormArray).push(control);
+      });
     }
   }
 
@@ -245,8 +252,12 @@ export class SearchDocumentComponent implements OnInit {
 
   async onSubmitDocumentSearch() {
     const formData = this.documentSearchForm.getRawValue();
-    formData.taggingHead = formData.taggingHead.filter((data: any) => data != false);
-    formData.taggingHead = formData.taggingHead.filter((data: any) => data != null);
+    formData.taggingHead = formData.taggingHead.filter(
+      (data: any) => data != false
+    );
+    formData.taggingHead = formData.taggingHead.filter(
+      (data: any) => data != null
+    );
     let returnedAlerts: any = await this.postData(formData);
     if (returnedAlerts.flag) {
       if (returnedAlerts.data.status == 404) {
@@ -335,20 +346,13 @@ export class SearchDocumentComponent implements OnInit {
       });
   }
 
-  
-
   async processDocuemnt(documentName: string) {
     this.userAllData = [];
     let url = 'common/process/document?';
     this.urlHttpParams = {
       documentName: documentName,
     };
-    let returnedAlerts: any = await this.setData(
-      0,
-      0,
-      url,
-      this.urlHttpParams
-    );
+    let returnedAlerts: any = await this.setData(0, 0, url, this.urlHttpParams);
     if (returnedAlerts.flag) {
       if (returnedAlerts.data.status == 404) {
         this.showError = 'Data Not Found';
@@ -361,11 +365,10 @@ export class SearchDocumentComponent implements OnInit {
     } else {
       if (returnedAlerts.data.status == 200)
         this.showSuccess = 'Document processed successfully';
-        setTimeout(() => {
-          this.showSuccess = '';
-        },3000)
-        this.onSubmitDocumentSearch();
-
+      setTimeout(() => {
+        this.showSuccess = '';
+      }, 3000);
+      this.onSubmitDocumentSearch();
     }
   }
   resetForm() {
@@ -373,7 +376,7 @@ export class SearchDocumentComponent implements OnInit {
     this.documentSearchForm.patchValue({
       documentId: '',
       createdBy: '',
-    })
+    });
   }
 
   private getDismissReason(reason: any): string {
@@ -382,35 +385,36 @@ export class SearchDocumentComponent implements OnInit {
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
   }
-  async triggerModal(content: any, data: any) {
-    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
-    modalRef.result.then((res) => {
-      if(res) {
-        this.closeModal = `Closed with: ${res}`;
-      }
-    }, (res) => {
-      this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
+  async triggerModal(
+    content: any,
+    data: any,
+    documentName: string,
+    docStatus: string
+  ) {
+    const modalRef = this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
     });
-    this.documentNamePosted = data;
-   
+    modalRef.result.then(
+      (res) => {
+        if (res) {
+          this.closeModal = `Closed with: ${res}`;
+        }
+      },
+      (res) => {
+        this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
+      }
+    );
+    this.currentDocumentName = data;
+    this.linkedDocumentName = documentName;
+    this.documentStatus = docStatus;
   }
 
-  async postDocFB(data: string) {
-      console.log(data);
-      this.documents = [];
-    let url = 'get/document/list?';
-    this.urlHttpParams = {
-      companyId: this.userService.getCompanyID(),
-    };
-    let returnedAlerts: any = await this.setData(
-      1,
-      100,
-      url,
-      this.urlHttpParams
-    );
+  async postDocFB(documentName: string, currentDocumentName: string) {
+    let url = 'save/backward/forward/document?currentDocument=' + currentDocumentName + '&type=' + this.documentStatus + '&documentName=' + documentName;
+    let returnedAlerts: any = await this.updateData(url);
     if (returnedAlerts.flag) {
       if (returnedAlerts.data.status == 404) {
         this.showError = 'Data Not Found';
@@ -422,9 +426,30 @@ export class SearchDocumentComponent implements OnInit {
       }, 5000);
     } else {
       if (returnedAlerts.data.status == 200)
-        this.documents = returnedAlerts.data.payLoad;
-        console.log("in success")
+      this.onSubmitDocumentSearch();  
     }
   }
 
+  updateData(url: string) {
+    return new Promise((resolve, reject) => {
+      try {
+        this._beService.updateMethod(url, {}).subscribe({
+          next: (resolvedData) => {
+            let alertsFetched = this.userService.handleAlerts(
+              resolvedData,
+              false
+            );
+            resolve(alertsFetched);
+          },
+          error: (errorData) => {
+            let alertsFetched = this.userService.handleAlerts(errorData, true);
+            resolve(alertsFetched);
+          },
+        });
+      } catch (e) {
+        let alertsFetched = this.userService.handleAlerts(e, true);
+        reject(alertsFetched);
+      }
+    });
+  }
 }

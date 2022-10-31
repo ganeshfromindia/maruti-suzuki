@@ -68,7 +68,7 @@
             *ngFor="let linkedto of linkedToData; let i = index"
             [value]="linkedto.id"
           >
-            {{ linkedto.designationName }}
+            {{ linkedto.designationName }} --- {{ linkedto.id }}
           </option>
         </select>
         </div>
@@ -123,13 +123,13 @@
                   >
                   <i class="fa fa-pencil"></i>
                   </button>
-                  <button
+                  <!-- <button
                     type="button"
                     (click)="postDeleteId(pjData)"
                     class="btn btn-sm"
                   >
                   <i class="fa fa-trash-o"></i>
-                  </button>
+                  </button> -->
                 </td>
               </tr>
             </tbody>

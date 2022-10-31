@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     
     
 
-    this._beService.postMethod("auth/login?userName=" + loginDetail.email +"&password="+ loginDetail.Password + "&userType=SUPER_ADMIN" , {}).subscribe({
+    this._beService.postMethod("auth/login?userName=" + loginDetail.email +"&password="+ loginDetail.Password + "&userType=ADMIN" , {}).subscribe({
       next: (data: any): void => {
         console.log(data.payLoad.authToken);
         console.log(data.payLoad.data.companyId);

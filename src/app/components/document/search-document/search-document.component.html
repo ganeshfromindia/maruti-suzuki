@@ -204,20 +204,20 @@
               Process
             </button>
             <div class="mt-1">
-              <div *ngIf="!document.forwardLinkage" class="d-inline-block">
+              <div *ngIf="!document.forwardLinkage || document.forwardLinkage == 'null'" class="d-inline-block">
                 <button
                   type="button"
                   class="btn btn-sm btn-info me-1 text-white"
-                  (click)="triggerModal(attachDocModal, document.documentName)"
+                  (click)="triggerModal(attachDocModal, document.documentName, document.backwardLinkage, 'FORWARD')"
                 >
                   Link Forward
                 </button>
               </div>
-              <div *ngIf="!document.backwardLinkage" class="d-inline-block">
+              <div *ngIf="!document.backwardLinkage || document.backwardLinkage == 'null'" class="d-inline-block">
                 <button
                   type="button"
                   class="btn btn-sm btn-info me-1 text-white"
-                  (click)="triggerModal(attachDocModal, document.documentName)"
+                  (click)="triggerModal(attachDocModal, document.documentName, document.forwardLinkage, 'BACKWARD')"
                 >
                   Link Backward
                 </button>
@@ -261,7 +261,7 @@
       <option
         *ngFor="let doc of documents; let i = index"
         [value]="doc.documentName"
-        [hidden]="doc.documentName == documentNamePosted"
+        [hidden]="doc.documentName == currentDocumentName || doc.documentName == linkedDocumentName"
       >
         {{ doc.documentName }}
       </option>
@@ -271,7 +271,7 @@
     <button
       type="button"
       class="btn btn-sm btn-success"
-      (click)="postDocFB(docuName)"
+      (click)="postDocFB(docuName, currentDocumentName)"
     >
       Submit
     </button>
