@@ -246,9 +246,10 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
   // }
 
   setLevel(dataP: any) {
+    alert("You are sure you want to add new entry");
     let levelFromChange = this.designations.filter((data: any) => data.id == dataP.target.value);
     levelFromChange = levelFromChange[0].level;
-    this.projHierarchyCreateForm.patchValue({level: levelFromChange})
+    this.projHierarchyCreateForm.patchValue({level: levelFromChange, id: ''})
     if(this.projecTHierarchyId) this.setLinkedToData()
   }
 

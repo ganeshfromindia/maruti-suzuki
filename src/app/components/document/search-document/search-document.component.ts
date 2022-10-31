@@ -13,7 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BackendService } from 'src/app/services/backend.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -41,6 +41,8 @@ export class SearchDocumentComponent implements OnInit {
   public currentDocumentName: string = '';
   public linkedDocumentName: string = '';
   public documentStatus: string = '';
+
+  public modalRef!: NgbModalRef;
 
   constructor(
     private router: Router,
@@ -394,12 +396,14 @@ export class SearchDocumentComponent implements OnInit {
     documentName: string,
     docStatus: string
   ) {
-    const modalRef = this.modalService.open(content, {
+    this.modalRef = this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
     });
-    modalRef.result.then(
+    this.modalRef.result.then(
       (res) => {
+        this.onSubmitDocumentSearch();
         if (res) {
+          this.onSubmitDocumentSearch();  
           this.closeModal = `Closed with: ${res}`;
         }
       },
@@ -426,7 +430,8 @@ export class SearchDocumentComponent implements OnInit {
       }, 5000);
     } else {
       if (returnedAlerts.data.status == 200)
-      this.onSubmitDocumentSearch();  
+      this.modalRef.close();
+      
     }
   }
 
