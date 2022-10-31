@@ -69,3 +69,11 @@ select.form-check:focus {
   outline: none !important;
   box-shadow: none !important;
 }
+
+table {
+  table-layout: auto !important;
+}
+
+table th, table td {
+  width: auto !important;
+}
