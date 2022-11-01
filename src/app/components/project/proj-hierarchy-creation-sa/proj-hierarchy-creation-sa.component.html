@@ -1,164 +1,123 @@
-<div class="row mt-5">
-  <div class="col-md-4">
-    <form
-    [formGroup]="projHierarchyCreateForm"
-    (ngSubmit)="onSubmitProjHierarchyCreate()"
-  >
-    <div class="row mt-2  proj-hierarchy-cont">
-      <div class="col-md-6">
-        <div class="red-tags">Project Hierarchy</div>
-      </div>
-      <div class="col-md-6">
-        <input type="text" name="projectHierarchyName" class="form-control" formControlName="projectHierarchyName" />
-        <div *ngIf="showSelectError" class="mt-2 mb-2">Please select hierarchy</div>
-      </div>
-      <button
-        type="button"
-        (click)="triggerModal(hierarchiesData)"
-        class="btn bg-danger red-tags rounded-0 text-white search-btn"
-      >
-        Search
-      </button>
-      <button
-        type="button"
-        (click)="setTreeData()"
-        class="btn bg-danger red-tags rounded-0 text-white view-btn"
-      >
-        View
-      </button>
-    </div>
-    <div class="row mt-2">
-      <div class="col-md-6">
-        <div class="red-tags">Project Designation</div>
-      </div>
-      <div class="col-md-6">
-        <select formControlName="projDesgn" class="form-control form-select" (change)="setLevel($event)">
-          <option [value]="''">Please select</option>
-          <option
-            *ngFor="let designation of designations; let i = index"
-            [value]="designation.id"
-          >
-            {{ designation.designationName }}
-          </option>
-        </select>
-      </div>
-    </div>
-    <div class="row mt-2">
-      <div class="col-md-6">
-        <div class="red-tags">Level</div>
-      </div>
-      <div class="col-md-6">
-        <input
-          type="text"
-          class="form-control"
-          id="email"
-          formControlName="level"
-        />
-      </div>
-    </div>
-    <div class="row mt-2">
-      <div class="col-md-6">
-        <div class="red-tags">Linked To</div>
-      </div>
-      <div class="col-md-6">
-        <div *ngIf="projecTHierarchyId; else nonId">
-        <select formControlName="linkedTo" class="form-control form-select">
-          <option [value]="''">Please select</option>
-          <option
-            *ngFor="let linkedto of linkedToData; let i = index"
-            [value]="linkedto.id"
-          >
-            {{ linkedto.designationName }} --- {{ linkedto.id }}
-          </option>
-        </select>
+<div class="row mb-3">
+  <h3 class="col">Create Project Hierarchy</h3>
+</div>
+<div class="row">
+  <div class="offset-xl-2 col-xl-8">
+    <form [formGroup]="projHierarchyCreateForm" (ngSubmit)="onSubmitProjHierarchyCreate()">
+      <div class="row mb-2 proj-hierarchy-cont">
+        <label class="col-form-label col-3 text-end">Project Hierarchy</label>
+        <div class="col">
+          <input type="text" name="projectHierarchyName" class="form-control" formControlName="projectHierarchyName" />
+          <div *ngIf="showSelectError" class="my-2">Please select hierarchy</div>
         </div>
-        <ng-template #nonId><input class="form-control" formControlName="linkedTo" type="text" /></ng-template>
-      </div>
-    </div>
-    <div class="row mt-2">
-      <div class="col-md-12">
-        <button
-        type="submit"
-          class="btn bg-danger red-tags col-md-5 rounded-0 text-white"
-          [disabled]="projHierarchyCreateForm.invalid"
-        >
-          Submit
-        </button>
         <button
           type="button"
-          class="btn bg-danger red-tags offset-md-2 col-md-5 rounded-0 text-white"
-          (click)="resetForm()"
+          (click)="triggerModal(hierarchiesData)"
+          class="btn bg-danger red-tags rounded-0 text-white search-btn"
         >
-          Reset
+          Search
+        </button>
+        <button type="button" (click)="setTreeData()" class="btn bg-danger red-tags rounded-0 text-white view-btn">
+          View
         </button>
       </div>
-    </div>
-    <div class="row mt-2">
-      <div class="col-12">
-        <div *ngIf="projectHierarchy?.length">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Project Designation</th>
-                <th>Level</th>
-                <th>Id</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                *ngFor="let pjData of projectHierarchy; let i = index"
-                class="text-capitalize"
-              >
-                <td>{{ i + 1 }}</td>
-                <td>{{ pjData.designationName }}</td>
-                <td>{{ pjData.level }}</td>
-                <td>{{ pjData.id }}</td>
-                <td>
-                  <button
-                    type="button"
-                    (click)="postEditId(pjData)"
-                    class="btn btn-sm me-2"
-                  >
-                  <i class="fa fa-pencil"></i>
-                  </button>
-                  <!-- <button
+      <div class="row mb-2">
+        <label class="col-form-label col-3 text-end">Project Designation</label>
+        <div class="col">
+          <select formControlName="projDesgn" class="form-control form-select" (change)="setLevel($event)">
+            <option [value]="''">Please select</option>
+            <option *ngFor="let designation of designations; let i = index" [value]="designation.id">
+              {{ designation.designationName }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-form-label col-3 text-end">Level</label>
+        <div class="col">
+          <input type="text" class="form-control" id="email" formControlName="level" />
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label class="col-form-label col-3 text-end">Linked To</label>
+        <div class="col">
+          <div *ngIf="projecTHierarchyId; else nonId">
+            <select formControlName="linkedTo" class="form-control form-select">
+              <option [value]="''">Please select</option>
+              <option *ngFor="let linkedto of linkedToData; let i = index" [value]="linkedto.id">
+                {{ linkedto.designationName }} --- {{ linkedto.id }}
+              </option>
+            </select>
+          </div>
+          <ng-template #nonId><input class="form-control" formControlName="linkedTo" type="text" /></ng-template>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col d-flex justify-content-center">
+          <button type="submit" class="me-3 btn btn-danger" [disabled]="projHierarchyCreateForm.invalid">Submit</button>
+          <button class="btn btn-secondary" type="reset" (click)="resetForm()">Clear</button>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-12">
+          <div *ngIf="projectHierarchy?.length">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Project Designation</th>
+                  <th>Level</th>
+                  <th>Id</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pjData of projectHierarchy; let i = index" class="text-capitalize">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ pjData.designationName }}</td>
+                  <td>{{ pjData.level }}</td>
+                  <td>{{ pjData.id }}</td>
+                  <td>
+                    <button type="button" (click)="postEditId(pjData)" class="btn btn-sm me-2">
+                      <i class="fa fa-pencil"></i>
+                    </button>
+                    <!-- <button
                     type="button"
                     (click)="postDeleteId(pjData)"
                     class="btn btn-sm"
                   >
                   <i class="fa fa-trash-o"></i>
                   </button> -->
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div *ngIf="showError" class="text-center">
-          <P>{{ showError }}</P>
+      <div class="row">
+        <div class="col-12">
+          <div *ngIf="showError" class="text-center">
+            <P>{{ showError }}</P>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div *ngIf="showSuccess" class="text-center">
-          <P>{{ showSuccess }}</P>
+      <div class="row">
+        <div class="col-12">
+          <div *ngIf="showSuccess" class="text-center">
+            <P>{{ showSuccess }}</P>
+          </div>
         </div>
       </div>
-    </div>
     </form>
   </div>
-  <div class="col-md-8 ptree mt-5" *ngIf="data && data.designationName">
+  <div class="w-100 mb-3"></div>
+  <div class="col ptree mt-5" *ngIf="data && data.designationName">
     <tree-view #treeView [data]="data" [template]="treeTemplate"> </tree-view>
     <ng-template #treeTemplate let-node>
       <span class="icon-cont"
-        ><img src="maruti/assets/images/square.png" alt="image"
-      /><span class="pos-ids">{{ node.idMain }}</span></span>
+        ><img src="assets/images/square.png" alt="image" /><span class="pos-ids">{{ node.idMain }}</span></span
+      >
       <span class="desgn-cont">{{ node.designationName }}</span>
     </ng-template>
   </div>
@@ -171,12 +130,9 @@
     </button>
   </div>
   <div class="modal-body">
-    <select [(ngModel)]="selprojHierarchy" class="form-control form-select"  >
+    <select [(ngModel)]="selprojHierarchy" class="form-control form-select">
       <option [ngValue]="''" selected>Please select</option>
-      <option
-        *ngFor="let projHierarchy of projHierarchies; let i = index"
-        [ngValue]="projHierarchy"
-      >
+      <option *ngFor="let projHierarchy of projHierarchies; let i = index" [ngValue]="projHierarchy">
         {{ projHierarchy.projectHierarchyName }}
       </option>
     </select>

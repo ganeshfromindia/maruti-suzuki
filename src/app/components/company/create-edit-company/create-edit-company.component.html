@@ -1,178 +1,138 @@
-<form
-  [formGroup]="companyCreateEditForm"
-  (ngSubmit)="onSubmitCompanyCreateEdit()"
-  
->
-  <div class="row mt-5">
-    <div class="col-md-2">
-      <div class="red-tags">Name of Company</div>
+<div class="row mb-3">
+  <h3 class="col">Create / Edit Company</h3>
+</div>
+<form class="row" [formGroup]="companyCreateEditForm" (ngSubmit)="onSubmitCompanyCreateEdit()">
+  <div class="offset-xl-2 col-xl-8">
+    <div class="row mb-2">
+      <label class="col-form-label col-3 text-end">Name of Company</label>
+      <div class="col">
+        <input type="text" class="form-control text-capitalize" formControlName="companyName" />
+      </div>
     </div>
-    <div class="col-md-3">
-      <input type="text" class="form-control text-capitalize" formControlName="companyName" />
+    <div class="row mb-2">
+      <label class="col-form-label col-3 text-end">GST Number</label>
+      <div class="col">
+        <input type="text" class="form-control text-capitalize" formControlName="gstNumber" />
+      </div>
     </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col-md-2">
-      <div class="red-tags">GST Number</div>
+    <div class="row mb-2">
+      <label class="col-form-label col-3 text-end">Address</label>
+      <div class="col">
+        <textarea type="text" class="form-control text-capitalize" formControlName="address"></textarea>
+      </div>
     </div>
-    <div class="col-md-3">
-      <input type="text" class="form-control text-capitalize" formControlName="gstNumber" />
+    <div class="row mb-2">
+      <label class="col-form-label col-3 text-end">City</label>
+      <div class="col">
+        <input type="text" class="form-control text-capitalize" formControlName="cityName" />
+      </div>
     </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col-md-2">
-      <div class="red-tags">Address</div>
+    <div class="row mb-2">
+      <label class="col-form-label col-3 text-end">Contact Person Billing</label>
+      <div class="col">
+        <input type="text" class="form-control text-capitalize" formControlName="billingContactPersonName" />
+      </div>
+      <div class="col-2">
+        <div class="red-tags text-end">Mobile</div>
+      </div>
+      <div class="col-3">
+        <input
+          type="text"
+          class="form-control text-capitalize"
+          formControlName="billingContactPersonNumber"
+          minlength="10"
+          maxlength="10"
+          (keypress)="numberOnly($event)"
+        />
+      </div>
     </div>
-    <div class="col-md-3">
-      <textarea
-        type="text"
-        class="form-control text-capitalize"
-        formControlName="address"
-      ></textarea>
+    <div class="row mb-2">
+      <label class="col-form-label col-3 text-end">Contact Person Sales</label>
+      <div class="col">
+        <input type="text" class="form-control text-capitalize" formControlName="saleContactPersonName" />
+      </div>
+      <div class="col-2">
+        <div class="red-tags text-end">Mobile</div>
+      </div>
+      <div class="col-3">
+        <input
+          type="text"
+          class="form-control text-capitalize"
+          formControlName="saleContactPersonNumber"
+          minlength="10"
+          maxlength="10"
+          (keypress)="numberOnly($event)"
+        />
+      </div>
     </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col-md-2">
-      <div class="red-tags">City</div>
+    <div class="row mb-2">
+      <label class="col-form-label col-3 text-end">Admin Email Id</label>
+      <div class="col">
+        <input type="text" class="form-control" formControlName="adminEmailId" />
+      </div>
+      <div class="col-2">
+        <div class="red-tags text-end">Mobile</div>
+      </div>
+      <div class="col-3">
+        <input
+          type="text"
+          class="form-control text-capitalize"
+          formControlName="adminPhoneNumber"
+          minlength="10"
+          maxlength="10"
+          (keypress)="numberOnly($event)"
+        />
+      </div>
     </div>
-    <div class="col-md-3">
-      <input type="text" class="form-control text-capitalize" formControlName="cityName" />
+    <div class="row mb-2">
+      <label class="col-form-label col-3 text-end">Additional Field</label>
+      <div class="col">
+        <input type="text" class="form-control text-capitalize" formControlName="additionalField1" />
+      </div>
     </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col-md-2">
-      <div class="red-tags">Contact Person Billing</div>
+    <div class="row mb-2">
+      <label class="col-form-label col-3 text-end">Additional Field</label>
+      <div class="col">
+        <input type="text" class="form-control text-capitalize" formControlName="additionalField2" />
+      </div>
     </div>
-    <div class="col-md-3">
-      <input type="text" class="form-control text-capitalize" formControlName="billingContactPersonName" />
+    <div class="row mb-2">
+      <label class="col-form-label col-3 text-end">Additional Field</label>
+      <div class="col">
+        <input type="text" class="form-control text-capitalize" formControlName="additionalField3" />
+      </div>
     </div>
-    <div class="col-md-2">
-      <div class="red-tags text-end">Mobile</div>
+    <div class="row mb-3">
+      <label class="col-form-label col-3 text-end">User Plan</label>
+      <div class="col">
+        <input type="text" class="form-control text-capitalize" formControlName="userPlan" />
+      </div>
+      <div class="col-2">
+        <div class="red-tags text-end">Plan Expiry</div>
+      </div>
+      <div class="col-3">
+        <input type="date" class="form-control" formControlName="planExpOn" />
+      </div>
     </div>
-    <div class="col-md-3">
-      <input
-        type="text"
-        class="form-control text-capitalize"
-        formControlName="billingContactPersonNumber"
-        minlength="10"
-        maxlength="10"
-        (keypress)="numberOnly($event)"
-      />
-    </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col-md-2">
-      <div class="red-tags">Contact Person Sales</div>
-    </div>
-    <div class="col-md-3">
-      <input type="text" class="form-control text-capitalize" formControlName="saleContactPersonName" />
-    </div>
-    <div class="col-md-2">
-      <div class="red-tags text-end">Mobile</div>
-    </div>
-    <div class="col-md-3">
-      <input
-        type="text"
-        class="form-control text-capitalize"
-        formControlName="saleContactPersonNumber"
-        minlength="10"
-        maxlength="10"
-        (keypress)="numberOnly($event)"
-      />
-    </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col-md-2">
-      <div class="red-tags">Admin Email Id</div>
-    </div>
-    <div class="col-md-3">
-      <input type="text" class="form-control" formControlName="adminEmailId" />
-    </div>
-    <div class="col-md-2">
-      <div class="red-tags text-end">Mobile</div>
-    </div>
-    <div class="col-md-3">
-      <input
-        type="text"
-        class="form-control text-capitalize"
-        formControlName="adminPhoneNumber"
-        minlength="10"
-        maxlength="10"
-        (keypress)="numberOnly($event)"
-      />
-    </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col-md-2">
-      <div class="red-tags">Additional Field</div>
-    </div>
-    <div class="col-md-3">
-      <input type="text" class="form-control text-capitalize" formControlName="additionalField1" />
-    </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col-md-2">
-      <div class="red-tags">Additional Field</div>
-    </div>
-    <div class="col-md-3">
-      <input type="text" class="form-control text-capitalize" formControlName="additionalField2" />
-    </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col-md-2">
-      <div class="red-tags">Additional Field</div>
-    </div>
-    <div class="col-md-3">
-      <input type="text" class="form-control text-capitalize" formControlName="additionalField3" />
-    </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col-md-2">
-      <div class="red-tags">User Plan</div>
-    </div>
-    <div class="col-md-3">
-      <input type="text" class="form-control text-capitalize" formControlName="userPlan" />
-    </div>
-    <div class="col-md-2">
-      <div class="red-tags text-end">Plan Expires On</div>
-    </div>
-    <div class="col-md-3">
-      <input type="date" class="form-control" formControlName="planExpOn" />
-    </div>
-  </div>
-  <div class="row mt-2">
-    <div class="offset-md-2 col-md-4">
-      <button
-        type="submit"
-        class="me-5 col-md-5 btn bg-danger red-tags rounded-0 text-white"
-        [disabled]="companyCreateEditForm.invalid"
-      >
-        Save
-      </button>
-      <button
-        class="col-md-5 btn bg-danger red-tags rounded-0 text-white"
-        type="button"
-      >
-        Close
-      </button>
+    <div class="row mb-3">
+      <div class="col d-flex justify-content-center">
+        <button type="submit" class="me-3 btn btn-danger" [disabled]="companyCreateEditForm.invalid">Save</button>
+        <button class="btn btn-secondary" type="reset">Clear</button>
+      </div>
     </div>
   </div>
 </form>
-<div class="row mt-5">
-  <div class="col-12">
+<div class="row">
+  <div class="col">
     <div *ngIf="showError" class="text-center">
-      <P
-        >{{showError}}</P
-      >
+      <P>{{ showError }}</P>
     </div>
   </div>
 </div>
 <div class="row">
-  <div class="col-12">
+  <div class="col">
     <div *ngIf="showSuccess" class="text-center">
-      <P
-        >{{showSuccess}}</P
-      >
+      <P>{{ showSuccess }}</P>
     </div>
   </div>
 </div>

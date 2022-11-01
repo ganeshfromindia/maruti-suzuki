@@ -1,66 +1,41 @@
-<div class="row mt-5">
-    <div class="col-md-12">
-      <div class="row">
-        <span class="bc-cont col-md-3">Create Rights</span>
+<div class="row mb-3">
+  <h3 class="col">Create Rights</h3>
+</div>
+<div class="row mb-3">
+  <div class="offset-xl-2 col-xl-8">
+    <form [formGroup]="rightTypeCreateEditForm" (ngSubmit)="onSubmitRightTypeCreateEdit()">
+      <div class="row mb-2">
+        <label class="col-form-label col-2 text-end">Name</label>
+        <div class="col">
+          <input type="text" class="form-control" formControlName="name" />
+        </div>
       </div>
-      <form
-        [formGroup]="rightTypeCreateEditForm"
-        (ngSubmit)="onSubmitRightTypeCreateEdit()"
-      >
-        <div class="row mt-5">
-          <div class="col-md-2">
-              <div class="red-tags ps-0">Name</div>
-            </div>
-            <div class="col-md-4">
-              <input type="text" class="form-control" formControlName="name" />
-            </div>
+      <div class="row mb-2">
+        <label class="col-form-label col-2 text-end">Description</label>
+        <div class="col">
+          <input type="text" class="form-control" formControlName="description" />
         </div>
-        <div class="row mt-2">
-          <div class="col-md-2">
-              <div class="red-tags ps-0">Description</div>
-            </div>
-            <div class="col-md-4">
-              <input type="text" class="form-control" formControlName="description" />
-            </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col d-flex justify-content-center">
+          <button type="submit" class="me-3 btn btn-danger" [disabled]="rightTypeCreateEditForm.invalid">Save</button>
+          <button class="btn btn-secondary" type="reset">Clear</button>
         </div>
-        <div class="row mt-2">
-          <div class="offset-md-2 col-md-2">
-            <button
-              type="submit"
-              class="btn bg-danger red-tags rounded-0 text-white w-100"
-              [disabled]="rightTypeCreateEditForm.invalid"
-            >
-              Save
-            </button>
-          </div>
-          <div class="col-md-2">
-            <button
-              class="btn bg-danger red-tags rounded-0 text-white w-100"
-              type="button"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </form>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row mb-5">
+  <div class="col-12">
+    <div *ngIf="showError" class="text-center">
+      <P>{{ showError }}</P>
     </div>
   </div>
-  <div class="row mt-5">
-    <div class="col-12">
-      <div *ngIf="showError" class="text-center">
-        <P
-          >{{showError}}</P
-        >
-      </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div *ngIf="showSuccess" class="text-center">
+      <P>{{ showSuccess }}</P>
     </div>
   </div>
-  <div class="row">
-    <div class="col-12">
-      <div *ngIf="showSuccess" class="text-center">
-        <P
-          >{{showSuccess}}</P
-        >
-      </div>
-    </div>
-  </div>
-  
+</div>

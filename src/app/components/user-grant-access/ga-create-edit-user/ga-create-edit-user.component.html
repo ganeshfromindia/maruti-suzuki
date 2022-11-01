@@ -1,17 +1,12 @@
-<div class="row mt-5">
-  <div class="col-md-12">
-    <div class="row">
-      <span class="bc-cont col-md-3">Create Users</span>
-    </div>
-    <form
-      [formGroup]="userCreateEditForm"
-      (ngSubmit)="onSubmitUserCreateEdit()"
-    >
-      <div class="row mt-5">
-        <div class="col-md-2">
-          <div class="red-tags ps-0">Name of User</div>
-        </div>
-        <div class="col-md-4">
+<div class="row">
+  <div class="row mb-3">
+    <h3 class="col">Grant Access to User</h3>
+  </div>
+  <div class="offset-xl-2 col-xl-8">
+    <form [formGroup]="userCreateEditForm" (ngSubmit)="onSubmitUserCreateEdit()">
+      <div class="row mb-2">
+        <label class="col-form-label col-2 text-end">Name of User</label>
+        <div class="col">
           <select class="form-control form-select" formControlName="userName">
             <option [value]="''">Please select</option>
             <option *ngFor="let user of users; let i = index" [value]="user.id">
@@ -20,53 +15,37 @@
           </select>
         </div>
       </div>
-      <div class="row mt-2">
-        <div class="col-md-2">
-          <div class="red-tags ps-0">Department</div>
-        </div>
-        <div class="col-md-4">
+      <div class="row mb-2">
+        <label class="col-form-label col-2 text-end">Department</label>
+        <div class="col">
           <select class="form-control form-select" formControlName="department">
             <option [value]="''">Please select</option>
-            <option
-              *ngFor="let department of departments; let i = index"
-              [value]="department.id"
-            >
+            <option *ngFor="let department of departments; let i = index" [value]="department.id">
               {{ department.departmentName }}
             </option>
           </select>
         </div>
       </div>
-      <div class="row mt-2">
-        <div class="col-md-2">
-          <div class="red-tags ps-0">Designation</div>
-        </div>
-        <div class="col-md-4">
-          <select
-            class="form-control form-select"
-            formControlName="designation"
-            (change)="setLevel($event)"
-          >
+      <div class="row mb-2">
+        <label class="col-form-label col-2 text-end">Designation</label>
+        <div class="col">
+          <select class="form-control form-select" formControlName="designation" (change)="setLevel($event)">
             <option [value]="''">Please select</option>
-            <option
-              *ngFor="let designation of designations; let i = index"
-              [value]="designation.id"
-            >
+            <option *ngFor="let designation of designations; let i = index" [value]="designation.id">
               {{ designation.designationName }}
             </option>
           </select>
         </div>
       </div>
-      <div class="row mt-2">
-        <div class="col-md-2">
-          <div class="red-tags ps-0">E-mail Id</div>
-        </div>
-        <div class="col-md-4">
+      <div class="row mb-2">
+        <label class="col-form-label col-2 text-end">E-mail Id</label>
+        <div class="col">
           <input type="text" class="form-control" formControlName="emailId" />
         </div>
-        <div class="col-md-1">
+        <div class="col">
           <div class="red-tags ps-0 text-end">Mobile</div>
         </div>
-        <div class="col-md-3">
+        <div class="col">
           <input
             type="text"
             class="form-control"
@@ -77,17 +56,15 @@
           />
         </div>
       </div>
-      <div class="row mt-2">
-        <div class="col-md-2">
-          <div class="red-tags ps-0">Level</div>
-        </div>
-        <div class="col-md-4">
+      <div class="row mb-2">
+        <label class="col-form-label col-2 text-end">Level</label>
+        <div class="col">
           <input type="text" class="form-control" formControlName="level" />
         </div>
-        <div class="col-md-1">
+        <div class="col">
           <div class="red-tags ps-0 text-end">Type</div>
         </div>
-        <div class="col-md-3">
+        <div class="col">
           <select class="form-control form-select" formControlName="userType">
             <option [value]="''">Please select</option>
             <option *ngFor="let type of types; let i = index" [value]="type">
@@ -96,11 +73,9 @@
           </select>
         </div>
       </div>
-      <div class="row mt-2">
-        <div class="col-md-2">
-          <div class="red-tags ps-0">Search Rights</div>
-        </div>
-        <div class="col-md-4">
+      <div class="row mb-2">
+        <label class="col-form-label col-2 text-end">Search Rights</label>
+        <div class="col">
           <select class="form-control form-select" formControlName="searchRights">
             <option [value]="''">Please select</option>
             <option *ngFor="let rightType of rightsTypes; let i = index" [value]="rightType.id">
@@ -109,41 +84,22 @@
           </select>
         </div>
       </div>
-      <div class="row mt-2">
-        <div class="col-md-2">
-          <div class="red-tags ps-0">Additional Field</div>
-        </div>
-        <div class="col-md-4">
-          <input
-            type="text"
-            class="form-control"
-            formControlName="additionalField"
-          />
+      <div class="row mb-3">
+        <label class="col-form-label col-2 text-end">Additional Field</label>
+        <div class="col">
+          <input type="text" class="form-control" formControlName="additionalField" />
         </div>
       </div>
-      <div class="row mt-2">
-        <div class="offset-md-2 col-md-2">
-          <button
-            type="submit"
-            class="btn bg-danger red-tags rounded-0 text-white w-100"
-            [disabled]="userCreateEditForm.invalid"
-          >
-            Save
-          </button>
-        </div>
-        <div class="col-md-2">
-          <button
-            class="btn bg-danger red-tags rounded-0 text-white w-100"
-            type="button"
-          >
-            Close
-          </button>
+      <div class="row mb-3">
+        <div class="col d-flex justify-content-center">
+          <button type="submit" class="me-3 btn btn-danger" [disabled]="userCreateEditForm.invalid">Save</button>
+          <button class="btn btn-secondary" type="reset">Clear</button>
         </div>
       </div>
     </form>
   </div>
 </div>
-<div class="row mt-5">
+<div class="row mb-5">
   <div class="col-12">
     <div *ngIf="showError" class="text-center">
       <P>{{ showError }}</P>
