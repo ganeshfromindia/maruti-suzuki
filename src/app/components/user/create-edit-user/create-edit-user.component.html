@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="row mb-2">
-        <label class="col-form-label col-3 text-end">Name of User </label>
+        <label class="col-form-label col-3 text-end">User Code</label>
         <div class="col">
           <input type="text" class="form-control" formControlName="userName" pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$" />
         </div>
@@ -98,7 +98,7 @@
       <div class="row mb-2">
         <label class="col-form-label col-3 text-end">Search Rights </label>
         <div class="col">
-          <select class="form-control form-select" formControlName="searchRights">
+          <select class="form-control form-select" formControlName="searchRights" multiple>
             <option [value]="''">Please select</option>
             <option *ngFor="let rightType of rightsTypes; let i = index" [value]="rightType.id">
               {{ rightType.description }}

@@ -28,6 +28,8 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
   public closeModal: string = '';
   public selprojHierarchy: any = null;
   public projecTHierarchyId: number = 0;
+  
+  public min!: number;
 
   Orientation = Orientation;
 
@@ -39,7 +41,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
     private modalService: NgbModal
   ) {
     this.projHierarchyCreateForm = this._fb.group({
-      id:['', Validators.required],
+      id:[''],
       projectHierarchyName:['', Validators.required],
       projDesgn:['', Validators.required],
       level:['', Validators.required],
@@ -123,17 +125,27 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
       if (returnedAlerts.data.status == 200)
         this.dataArray = returnedAlerts.data.payLoad[0].hierarchyDetailList;
         this.dataArray.forEach((data) => data.idMain = data.id);
-        this.data = this.unflattenTree(this.dataArray);
-      //this.data = this.printTree(this.unflattenTree(this.dataArray));
+        let zeroElemnent = this.dataArray.filter((data) => data.linkedTo == 0)
+        console.log(zeroElemnent)
+        if(zeroElemnent.length == 0) {
+          this.min = 1000;
+          for(const node of this.dataArray) {
+            if(node.linkedTo < this.min) {
+                this.min = node.linkedTo;
+            }    
+          }
+        }
+        this.data = this.unflattenTree(this.dataArray, this.min);
+        // this.data = this.printTree(this.unflattenTree(this.dataArray));
     }
   }
 
-  unflattenTree(data: any) {
+  unflattenTree(data: any, min = 1000 ) {
     const nodes: any = {};
     let root;
     for (const node of data) {
       nodes[node.id] = { children: [], ...nodes[node.id], ...node };
-      if (node.linkedTo) {
+      if (node.linkedTo && node.linkedTo != min) {
         nodes[node.linkedTo] = { children: [], ...nodes[node.linkedTo] };
         nodes[node.linkedTo].children.push(nodes[node.id]);
         this.singleNode = nodes[node.linkedTo]
@@ -146,7 +158,7 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
 
   // printTree(root: any, gap = 4, level = 0) {
   //   if (root) {
-  //     console.log(' '.repeat(level), root.name);
+  //     console.log(' '.repeat(level), root.designationName);
   //     root.children?.forEach((e: any) => this.printTree(e, gap, level + gap));
   //   }
   //   return root;
@@ -187,7 +199,13 @@ export class ProjHierarchyCreationSaComponent implements OnInit {
       // if(returnedAlerts.data.status == 200) this.projHierarchyData = returnedAlerts.data.payLoad;
       if (returnedAlerts.data.status == 200) {
         let returnedStatus = await this.setProjectHierarchies(this.projecTHierarchyId);
-        this.projectHierarchy = this.projHierarchies[0].hierarchyDetailList
+        this.projectHierarchy = this.projHierarchies[0].hierarchyDetailList;
+        this.projectHierarchy = this.projectHierarchy.sort((a: any,b: any) => 
+        {
+          if(a.level < b.level) { return -1; }
+          if(a.level > b.level) { return 1; }
+          return 0;
+        })
       }
     }
   }

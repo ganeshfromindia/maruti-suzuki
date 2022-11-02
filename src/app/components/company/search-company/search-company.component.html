@@ -19,6 +19,8 @@
         <tr class="bg-primary bg-gradient text-white">
           <th scope="col">#</th>
           <th>Company Name</th>
+          <th>User Code</th>
+          <th>User Name</th>
           <th>City</th>
           <th>Person</th>
           <th>Contact Details</th>
@@ -29,6 +31,8 @@
         <tr *ngFor="let compdata of companyAllData; let i = index" class="">
           <td>{{ (this.page - 1) * this.pageSize + i + 1 }}</td>
           <td>{{ compdata.companyName }}</td>
+          <td>{{ compdata.userName }}</td>
+          <td>{{ compdata.firstName }} {{compdata.lastName}}</td>
           <td>{{ compdata.cityName }}</td>
           <td>{{ compdata.billingContactPersonNumber }}</td>
           <td>{{ compdata.billingContactPersonName }}</td>
