@@ -8,18 +8,30 @@
         <label class="col-form-label col-3 text-end">Project Hierarchy</label>
         <div class="col">
           <input type="text" name="projectHierarchyName" class="form-control" formControlName="projectHierarchyName" />
-          <div *ngIf="showSelectError" class="my-2">Please select hierarchy</div>
         </div>
-        <button
-          type="button"
-          (click)="triggerModal(hierarchiesData)"
-          class="btn bg-danger red-tags rounded-0 text-white search-btn"
-        >
-          Search
-        </button>
-        <button type="button" (click)="setTreeData()" class="btn bg-danger red-tags rounded-0 text-white view-btn">
-          View
-        </button>
+        <div class="col-auto d-flex align-content-center">
+          <button
+            type="button"
+            (click)="triggerModal(hierarchiesData)"
+            class="btn btn-sm btn-primary me-3"
+            ngbTooltip="Select from list"
+          >
+            <i class="fa fa-hand-pointer-o"></i>
+          </button>
+          <button
+            type="button"
+            (click)="setTreeData()"
+            class="btn btn-sm btn-info"
+            ngbTooltip="View"
+            tooltipClass="my-custom-class"
+          >
+            <i class="fa fa-eye"></i>
+          </button>
+        </div>
+        <div *ngIf="showSelectError" class="mb-2">
+          <div class="w-100"></div>
+          <div class="col small offset-3 ps-2 text-danger">Please select the Project Hierarchy.</div>
+        </div>
       </div>
       <div class="row mb-2">
         <label class="col-form-label col-3 text-end">Project Designation</label>
@@ -123,19 +135,23 @@
   </div>
 </div>
 <ng-template #hierarchiesData let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Please select hierarchy</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
-      <span aria-hidden="true">×</span>
-    </button>
+  <div class="modal-header border-0">
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
   </div>
-  <div class="modal-body">
-    <select [(ngModel)]="selprojHierarchy" class="form-control form-select">
-      <option [ngValue]="''" selected>Please select</option>
-      <option *ngFor="let projHierarchy of projHierarchies; let i = index" [ngValue]="projHierarchy">
-        {{ projHierarchy.projectHierarchyName }}
-      </option>
-    </select>
+  <div class="modal-body mb-4">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h6>Please select the Project Hierarchy</h6>
+          <select ngbAutofocus [(ngModel)]="selprojHierarchy" class="form-control form-select">
+            <option [ngValue]="''" selected disabled></option>
+            <option *ngFor="let projHierarchy of projHierarchies; let i = index" [ngValue]="projHierarchy">
+              {{ projHierarchy.projectHierarchyName }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" (click)="modal.close(selprojHierarchy)">Submit</button>
